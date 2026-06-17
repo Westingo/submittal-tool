@@ -1,0 +1,3 @@
+# Windows batch launchers must use CRLF or cmd.exe can misparse them,
+# regardless of the cloning machine's git autocrlf setting.
+*.bat text eol=crlf

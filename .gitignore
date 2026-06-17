@@ -1,6 +1,9 @@
 __pycache__/
 *.pyc
 
+# Per-machine Python environment created by run.bat
+.venv/
+
 # Job folders are work products (customer data + generated PDFs) — never
 # version-controlled. Only the _template scaffold ships, so new_job.py and
 # the web UI can create jobs on a fresh clone.

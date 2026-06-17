@@ -3,7 +3,19 @@
 Builds a complete submittal PDF (cover/scope pages + stamped spec sheets +
 drawings) from a small YAML job file.
 
-## Quick start — web UI
+## Quick start — Windows (no setup)
+
+Download the project (green **Code ▸ Download ZIP** button on GitHub, then
+unzip — or `git clone`), open the folder, and **double-click `run.bat`**.
+The first run takes about a minute (it sets up a private Python environment
+and installs what it needs); after that it starts in seconds. Your browser
+opens to the app automatically. Keep the black window open while you work;
+close it or double-click **`stop.bat`** to shut it down.
+
+Requires Python 3.12 — if it's missing, `run.bat` tells you where to get it
+(tick "Add python.exe to PATH" during the Python install).
+
+## Quick start — web UI (manual)
 
     pip install pymupdf pyyaml fastapi uvicorn python-multipart
     python app.py
