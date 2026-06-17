@@ -1,0 +1,18 @@
+# Standard HySecurity SlideDriver slide gate package
+items:
+  - {id: sd50f, qty: 1}
+  - {id: opticom-721, qty: 1}
+  - {id: tamper-switch, qty: 1}
+  - {id: moxa-nport-5110, qty: 1}
+  - {id: ground-rod, qty: 1}
+  - {id: mounting-post, qty: 2}
+  - {id: presence-loops, qty: 4}
+  - {id: gooseneck, qty: 2}
+  - {id: hooded-assembly, qty: 4}
+  - {id: knox-3502, qty: 1}
+  - {id: gate-edges, qty: 3}
+  - {id: emx-photo-eyes, qty: 1}
+  - {id: beacon, qty: 1}
+  - {id: fall-post, qty: 1}
+  - {id: physical-stop, qty: 1}
+  - {id: cleanup}

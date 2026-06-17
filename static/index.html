@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submittal Builder — Metro Access Control</title>
+<style>
+  :root{
+    --ink:#15171a;
+    --callout:#2433e0;      /* drawing callout blue */
+    --annot:#d8242c;        /* annotation red */
+    --sheet:#ffffff;
+    --bench:#e9eaec;        /* workbench grey behind the sheets */
+    --rule:#15171a;
+    --faint:#8a8d93;
+    --serif:Cambria, Georgia, "Times New Roman", serif;
+    --sans:system-ui, "Segoe UI", sans-serif;
+    --mono:ui-monospace, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bench);color:var(--ink);font-family:var(--sans);font-size:14px}
+
+  /* title-block header strip, like the drawing sheets */
+  header{background:var(--sheet);border-bottom:2px solid var(--rule)}
+  .tb{max-width:1060px;margin:0 auto;display:flex;border-left:2px solid var(--rule);border-right:2px solid var(--rule)}
+  .tb div{padding:10px 16px;border-right:1px solid var(--rule)}
+  .tb div:last-child{border-right:none;margin-left:auto}
+  .tb .brand{font-family:var(--serif);font-weight:bold;font-size:17px;letter-spacing:.04em}
+  .tb .brand span{color:var(--callout)}
+  .tb .role{font-family:var(--serif);font-variant:small-caps;letter-spacing:.18em;color:var(--faint);align-self:center}
+
+  main{max-width:1060px;margin:22px auto 80px;padding:0 14px;display:grid;grid-template-columns:1fr 320px;gap:20px}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+
+  .sheet{background:var(--sheet);border:1.5px solid var(--rule);margin-bottom:20px}
+  .sheet>h2{margin:0;border-bottom:1px solid var(--rule);padding:9px 14px;
+    font-family:var(--serif);font-variant:small-caps;letter-spacing:.16em;font-size:14px;font-weight:600}
+  .sheet>h2 small{float:right;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:0;padding-top:3px}
+  .pad{padding:14px}
+
+  label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:10px 0 3px}
+  input[type=text],input[type=date],input[type=search],select,textarea{
+    width:100%;border:1px solid #b9bcc2;background:#fff;padding:7px 8px;font:inherit;border-radius:0}
+  input:focus,select:focus,textarea:focus,button:focus{outline:2px solid var(--callout);outline-offset:1px}
+  .row{display:flex;gap:12px}.row>*{flex:1}
+
+  /* device table */
+  table{width:100%;border-collapse:collapse;margin-top:6px}
+  td{border-top:1px solid #e3e4e7;padding:5px 6px;vertical-align:middle}
+  td.qty{width:62px}
+  td.qty input{width:100%;border:1px solid #b9bcc2;padding:4px 6px;text-align:center;font:inherit}
+  tr.off td{color:#b3b6bb}
+  tr.off td.qty input{visibility:hidden}
+  .pend{color:var(--annot);font-family:var(--mono);font-size:10px;margin-left:6px}
+  .scopeline{font-family:var(--mono);font-size:10.5px;color:var(--faint);display:block}
+
+  /* category folds + device search */
+  .g-search{margin-top:6px}
+  .g-items{margin-top:6px;max-height:430px;overflow:auto;border:1px solid #e3e4e7}
+  details.cat{border-bottom:1px solid #e3e4e7}
+  details.cat:last-child{border-bottom:none}
+  details.cat summary{cursor:pointer;padding:6px 9px;background:#f6f6f8;
+    font-family:var(--serif);font-variant:small-caps;letter-spacing:.1em;font-size:12.5px;user-select:none}
+  details.cat summary:hover{background:#eef0ff}
+  details.cat summary .ccount{float:right;font-family:var(--mono);font-size:10.5px;color:var(--faint);padding-top:2px}
+  details.cat summary .ccount.has{color:var(--callout);font-weight:bold}
+  details.cat table{margin-top:0}
+  details.cat td:last-child{width:auto}
+
+  .gate{border:1.5px solid var(--rule);margin-bottom:14px}
+  .gate .ghead{display:flex;border-bottom:1px solid var(--rule);font-family:var(--serif);
+    font-variant:small-caps;letter-spacing:.14em;font-size:13px}
+  .gate .ghead div{padding:7px 12px;border-right:1px solid var(--rule)}
+  .gate .ghead button{margin-left:auto;border:none;background:none;color:var(--annot);cursor:pointer;font-family:var(--mono);font-size:11px;padding:0 12px}
+  .gate .pad{padding:12px}
+
+  .noterow{display:flex;gap:8px;margin-top:6px}
+  .noterow select{flex:0 0 220px}
+  .noterow input{flex:1}
+  .noterow button{border:1px solid #b9bcc2;background:#fff;cursor:pointer;padding:0 10px}
+
+  .ghost{border:1.5px dashed var(--callout);background:none;color:var(--callout);
+    padding:9px 16px;cursor:pointer;font:inherit;width:100%}
+  .ghost:hover{background:#f0f1ff}
+
+  /* drawings list */
+  .drawrow{display:grid;grid-template-columns:1fr 1fr 70px 70px;gap:8px;margin-top:6px;align-items:center}
+  .drawrow .fname{font-family:var(--mono);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .drawrow input{border:1px solid #b9bcc2;padding:5px 6px;font:inherit;width:100%}
+
+  /* the stamp */
+  .stamp{display:block;width:100%;border:3px double var(--callout);background:#fff;color:var(--callout);
+    font-family:var(--serif);font-variant:small-caps;letter-spacing:.22em;font-size:17px;font-weight:700;
+    padding:13px;cursor:pointer;transform:rotate(-.6deg);transition:transform .08s}
+  .stamp:hover{transform:rotate(0) scale(1.01)}
+  .stamp:active{transform:scale(.98)}
+  .stamp[disabled]{opacity:.5;cursor:wait}
+
+  #log{font-family:var(--mono);font-size:11px;line-height:1.55;white-space:pre-wrap;
+    background:#fff;border-top:1px solid var(--rule);padding:12px;max-height:340px;overflow:auto;margin:0}
+  #log .warn{color:var(--annot);font-weight:bold}
+  #log:empty{display:none}
+  .dl{display:none;margin:12px;border:1.5px solid var(--rule);padding:10px 12px;text-align:center;
+    text-decoration:none;color:var(--ink);font-family:var(--serif)}
+  .dl b{color:var(--callout)}
+  .joblist{list-style:none;margin:0;padding:0}
+  .joblist li{border-top:1px solid #e3e4e7;padding:7px 14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px}
+  .joblist a{color:var(--callout)}
+  .hint{color:var(--faint);font-size:12px;margin:6px 0 0}
+  @media (prefers-reduced-motion: reduce){.stamp,{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="tb">
+    <div class="brand">METRO <span>ACCESS CONTROL</span></div>
+    <div class="role">submittal builder</div>
+    <div class="role" id="today"></div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="sheet">
+      <h2>Project <small>cover page</small></h2>
+      <div class="pad">
+        <label for="pname">Project name</label>
+        <input id="pname" type="text" placeholder="PDX Fuel Company">
+        <div class="row">
+          <div><label for="addr1">Street address</label><input id="addr1" type="text" placeholder="5000 NE Marine Dr"></div>
+          <div><label for="addr2">City, state zip</label><input id="addr2" type="text" placeholder="Portland, OR 97218"></div>
+          <div><label for="pdate">Submitted</label><input id="pdate" type="date"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gates"></div>
+    <button class="ghost" id="addGate" type="button">+ Add gate</button>
+
+    <div class="sheet" style="margin-top:20px">
+      <h2>Drawings <small>appended after spec sheets</small></h2>
+      <div class="pad">
+        <input id="files" type="file" accept="application/pdf" multiple>
+        <div id="drawrows"></div>
+        <p class="hint">Label is optional — leave blank for no stamp. X/Y is the stamp position in PDF points (landscape sheets are 792 × 612, origin top-left).</p>
+      </div>
+    </div>
+  </section>
+
+  <aside>
+    <div class="sheet">
+      <h2>Build</h2>
+      <div class="pad"><button class="stamp" id="build" type="button">Build package</button></div>
+      <a class="dl" id="dl" href="#">Download <b id="dlname"></b></a>
+      <pre id="log"></pre>
+    </div>
+    <div class="sheet">
+      <h2>Previous jobs</h2>
+      <ul class="joblist" id="jobs"><li>Loading…</li></ul>
+    </div>
+  </aside>
+</main>
+
+<script>
+let CFG = null;
+let gateN = 0;
+const $ = s => document.querySelector(s);
+
+const todayISO = new Date().toISOString().slice(0,10);
+$('#pdate').value = todayISO;
+$('#today').textContent = new Date().toLocaleDateString('en-US');
+
+fetch('/api/config').then(r=>r.json()).then(c=>{ CFG=c; addGate(); refreshJobs(); });
+
+function refreshJobs(){
+  fetch('/api/jobs').then(r=>r.json()).then(list=>{
+    const ul = $('#jobs'); ul.innerHTML='';
+    if(!list.length){ ul.innerHTML='<li>No jobs yet — build one.</li>'; return; }
+    for(const j of list){
+      const li=document.createElement('li');
+      li.innerHTML = `<span>${j.slug}</span>` +
+        (j.pdf?`<a href="/download/${j.slug}/${encodeURIComponent(j.pdf)}">PDF</a>`:'<span>—</span>');
+      ul.appendChild(li);
+    }
+  });
+}
+
+function addGate(){
+  const n = ++gateN;
+  const div = document.createElement('div');
+  div.className='gate'; div.dataset.n=n;
+  const presetOpts = '<option value="">— none —</option>' +
+    Object.keys(CFG.presets).map(p=>`<option>${p}</option>`).join('');
+  div.innerHTML = `
+    <div class="ghead"><div>Gate ${n}</div><button type="button" title="Remove gate" onclick="this.closest('.gate').remove()">remove ✕</button></div>
+    <div class="pad">
+      <div class="row">
+        <div><label>Cover heading</label><input type="text" class="g-heading" value="AUTOMATE  SLIDE GATE (BY OTHERS):"></div>
+        <div><label>Preset</label><select class="g-preset">${presetOpts}</select></div>
+      </div>
+      <label>Devices</label>
+      <input type="search" class="g-search" placeholder="Search devices…" aria-label="Search devices">
+      <div class="g-items"></div>
+      <label>Extra scope lines (one per line, e.g. "• PDX BADGING")</label>
+      <textarea class="g-extra" rows="2"></textarea>
+      <label>Red notes on the cover (optional)</label>
+      <div class="g-notes"></div>
+      <button type="button" class="ghost" style="margin-top:6px;padding:5px" onclick="addNote(this)">+ Add note</button>
+    </div>`;
+  $('#gates').appendChild(div);
+  const sel = div.querySelector('.g-preset');
+  sel.addEventListener('change', ()=>fillItems(div, sel.value));
+  const search = div.querySelector('.g-search');
+  search.placeholder = `Search ${Object.keys(CFG.items).length} devices…`;
+  search.addEventListener('input', ()=>filterItems(div));
+  fillItems(div, sel.value);
+}
+$('#addGate').addEventListener('click', addGate);
+
+function groupedItems(){
+  const groups = new Map();
+  for(const [id, it] of Object.entries(CFG.items)){
+    const cat = it.category || 'Other';
+    if(!groups.has(cat)) groups.set(cat, []);
+    groups.get(cat).push([id, it]);
+  }
+  const cats = [...groups.keys()].sort((a,b)=>
+    a==='Other' ? 1 : b==='Other' ? -1 : a.localeCompare(b));
+  for(const c of cats) groups.get(c).sort((a,b)=>a[1].title.localeCompare(b[1].title));
+  return {cats, groups};
+}
+
+function fillItems(gate, presetName){
+  const preset = Object.fromEntries((CFG.presets[presetName]||[]).map(i=>[i.id, i.qty??1]));
+  const box = gate.querySelector('.g-items'); box.innerHTML='';
+  const {cats, groups} = groupedItems();
+  for(const cat of cats){
+    const rows = groups.get(cat).filter(([id])=>id!=='cleanup' || id in preset);
+    if(!rows.length) continue;
+    const det = document.createElement('details');
+    det.className='cat';
+    det.open = rows.some(([id])=>id in preset);
+    det.innerHTML = `<summary>${cat} <span class="ccount"></span></summary>`;
+    const tbl = document.createElement('table');
+    for(const [id, it] of rows){
+      const on = id in preset;
+      const tr = document.createElement('tr');
+      tr.className = on?'':'off'; tr.dataset.id=id;
+      tr.dataset.text = `${it.title} ${id} ${it.scope} ${cat}`.toLowerCase();
+      const hasQty = it.scope.includes('{qty}');
+      tr.innerHTML = `
+        <td style="width:26px"><input type="checkbox" ${on?'checked':''} aria-label="include ${it.title}"></td>
+        <td class="qty">${hasQty?`<input type="number" min="1" value="${preset[id]??1}">`:''}</td>
+        <td>${it.title}${it.pending?'<span class="pend">no cut sheet yet</span>':''}
+          <span class="scopeline">${it.scope.split('\n')[0].replace('{qty}','#')}</span></td>`;
+      tr.querySelector('input[type=checkbox]').addEventListener('change', e=>{
+        tr.className = e.target.checked?'':'off';
+        updateCounts(gate);
+      });
+      tbl.appendChild(tr);
+    }
+    det.appendChild(tbl);
+    box.appendChild(det);
+  }
+  updateCounts(gate);
+  filterItems(gate);
+}
+
+function updateCounts(gate){
+  for(const det of gate.querySelectorAll('.g-items details.cat')){
+    const rows = [...det.querySelectorAll('tr')];
+    const k = rows.filter(tr=>tr.querySelector('input[type=checkbox]').checked).length;
+    const c = det.querySelector('.ccount');
+    c.textContent = k ? `${k} ✓ / ${rows.length}` : `${rows.length}`;
+    c.className = 'ccount' + (k?' has':'');
+  }
+}
+
+function filterItems(gate){
+  const q = gate.querySelector('.g-search').value.trim().toLowerCase();
+  for(const det of gate.querySelectorAll('.g-items details.cat')){
+    let any = false;
+    for(const tr of det.querySelectorAll('tr')){
+      const hit = !q || tr.dataset.text.includes(q);
+      tr.style.display = hit?'':'none';
+      if(hit) any = true;
+    }
+    det.style.display = any?'':'none';
+    if(q && any) det.open = true;
+  }
+}
+
+function addNote(btn){
+  const wrap = btn.parentElement.querySelector('.g-notes');
+  const {cats, groups} = groupedItems();
+  const opts = cats.map(cat=>
+    `<optgroup label="${cat}">` +
+    groups.get(cat).map(([id,it])=>`<option value="${id}">${it.title}</option>`).join('') +
+    `</optgroup>`).join('');
+  const row = document.createElement('div');
+  row.className='noterow';
+  row.innerHTML = `<select>${opts}</select><input type="text" placeholder="NOTE TEXT — prints red under that scope line"><button type="button" onclick="this.parentElement.remove()">✕</button>`;
+  wrap.appendChild(row);
+}
+
+/* drawings */
+let drawFiles = [];
+$('#files').addEventListener('change', e=>{
+  for(const f of e.target.files){
+    if(drawFiles.some(d=>d.file.name===f.name)) continue;
+    drawFiles.push({file:f, label:'', x:480, y:480});
+  }
+  renderDraws();
+});
+function renderDraws(){
+  const box = $('#drawrows'); box.innerHTML='';
+  drawFiles.forEach((d,i)=>{
+    const row=document.createElement('div'); row.className='drawrow';
+    row.innerHTML=`<span class="fname" title="${d.file.name}">${d.file.name}</span>
+      <input type="text" placeholder="Stamp label (optional)" value="${d.label}">
+      <input type="number" value="${d.x}" aria-label="stamp x"><input type="number" value="${d.y}" aria-label="stamp y">`;
+    const [lab,x,y]=row.querySelectorAll('input');
+    lab.oninput=()=>d.label=lab.value; x.oninput=()=>d.x=+x.value; y.oninput=()=>d.y=+y.value;
+    box.appendChild(row);
+  });
+}
+
+/* build */
+$('#build').addEventListener('click', async ()=>{
+  const gates = [...document.querySelectorAll('.gate')].map(g=>{
+    const items = [...g.querySelectorAll('.g-items tr')]
+      .filter(tr=>tr.querySelector('input[type=checkbox]').checked)
+      .map(tr=>({id:tr.dataset.id, qty:+(tr.querySelector('.qty input')?.value||1)}));
+    const notes = [...g.querySelectorAll('.noterow')].map(r=>({
+      item:r.querySelector('select').value, text:r.querySelector('input').value.trim().toUpperCase()
+    })).filter(n=>n.text);
+    return {
+      heading: g.querySelector('.g-heading').value.trim(),
+      label: '',   // sheet stamps removed from UI — owner annotates after revisions
+      preset: g.querySelector('.g-preset').value,
+      items,
+      extra_scope: g.querySelector('.g-extra').value.split('\n').map(s=>s.trim()).filter(Boolean),
+      scope_notes: notes
+    };
+  });
+  const [y,m,d] = $('#pdate').value.split('-');
+  const job = {
+    name: $('#pname').value.trim(),
+    address: [$('#addr1').value.trim().toUpperCase(), $('#addr2').value.trim().toUpperCase()],
+    submitted: `${m}/${d}/${y}`,
+    gates,
+    drawings: drawFiles.map(df=>({file:df.file.name, label:df.label, x:df.x, y:df.y}))
+  };
+  if(!job.name){ alert('Project name is required.'); return; }
+
+  const fd = new FormData();
+  fd.append('job', JSON.stringify(job));
+  for(const df of drawFiles) fd.append('drawings', df.file, df.file.name);
+
+  const btn=$('#build'); btn.disabled=true; btn.textContent='Building…';
+  $('#log').textContent=''; $('#dl').style.display='none';
+  try{
+    const r = await fetch('/api/build', {method:'POST', body:fd});
+    const res = await r.json();
+    $('#log').innerHTML = (res.log||'').replace(/^.*WARNING.*$/gm, m=>`<span class="warn">${m}</span>`);
+    if(res.ok && res.pdf){
+      const a=$('#dl');
+      a.href=`/download/${res.slug}/${encodeURIComponent(res.pdf)}`;
+      $('#dlname').textContent=res.pdf;
+      a.style.display='block';
+      refreshJobs();
+    }
+  }catch(err){ $('#log').textContent='Build failed: '+err; }
+  btn.disabled=false; btn.textContent='Build package';
+});
+</script>
+</body>
+</html>

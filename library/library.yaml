@@ -1,0 +1,4259 @@
+# Metro Access Control — Spec Sheet Library
+# Each item: title, scope line template ({qty} substituted at build), sheet file(s),
+# stamp = [x, y] where the gate-callout box lands on the FIRST page of the sheet,
+# last_verified = when someone last confirmed the cut sheet is current.
+#
+# Items with "sheets: []" are scope-only line items (no cut sheet in the package).
+
+items:
+  sd50f:
+    title: HySecurity SlideDriver II SD50F
+    category: Gate Operators
+    scope: "{qty}) HY-SECURITY SLIDEDRIVERII SD50F 208V 3PH W/HYINVERTER"
+    sheets:
+      - {file: hysecurity-sd50f.pdf, stamp: [493, 103]}
+      - {file: hysecurity-hyinverter.pdf, stamp: [9, 84]}
+    last_verified: 2026-06-10
+
+  ihsl24ul:
+    title: LiftMaster IHSL24UL
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER IHSL24UL HEAVY-DUTY SLIDE GATE OPENER"
+    sheets:
+      - {file: liftmaster-ihsl24ul.pdf, stamp: [167, 64]}
+      - {file: ihsl24ul-concrete-pad.pdf, stamp: [319, 111]}
+    last_verified: 2026-06-10
+
+  opticom-721:
+    title: Opticom 721 Infrared Access System
+    category: Fire & Emergency Access
+    scope: "{qty}) OPTICOM 721 INFRARED ACCESS SYSTEM"
+    sheets:
+      - {file: opticom-721.pdf, stamp: [441, 423]}
+    last_verified: 2026-06-10
+
+  tamper-switch:
+    title: Seco-Larm Enforcer Tamper Switch
+    category: Alarms & Sounders
+    scope: "{qty}) SECO-LARM ENFORCER TAMPER SWITCH"
+    sheets:
+      - {file: secolarm-tamper.pdf, stamp: [175, 8]}
+    last_verified: 2026-06-10
+
+  moxa-nport-5110:
+    title: Moxa NPort 5110 Network Switch
+    category: Communication PoE Switches
+    scope: "{qty}) MOXA NPORT 5110 NETWORK SWITCH"
+    sheets:
+      - {file: moxa-nport-5110.pdf, stamp: [420, 15]}
+    last_verified: 2026-06-10
+
+  ground-rod:
+    title: Ground Rod w/ Clamp
+    category: Miscellaneous
+    scope: "{qty}) GROUND ROD, PER SPECS"
+    sheets:
+      - {file: ground-rod.pdf, stamp: [310, 15]}
+    last_verified: 2026-06-10
+
+  mounting-post:
+    title: 3" Sch 40 Operator Mounting Post
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 3” O.D. GALVANIZED SCHEDULE 40 OPERATOR MOUNTING POST"
+    sheets: []
+
+  3phconv:
+    title: LiftMaster 3PHCONV 3-Phase Converter
+    category: Gate Operators
+    scope: "{qty}) 3PHCONV 3-PHASE CONVERTER"
+    sheets:
+      - {file: liftmaster-3phconv.pdf, stamp: [165, 100]}
+    last_verified: 2026-06-10
+
+  presence-loops:
+    title: Preformed Presence Loops
+    category: Loops
+    scope: |-
+      {qty}) PREFORMED PRESENCE LOOPS (SCHED. 80 CONDUIT)
+       - TO BE PROGRAMMED AND TESTED, PER SPECS
+    sheets:
+      - {file: preform-loop.pdf, stamp: [369, 505]}
+    last_verified: 2026-06-10
+
+  sawcut-exit-loop:
+    title: Sawcut Free Exit Loop
+    category: Loops
+    scope: "{qty}) SAWCUT FREE EXIT LOOP"
+    sheets:
+      - {file: cut-in-loop.pdf, stamp: [36, 611]}
+    last_verified: 2026-06-10
+
+  loopdetlm:
+    title: LiftMaster LOOPDETLM Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) LOOPDETLM LOOP DETECTOR MODULES"
+    sheets:
+      - {file: loopdetlm.pdf, stamp: [126, 4]}
+    last_verified: 2026-06-10
+
+  gooseneck:
+    title: 42"x72" Dual-Height Gooseneck Pedestal
+    category: Posts, Stands, Goosenecks
+    scope: |-
+      {qty}) 42” x 72” DUAL-HEIGHT GOOSENECK MOUNTING PEDESTALS SET ON
+       CONCRETE - ACCESS CONTROLS BY OTHERS
+    sheets:
+      - {file: gooseneck-pedestal.pdf, stamp: [10, 4]}
+    last_verified: 2026-06-10
+
+  hooded-assembly:
+    title: Custom Hooded Assembly w/ UHMW Back Plate
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM HOODED ASSEMBLIES WITH UHMW BACK PLATES"
+    sheets:
+      - {file: hooded-assembly.pdf, stamp: [30, 551]}
+    last_verified: 2026-06-10
+
+  knox-3502:
+    title: Knox 3502 Fire Dept Key Switch
+    category: Fire & Emergency Access
+    scope: "{qty}) KNOX 3502 KEY SWITCH FOR EMERGENCY FIRE DEPT. ACCESS"
+    sheets:
+      - {file: knox-3502.pdf, stamp: [21, 71]}
+    last_verified: 2026-06-10
+
+  gate-edges:
+    title: LiftMaster Gate Edge Sensors
+    category: Edges
+    scope: "{qty}) GATE EDGE SENSORS WITH WIRELESS REMOTES"
+    sheets:
+      - {file: gate-edge-sensors.pdf, stamp: [27, 70]}
+    last_verified: 2026-06-10
+
+  emx-photo-eyes:
+    title: EMX IRB-MON2 Infrared Photo Eyes
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) SET OF EMX IRB-MON2 INFRARED PHOTO EYES"
+    sheets:
+      - {file: emx-irb-mon2.pdf, stamp: [8, 104]}
+    last_verified: 2026-06-11   # Metro house sheet (July 2024) found in Incoming dump
+
+  lmtbul-photo-eyes:
+    title: LiftMaster LMTBUL Infrared Photo Eyes
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) SET OF LIFTMASTER LMTBUL INFRARED PHOTO EYES"
+    sheets:
+      - {file: liftmaster-lmtbul.pdf, stamp: [47, 5]}
+    last_verified: 2026-06-10
+
+  beacon:
+    title: Edwards AdaptaLight 101BS-N5 Beacon
+    category: Strobes
+    scope: |-
+      {qty}) EDWARDS SIGNALING ADAPTALIGHT 101BS-N5 STACKABLE
+       AUDIBLE-VISUAL BEACON WITH MOUNTING POST
+    sheets:
+      - {file: adaptalight-101bs.pdf, stamp: [178, 12]}
+    last_verified: 2026-06-10
+
+  fall-post:
+    title: ASTM Inground Fall Protection Post (96")
+    category: Posts, Stands, Goosenecks
+    scope: |-
+      {qty}) SLIDE GATE ASTM FALL PROTECTION POST, MOUNTED AT LEAST 16” BEHIND
+       GATE LEAF
+    sheets:
+      - {file: fall-post.pdf, stamp: [44, 106]}
+    last_verified: 2026-06-10
+
+  physical-stop:
+    title: ASTM Physical Stop
+    category: Gate Components
+    scope: "{qty}) SLIDE GATE ASTM PHYSICAL STOP TO PREVENT OVER-TRAVEL"
+    sheets: []
+
+  cleanup:
+    title: Cleanup
+    scope: "• CLEANUP AND REMOVE EXCAVATED MATERIAL FROM CONCRETE PADS"
+    sheets: []
+
+  # ---- batch added 2026-06-10 ----
+
+  combi-nylon-roller:
+    title: Combi Nylon Pin Gate Roller
+    category: Gate Components
+    scope: "{qty}) COMBI NYLON PIN GATE ROLLERS"
+    sheets:
+      - {file: combi-nylon-roller.pdf}
+    last_verified: 2026-06-10
+
+  dks-1601-traffic-teeth:
+    title: DoorKing 1601 Traffic Teeth & Speed Bump Footings
+    category: Concrete Footings
+    scope: "{qty}) DOORKING 1601 TRAFFIC TEETH & SPEED BUMP ON CONCRETE FOOTINGS"
+    sheets:
+      - {file: dks-1601-traffic-teeth.pdf}
+    last_verified: 2026-06-10
+
+  emx-ult-plg:
+    title: EMX ULT-PLG UltraLoop Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) EMX ULT-PLG ULTRALOOP LOOP DETECTOR MODULES"
+    sheets:
+      - {file: emx-ult-plg.pdf}
+    last_verified: 2026-06-10
+
+  flb100-fire-schematic:
+    title: FLB100-Mini Fire Dept Access Microswitch
+    category: Fire & Emergency Access
+    scope: "{qty}) FLB100-MINI MICROSWITCH FOR FIRE DEPT ACCESS"   # CHECK WORDING
+    sheets:
+      - {file: flb100-fire-schematic.pdf}
+    last_verified: 2026-06-10
+
+  lm-02103-station:
+    title: LiftMaster 02103 3-Button Station
+    category: Push Button & Switch Stations
+    scope: "{qty}) LIFTMASTER 02103 3-BUTTON CONTROL STATION"
+    sheets:
+      - {file: lm-02103-station.pdf}
+    last_verified: 2026-06-10
+
+  lm-3100p-hinges:
+    title: LiftMaster 3100P Gate Hinges
+    category: Hinges
+    scope: "{qty}) LIFTMASTER 3100P HEAVY-DUTY GATE HINGES"
+    sheets:
+      - {file: lm-3100p-hinges.pdf}
+    last_verified: 2026-06-10
+
+  cap2d-wiring:
+    title: LiftMaster CAP2D Controller (wiring)
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAP2D SMART ACCESS TWO-DOOR CONTROLLER"   # CHECK WORDING
+    sheets:
+      - {file: cap2d-wiring.pdf}
+    last_verified: 2026-06-10
+
+  faac-xt4-remote:
+    title: FAAC XT4 433RC Remote
+    category: Remotes
+    scope: "{qty}) FAAC XT4 433RC TRANSMITTER REMOTES"
+    sheets:
+      - {file: faac-xt4-remote.pdf}
+    last_verified: 2026-06-10
+
+  faac-787831-receiver:
+    title: FAAC 787831 XF Receiver
+    category: Receivers
+    scope: "{qty}) FAAC 787831 XF 433MHZ OPERATOR RECEIVERS"
+    sheets:
+      - {file: faac-787831-receiver.pdf}
+    last_verified: 2026-06-10
+
+  aluminum-med-combi:
+    title: Aluminum Gate Panel on Medium Combi (drawing)
+    category: COMBI
+    scope: "{qty}) ALUMINUM GATE PANEL ON MEDIUM COMBI TRACK"   # CHECK WORDING — drawing had no title text
+    sheets:
+      - {file: aluminum-med-combi.pdf}
+    last_verified: 2026-06-10
+
+  chainlink-9ga:
+    title: Vinyl Coated 9 Ga. Chain-Link
+    category: Chainlink
+    scope: "{qty}) VINYL COATED 9 GA. CHAIN-LINK GATE/ FENCING MATERIAL"
+    sheets:
+      - {file: chainlink-9ga.pdf}
+    last_verified: 2026-06-10
+
+  tilt-a-way-hyjg:
+    title: Tilt-A-Way HYJG Vertical Pivot Gate 27x6
+    category: Vertical Pivot Gates
+    scope: |-
+      {qty}) TILT-A-WAY HYJG HYDRAULIC VERTICAL PIVOT GATE W/ 27' X 6'
+       ALUMINUM VIGILANTE BARRIER
+    sheets:
+      - {file: tilt-a-way-hyjg-spec.pdf}
+      - {file: tilt-a-way-hyjg-27x6.pdf}
+    last_verified: 2026-06-10
+
+  strongarmpark-dc:
+    title: HySecurity StrongArmPark DC Barrier Arm
+    category: Barrier Gates
+    scope: "{qty}) HYSECURITY STRONGARMPARK DC BARRIER ARM OPERATOR"
+    sheets:
+      - {file: strongarmpark-metro.pdf}
+    last_verified: 2026-06-10
+
+  strongarmpark-dc-brochure:
+    title: StrongArmPark DC (4pg manufacturer brochure)
+    category: Barrier Gates
+    scope: "{qty}) HYSECURITY STRONGARMPARK DC BARRIER ARM OPERATOR"
+    sheets:
+      - {file: strongarmpark-dc.pdf}
+    last_verified: 2026-06-10
+
+  # ---- batch 2 added 2026-06-10 ----
+
+  csl-cantilever-stubup-lh:
+    title: CSL Cantilever Conduit Stub Up (LH)
+    category: Gate Operators
+    scope: "{qty}) CSL CANTILEVER CONDUIT STUB UP DETAIL (LH)"   # CHECK WORDING
+    sheets:
+      - {file: csl-cantilever-stubup-lh.pdf}
+    last_verified: 2026-06-10
+
+  csl-cantilever-stubup-rh:
+    title: CSL Cantilever Conduit Stub Up (RH)
+    category: Gate Operators
+    scope: "{qty}) CSL CANTILEVER CONDUIT STUB UP DETAIL (RH)"   # CHECK WORDING
+    sheets:
+      - {file: csl-cantilever-stubup-rh.pdf}
+    last_verified: 2026-06-10
+
+  csl-pipetrack-stubup-lh:
+    title: CSL/HDSL Pipe Track Conduit Stub Up (LH)
+    category: Gate Operators
+    scope: "{qty}) CSL/HDSL PIPE TRACK CONDUIT STUB UP DETAIL (LH)"   # CHECK WORDING
+    sheets:
+      - {file: csl-pipetrack-stubup-lh.pdf}
+    last_verified: 2026-06-10
+
+  csl-pipetrack-stubup-rh:
+    title: CSL/HDSL Pipe Track Conduit Stub Up (RH)
+    category: Gate Operators
+    scope: "{qty}) CSL/HDSL PIPE TRACK CONDUIT STUB UP DETAIL (RH)"   # CHECK WORDING
+    sheets:
+      - {file: csl-pipetrack-stubup-rh.pdf}
+    last_verified: 2026-06-10
+
+  csw-stubup-rh:
+    title: CSW/HDSW Conduit Stub Up (RH)
+    category: Gate Operators
+    scope: "{qty}) CSW/HDSW CONDUIT STUB UP DETAIL (RH)"   # CHECK WORDING — LH sheet found 2026-06-11 (csw-stubup-lh)
+    sheets:
+      - {file: csw-stubup-rh.pdf}
+    last_verified: 2026-06-10
+
+  csw-steel-cover:
+    title: Custom CSW Steel Cover
+    category: Gate Operators
+    scope: "{qty}) CUSTOM STEEL COVER FOR LIFTMASTER CSW OPERATOR"
+    sheets:
+      - {file: csw-steel-cover.pdf}
+    last_verified: 2026-06-10
+
+  csw-steel-stand:
+    title: CSW Steel Stand
+    category: Gate Operator - Stands
+    scope: "{qty}) CUSTOM STEEL MOUNTING STAND FOR LIFTMASTER CSW OPERATOR"
+    sheets:
+      - {file: csw-steel-stand.pdf}
+    last_verified: 2026-06-10
+
+  generic-steel-stand:
+    title: Steel Operator Stand (generic)
+    category: Gate Operator - Stands
+    scope: "{qty}) CUSTOM STEEL OPERATOR MOUNTING STAND"
+    sheets:
+      - {file: generic-steel-stand.pdf}
+    last_verified: 2026-06-10
+
+  megatron-steel-stand:
+    title: Max Megatron Steel Stand
+    category: Gate Operator - Stands
+    scope: "{qty}) CUSTOM STEEL MOUNTING STAND FOR MAX MEGATRON OPERATOR"
+    sheets:
+      - {file: megatron-steel-stand.pdf}
+    last_verified: 2026-06-10
+
+  rhino-4000-steel-stand:
+    title: Max Rhino 4000 FS Steel Stand
+    category: Gate Operator - Stands
+    scope: "{qty}) CUSTOM STEEL MOUNTING STAND FOR MAX RHINO 4000 FS OPERATOR"
+    sheets:
+      - {file: rhino-4000-steel-stand.pdf}
+    last_verified: 2026-06-10
+
+  fall-post-surface:
+    title: ASTM Surface Mount Fall Protection Post (72")
+    category: Posts, Stands, Goosenecks
+    scope: |-
+      {qty}) SLIDE GATE ASTM FALL PROTECTION POST, SURFACE MOUNT, MOUNTED AT
+       LEAST 16” BEHIND GATE LEAF
+    sheets:
+      - {file: fall-post-surface.pdf}
+    last_verified: 2026-06-10
+
+  # ---- batch 3 added 2026-06-10 ----
+
+  straight-post-42:
+    title: Straight Post Pedestal, Standard 42"
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 42” STANDARD HEIGHT STRAIGHT POST PEDESTAL"
+    sheets:
+      - {file: straight-post-42.pdf}
+    last_verified: 2026-06-10
+
+  straight-post-72:
+    title: Straight Post Pedestal, Truck Height 72"
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 72” TRUCK HEIGHT STRAIGHT POST PEDESTAL"
+    sheets:
+      - {file: straight-post-72.pdf}
+    last_verified: 2026-06-10
+
+  capxlv2-mounting-post:
+    title: CAPXLV2 Mounting Post
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) MOUNTING POST FOR LIFTMASTER CAPXLV2"
+    sheets:
+      - {file: capxlv2-mounting-post.pdf}
+    last_verified: 2026-06-10
+
+  capxm-mounting-post:
+    title: CAPXM Mounting Post
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) MOUNTING POST FOR LIFTMASTER CAPXM"
+    sheets:
+      - {file: capxm-mounting-post.pdf}
+    last_verified: 2026-06-10
+
+  capxs-mounting-post:
+    title: CAPXS Mounting Post & Hood
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) MOUNTING POST & HOOD FOR LIFTMASTER CAPXS"
+    sheets:
+      - {file: capxs-mounting-post.pdf}
+    last_verified: 2026-06-10
+
+  gooseneck-dual-38-84:
+    title: 38"x84" Dual-Height Gooseneck Pedestal
+    category: Posts, Stands, Goosenecks
+    scope: |-
+      {qty}) 38” x 84” DUAL-HEIGHT GOOSENECK MOUNTING PEDESTALS SET ON
+       CONCRETE - ACCESS CONTROLS BY OTHERS
+    sheets:
+      - {file: gooseneck-dual-38-84.pdf}
+    last_verified: 2026-06-10
+
+  gooseneck-dual-48-84:
+    title: 48"x84" Dual-Height Gooseneck Pedestal
+    category: Posts, Stands, Goosenecks
+    scope: |-
+      {qty}) 48” x 84” DUAL-HEIGHT GOOSENECK MOUNTING PEDESTALS SET ON
+       CONCRETE - ACCESS CONTROLS BY OTHERS
+    sheets:
+      - {file: gooseneck-dual-48-84.pdf}
+    last_verified: 2026-06-10
+
+  gooseneck-42:
+    title: Standard Height Gooseneck 42"
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 42” STANDARD HEIGHT GOOSENECK MOUNTING PEDESTAL"
+    sheets:
+      - {file: gooseneck-42.pdf}
+    last_verified: 2026-06-10
+
+  gooseneck-72:
+    title: Truck Height Gooseneck 72"
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 72” TRUCK HEIGHT GOOSENECK MOUNTING PEDESTAL"
+    sheets:
+      - {file: gooseneck-72.pdf}
+    last_verified: 2026-06-10
+
+  gooseneck-baseplates:
+    title: Gooseneck Base Plates (detail)
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) GOOSENECK BASE PLATES PER DETAIL"   # CHECK WORDING
+    sheets:
+      - {file: gooseneck-baseplates.pdf}
+    last_verified: 2026-06-10
+
+  rain-hood:
+    title: Custom Rain Hood (drawing)
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM RAIN HOOD"   # CHECK WORDING — drawing has no title text
+    sheets:
+      - {file: rain-hood.pdf}
+    last_verified: 2026-06-10
+
+  gate-post-5x5:
+    title: 5"x5" Gate Post & Concrete Detail
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 5” x 5” x ¼” GATE POSTS SET 48” DEEP IN CONCRETE"   # CHECK WORDING
+    sheets:
+      - {file: gate-post-5x5.pdf}
+    last_verified: 2026-06-10
+
+  # ---- batch 4 added 2026-06-10 ----
+
+  faac-xp30-photo-eyes:
+    title: FAAC XP30 (7851) Photo Eyes
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) SET OF FAAC XP30 (7851) INFRARED PHOTO EYES"
+    sheets:
+      - {file: faac-xp30-photo-eyes.pdf}
+    last_verified: 2026-06-10
+
+  linear-hslg:
+    title: Linear HSLG Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LINEAR HSLG SLIDE GATE OPERATOR"
+    sheets:
+      - {file: linear-hslg.pdf}
+    last_verified: 2026-06-10
+
+  max-1700-fs-pro:
+    title: Max Controls 1700 FS Pro Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) MAX CONTROLS 1700 FS PRO SLIDE GATE OPERATOR"
+    sheets:
+      - {file: max-1700-fs-pro.pdf}
+    last_verified: 2026-06-10
+
+  max-2200-pro:
+    title: Max Controls Max 2200 Pro Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) MAX CONTROLS MAX 2200 PRO SLIDE GATE OPERATOR"
+    sheets:
+      - {file: max-2200-pro.pdf}
+    last_verified: 2026-06-10
+
+  viking-x390:
+    title: Viking X-390 Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) VIKING X-390 SWING GATE OPERATOR"
+    sheets:
+      - {file: viking-x390.pdf}
+    last_verified: 2026-06-10
+
+  autogate-buckeye-500:
+    title: AutoGate 500 Buckeye Vertical Pivot Gate
+    category: Vertical Pivot Gates
+    scope: "{qty}) AUTOGATE 500 BUCKEYE VERTICAL PIVOT GATE OPERATOR"
+    sheets:
+      - {file: autogate-buckeye-500.pdf}
+    last_verified: 2026-06-10
+
+  # ---- Loop Detectors (imported from Incoming 2026-06-11) ----
+
+  bea-lzr-h100:
+    title: BEA LZR-H100 Laser Virtual Loop
+    category: Loop Detectors
+    scope: "{qty}) BEA LZR-H100 LASER SCANNER VIRTUAL LOOP DETECTOR"   # CHECK WORDING — novel device type, wording drafted from mfg sheet
+    sheets:
+      - {file: bea-lzr-h100.pdf}
+    last_verified: 2026-06-11
+
+  diablo-dsp10lv:
+    title: Diablo DSP-10LV Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) DIABLO DSP-10LV LOOP DETECTOR MODULES"
+    sheets:
+      - {file: diablo-dsp10lv.pdf}
+    last_verified: 2026-06-11
+
+  diablo-dsp10-mfg:
+    title: Diablo DSP-10 (mfg cut sheet)
+    category: Loop Detectors
+    scope: "{qty}) DIABLO DSP-10 LOOP DETECTOR MODULES"
+    sheets:
+      - {file: diablo-dsp10-mfg.pdf}
+    last_verified: 2026-06-11
+
+  diablo-dsp11:
+    title: Diablo DSP-11 Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) DIABLO DSP-11 LOOP DETECTOR MODULES"
+    sheets:
+      - {file: diablo-dsp11.pdf}
+    last_verified: 2026-06-11
+
+  diablo-dsp7:
+    title: Diablo DSP-7 Loop Detector (solar)
+    category: Loop Detectors
+    scope: "{qty}) DIABLO DSP-7 LOOP DETECTOR MODULES"
+    sheets:
+      - {file: diablo-dsp7.pdf}
+    last_verified: 2026-06-11
+
+  dks-9409-010:
+    title: DoorKing 9409-010 Dual-Channel Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) DOORKING 9409-010 DUAL-CHANNEL LOOP DETECTOR MODULES"
+    sheets:
+      - {file: dks-9409-010.pdf}
+    last_verified: 2026-06-11
+
+  dks-9410-010:
+    title: DoorKing 9410-010 Single-Channel Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) DOORKING 9410-010 SINGLE-CHANNEL LOOP DETECTOR MODULES"
+    sheets:
+      - {file: dks-9410-010.pdf}
+    last_verified: 2026-06-11
+
+  edi-lma-1800:
+    title: EDI LMA-1800 Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) EDI LMA-1800 SINGLE-CHANNEL LOOP DETECTOR MODULES"
+    sheets:
+      - {file: edi-lma-1800.pdf}
+    last_verified: 2026-06-11
+
+  emx-ultra-d-tek:
+    title: EMX Ultra D-TEK Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) EMX ULTRA D-TEK LOOP DETECTOR MODULES"
+    sheets:
+      - {file: emx-ultra-d-tek.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hy5b:
+    title: HySecurity Hy5B 2.0 Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) HYSECURITY HY5B 2.0 LOOP DETECTOR MODULES"
+    sheets:
+      - {file: hysecurity-hy5b.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-loop-detector:
+    title: Magnetic AutoControl Loop Detector
+    category: Loop Detectors
+    scope: "{qty}) MAGNETIC AUTOCONTROL LOOP DETECTOR MODULES"   # CHECK WORDING — no model number on the Metro sheet
+    sheets:
+      - {file: magnetic-loop-detector.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Alarms & Sounders (imported from Incoming 2026-06-11) ----
+
+  federal-signal-50gc:
+    title: Federal Signal SelecTone 50GC Sounder
+    category: Alarms & Sounders
+    scope: "{qty}) FEDERAL SIGNAL SELECTONE 50GC SOUNDER"
+    sheets:
+      - {file: federal-signal-50gc.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-gsmx:
+    title: Honeywell GSMX Cellular Alarm Communicator
+    category: Alarms & Sounders
+    scope: "{qty}) HONEYWELL GSMX CELLULAR ALARM COMMUNICATOR"   # CHECK WORDING — alarm communicator, not a sounder — confirm it belongs in this category; 2017 sheet covers the GSMX4G family
+    sheets:
+      - {file: honeywell-gsmx.pdf}
+    last_verified: 2026-06-11
+
+  patlite-kp-24a:
+    title: Patlite KP-24A Rotating Warning Light
+    category: Alarms & Sounders
+    scope: "{qty}) PATLITE KP-24A ROTATING WARNING LIGHT"   # CHECK WORDING — Metro title cell reads only PATLITE KP-24A (item type STROBE); rotating warning light wording drafted from the sheet's features
+    sheets:
+      - {file: patlite-kp-24a.pdf}
+    last_verified: 2026-06-11
+
+  system-sensor-spectralert-advance:
+    title: System Sensor SpectrAlert Advance Sounder Strobes
+    category: Alarms & Sounders
+    scope: |-   # CHECK WORDING — 4-page mfg spec covers wall-mount low frequency sounder and sounder strobe models; no single model number
+      {qty}) SYSTEM SENSOR SPECTRALERT ADVANCE LOW FREQUENCY
+       SOUNDER STROBES
+    sheets:
+      - {file: system-sensor-spectralert-advance.pdf}
+    last_verified: 2026-06-11
+
+  vals-24a-50gc:
+    title: VALS 24A Signal Source & 50GC Sounder
+    category: Alarms & Sounders
+    scope: "{qty}) VALS SIGNAL SOURCE 24A AND SOUNDER 50GC"
+    sheets:
+      - {file: vals-24a-50gc.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Edges (imported from Incoming 2026-06-11) ----
+
+  aso-sentir-edge:
+    title: ASO Sentir Edge Kit
+    category: Edges
+    scope: "{qty}) ASO SENTIR EDGE SAFETY EDGE KITS"
+    sheets:
+      - {file: aso-sentir-edge.pdf}
+    last_verified: 2026-06-11
+
+  emx-wel-200:
+    title: EMX WEL-200 Wireless Safety Edge Kit
+    category: Edges
+    scope: "{qty}) EMX WEL-200 SERIES MONITORED WIRELESS EDGE KITS"
+    sheets:
+      - {file: emx-wel-200.pdf}
+    last_verified: 2026-06-11
+
+  igaze-safety-edge-kit:
+    title: iGaze Wireless Safety Edge Kit
+    category: Edges
+    scope: "{qty}) IGAZE WIRELESS SAFETY EDGE KITS"   # CHECK WORDING — Metro TITLE cell is just 'SAFETY EDGE KIT' — no mfg name on sheet; 'iGaze' from filename
+    sheets:
+      - {file: igaze-safety-edge-kit.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-l50-s50-mfg:
+    title: LiftMaster L50/S50 Assembled Edges (mfg cut sheet)
+    category: Edges
+    scope: "{qty}) LIFTMASTER L50/S50 SERIES MONITORED RESISTIVE EDGES"
+    sheets:
+      - {file: liftmaster-l50-s50-mfg.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-wr-ws:
+    title: LiftMaster WR/WS Wrap Around Edges
+    category: Edges
+    scope: "{qty}) LIFTMASTER WR/WS MONITORED RESISTIVE WRAP AROUND EDGES"
+    sheets:
+      - {file: liftmaster-wr-ws.pdf}
+    last_verified: 2026-06-11
+
+  linear-sg-10:
+    title: Linear SG 10 Safety Light Grid
+    category: Edges
+    scope: "{qty}) LINEAR SG 10 INFRARED SAFETY LIGHT GRID"   # CHECK WORDING — Metro TITLE is just 'SG 10' — 'Linear' from filename; cross-beam light grid (transmitter/detector), not a contact edge
+    sheets:
+      - {file: linear-sg-10.pdf}
+    last_verified: 2026-06-11
+
+  max-wireless-edge-900:
+    title: Max Controls Max Wireless Edge 900 Kit
+    category: Edges
+    scope: "{qty}) MAX CONTROLS MAX WIRELESS EDGE 900 KITS"
+    sheets:
+      - {file: max-wireless-edge-900.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-cpt-210:
+    title: Miller Edge CPT-210 Gate Edge
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE CPT-210 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-cpt-210.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-cpt-210-mfg:
+    title: Miller Edge CPT-210 (mfg cut sheet)
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE CPT-210 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-cpt-210-mfg.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-me120-mgo20-mfg:
+    title: Miller Edge ME120/MGO20 (mfg cut sheet)
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE ME120/MGO20 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-me120-mgo20-mfg.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-me120t:
+    title: Miller Edge ME120T Gate Edge
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE ME120T CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-me120t.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-mgo20-mgr20:
+    title: Miller Edge MGO20/MGR20 Gate Edges
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE MGO20/MGR20 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-mgo20-mgr20.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-mgr20-mgs20-mfg:
+    title: Miller Edge MGR20/MGS20 (mfg cut sheet)
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE MGR20/MGS20 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-mgr20-mgs20-mfg.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-mgs20:
+    title: Miller Edge MGS20 Gate Edge
+    category: Edges
+    scope: "{qty}) MILLER GATE EDGE MGS20 CONTACT SENSORS"
+    sheets:
+      - {file: miller-edge-mgs20.pdf}
+    last_verified: 2026-06-11
+
+  miller-edge-mwta02-mwt02:
+    title: Miller Edge MWTA02/MWT02 Wireless Edge Kit
+    category: Edges
+    scope: |-
+      {qty}) MILLER EDGE MWTA02/MWT02 WIRELESS EDGE
+       TRANSMITTER & RECEIVER KITS
+    sheets:
+      - {file: miller-edge-mwta02-mwt02.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gate Components (imported from Incoming 2026-06-11) ----
+
+  lm-22206s-cover:
+    title: LiftMaster 22206S 6" Power Wheel Cover
+    category: Gate Components
+    scope: "{qty}) LIFTMASTER 22206S 6” POWER WHEEL COVERS"
+    sheets:
+      - {file: lm-22206s-cover.pdf}
+    last_verified: 2026-06-11
+
+  lm-ah110-power-wheel:
+    title: LiftMaster AH110 6" Power Wheel
+    category: Gate Components
+    scope: "{qty}) LIFTMASTER AH110 6” POWER WHEELS"
+    sheets:
+      - {file: lm-ah110-power-wheel.pdf}
+    last_verified: 2026-06-11
+
+  all-o-matic-tk-1000:
+    title: All-O-Matic TK-1000 Tandem Gate Kit
+    category: Gate Components
+    scope: "{qty}) ALL-O-MATIC TK-1000 HEAVY-DUTY TANDEM GATE KIT"
+    sheets:
+      - {file: all-o-matic-tk-1000.pdf}
+    last_verified: 2026-06-11
+
+  all-o-matic-tk-1000-mfg:
+    title: All-O-Matic TK-1000 Tandem Gate Kit (mfg cut sheet)
+    category: Gate Components
+    scope: "{qty}) ALL-O-MATIC TK-1000 HEAVY-DUTY TANDEM GATE KIT"
+    sheets:
+      - {file: all-o-matic-tk-1000-mfg.pdf}
+    last_verified: 2026-06-11
+
+  combi-395-carriage:
+    title: Combi 395 Large Gate Carriage
+    category: Gate Components
+    scope: "{qty}) COMBI 395 LARGE GALVANIZED CANTILEVER GATE CARRIAGES"
+    sheets:
+      - {file: combi-395-carriage.pdf}
+    last_verified: 2026-06-11
+
+  combi-ca9999-large:
+    title: Combi CA9999 Large Gate Carriage
+    category: Gate Components
+    scope: "{qty}) COMBI CA9999 LARGE CANTILEVER GATE CARRIAGES"   # CHECK WORDING — sheet is the Large system sizing chart; confirm CA9999 is the right quoting part number (Metro track sheets list CA395 as the carriage)
+    sheets:
+      - {file: combi-ca9999-large.pdf}
+    last_verified: 2026-06-11
+
+  combi-large-track:
+    title: Combi Large Track
+    category: Gate Components
+    scope: "{qty}) LARGE COMBI TRACK CANTILEVER GATE SYSTEM"
+    sheets:
+      - {file: combi-large-track.pdf}
+    last_verified: 2026-06-11
+
+  combi-medium-track:
+    title: Combi Medium Track
+    category: Gate Components
+    scope: "{qty}) MEDIUM COMBI TRACK CANTILEVER GATE SYSTEM"
+    sheets:
+      - {file: combi-medium-track.pdf}
+    last_verified: 2026-06-11
+
+  uhmw-gate-wheel:
+    title: 6" UHMW Gate Wheel (drawing)
+    category: Gate Components
+    scope: "{qty}) CUSTOM 6” UHMW GATE WHEELS"
+    sheets:
+      - {file: uhmw-gate-wheel.pdf}
+    last_verified: 2026-06-11
+
+  dks-1204-123:
+    title: DoorKing 1204-123 Guide Rollers
+    category: Gate Components
+    scope: "{qty}) DOORKING 1204-123 DOUBLE 6” GUIDE ROLLER ASSEMBLIES"
+    sheets:
+      - {file: dks-1204-123.pdf}
+    last_verified: 2026-06-11
+
+  elite-power-wheel:
+    title: Elite Power Wheel Series
+    category: Gate Components
+    scope: "{qty}) ELITE SOLID STEEL V-GROOVE POWER WHEELS"   # CHECK WORDING — 3pp series sheet covers 4”/6”/8” wheels plus a UHMW wheel — no single model for the scope line
+    sheets:
+      - {file: elite-power-wheel.pdf}
+    last_verified: 2026-06-11
+
+  lm-22204s-22206s-mfg:
+    title: LiftMaster 22204S & 22206S Wheel Covers (mfg bulletin)
+    category: Gate Components
+    scope: "{qty}) LIFTMASTER 22204S/ 22206S STEEL WHEEL COVERS"
+    sheets:
+      - {file: lm-22204s-22206s-mfg.pdf}
+    last_verified: 2026-06-11
+
+  lm-gc824-lock:
+    title: LiftMaster GC824 Solenoid Gate Lock
+    category: Gate Components
+    scope: "{qty}) LIFTMASTER GC824 SOLENOID GATE LOCKS"
+    sheets:
+      - {file: lm-gc824-lock.pdf}
+    last_verified: 2026-06-11
+
+  lm-v-track:
+    title: LiftMaster V-Track
+    category: Gate Components
+    scope: "{qty}) LIFTMASTER GALVANIZED V-TRACK, 10' SECTIONS"
+    sheets:
+      - {file: lm-v-track.pdf}
+    last_verified: 2026-06-11
+
+  pinch-roller-layout:
+    title: Pinch Roller Layout (drawing)
+    category: Gate Components
+    scope: "{qty}) PINCH ROLLERS PER LAYOUT DETAIL"   # CHECK WORDING — drawing has no product wording — title block reads ROLLER LAYOUT, project PINCH ROLLER LAYOUT
+    sheets:
+      - {file: pinch-roller-layout.pdf}
+    last_verified: 2026-06-11
+
+  uline-h-6251:
+    title: Uline H-6251 Self-Closing Guard Rail Gate
+    category: Gate Components
+    scope: "{qty}) ULINE H-6251 SELF-CLOSING GUARD RAIL GATES"
+    sheets:
+      - {file: uline-h-6251.pdf}
+    last_verified: 2026-06-11
+
+  weldon-wi-cr3-n:
+    title: Weldon WI-CR3-N 4" Cantilever Nylon Roller
+    category: Gate Components
+    scope: "{qty}) WELDON WI-CR3-N 4” CANTILEVER NYLON ROLLERS"
+    sheets:
+      - {file: weldon-wi-cr3-n.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Hinges (imported from Incoming 2026-06-11) ----
+
+  elite-power-hinge-hybrid:
+    title: Elite Power Hinge, Hybrid Steel/Aluminum
+    category: Hinges
+    scope: "{qty}) ELITE HYBRID STEEL/ ALUMINUM POWER HINGES"
+    sheets:
+      - {file: elite-power-hinge-hybrid.pdf}
+    last_verified: 2026-06-11
+
+  elite-power-hinge-steel:
+    title: Elite Power Hinge, Heavy-Duty Solid Steel
+    category: Hinges
+    scope: "{qty}) ELITE HEAVY-DUTY SOLID STEEL POWER HINGES"
+    sheets:
+      - {file: elite-power-hinge-steel.pdf}
+    last_verified: 2026-06-11
+
+  elite-power-hinge-mfg:
+    title: Elite Power Hinge Series (mfg cut sheet)
+    category: Hinges
+    scope: "{qty}) ELITE POWER HINGE HEAVY-DUTY INDUSTRIAL HINGES"   # CHECK WORDING — 3pp series sheet covers Power Hinge, Power Hinge 2 (hybrid) and Power Hinge 3 (aluminum)
+    sheets:
+      - {file: elite-power-hinge-mfg.pdf}
+    last_verified: 2026-06-11
+
+  lm-2000p-hinges:
+    title: LiftMaster 2000P Gate Hinges
+    category: Hinges
+    scope: "{qty}) LIFTMASTER 2000P HEAVY-DUTY GATE HINGES"
+    sheets:
+      - {file: lm-2000p-hinges.pdf}
+    last_verified: 2026-06-11
+
+  lm-2000u-hinges:
+    title: LiftMaster 2000U Gate Hinges
+    category: Hinges
+    scope: "{qty}) LIFTMASTER 2000U HEAVY-DUTY GATE HINGES"
+    sheets:
+      - {file: lm-2000u-hinges.pdf}
+    last_verified: 2026-06-11
+
+  lm-2010p-hinges:
+    title: LiftMaster 2010P Gate Hinges
+    category: Hinges
+    scope: "{qty}) LIFTMASTER 2010P HEAVY-DUTY GATE HINGES"
+    sheets:
+      - {file: lm-2010p-hinges.pdf}
+    last_verified: 2026-06-11
+
+  lm-3100u-hinges:
+    title: LiftMaster 3100U Gate Hinges
+    category: Hinges
+    scope: "{qty}) LIFTMASTER 3100U HEAVY-DUTY GATE HINGES"
+    sheets:
+      - {file: lm-3100u-hinges.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Keedex (imported from Incoming 2026-06-11) ----
+
+  mmtc-1kxl:
+    title: MMTC 1KXL Keyswitch (on-off)
+    category: Keedex
+    scope: "{qty}) MMTC 1KXL KEYED CONTROL STATION (ON-OFF)"
+    sheets:
+      - {file: mmtc-1kxl.pdf}
+    last_verified: 2026-06-11
+
+  keedex-k-bxsim:
+    title: Keedex K-BXSIM Weldable Gate Box
+    category: Keedex
+    scope: "{qty}) KEEDEX K-BXSIM WELDABLE GATE BOX"
+    sheets:
+      - {file: keedex-k-bxsim.pdf}
+    last_verified: 2026-06-11
+
+  keedex-5x10-exit-device-box:
+    title: Keedex 5"x10" Exit Device Box
+    category: Keedex
+    scope: "{qty}) KEEDEX 5” x 10” EXIT DEVICE BOX (BLANK)"   # CHECK WORDING — no Keedex model number on the Metro sheet
+    sheets:
+      - {file: keedex-5x10-exit-device-box.pdf}
+    last_verified: 2026-06-11
+
+  keedex-gate-box-dimensions:
+    title: Keedex Gate Box Dimensions (catalog page)
+    category: Keedex
+    scope: "{qty}) KEEDEX K-BXSGL234 SERIES WELDABLE GATE BOX"   # CHECK WORDING — catalog page 28 covering 16 K-BXSGL234/K-BXSIM variants — scope wording generic
+    sheets:
+      - {file: keedex-gate-box-dimensions.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Keypads (imported from Incoming 2026-06-11) ----
+
+  carefree-1050a:
+    title: Carefree Security 1050A Digital Keypad
+    category: Keypads
+    scope: "{qty}) CAREFREE SECURITY 1050A ALL-WEATHER DIGITAL KEYPAD"
+    sheets:
+      - {file: carefree-1050a.pdf}
+    last_verified: 2026-06-11
+
+  dks-1515:
+    title: DoorKing 1515 Digital Lock Keypad
+    category: Keypads
+    scope: "{qty}) DOORKING 1515 DIGITAL LOCK KEYPAD"
+    sheets:
+      - {file: dks-1515.pdf}
+    last_verified: 2026-06-11
+
+  secolarm-sk-1323:
+    title: Seco-Larm Enforcer SK-1323 Weatherproof Keypad
+    category: Keypads
+    scope: "{qty}) SECO-LARM ENFORCER SK-1323 WEATHERPROOF KEYPAD"   # CHECK WORDING — one sheet covers SK-1323-SDQ (keypad) and SK-1323-SPQ (keypad w/ prox reader) — confirm variant when quoting
+    sheets:
+      - {file: secolarm-sk-1323.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-6160rf-mfg:
+    title: Honeywell 6160RF Keypad/Receiver (mfg cut sheet)
+    category: Keypads
+    scope: "{qty}) HONEYWELL 6160RF CUSTOM ALPHA WIRELESS KEYPAD"
+    sheets:
+      - {file: honeywell-6160rf-mfg.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-6160rf:
+    title: Honeywell 6160RF Custom Alpha Keypad
+    category: Keypads
+    scope: "{qty}) HONEYWELL 6160RF CUSTOM ALPHA WIRELESS KEYPAD"
+    sheets:
+      - {file: honeywell-6160rf.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-el25:
+    title: LiftMaster EL25 Wireless Access Controller
+    category: Keypads
+    scope: "{qty}) LIFTMASTER EL25 WIRELESS ACCESS CONTROLLER"
+    sheets:
+      - {file: liftmaster-el25.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-kpr2000:
+    title: LiftMaster KPR2000 Keypad/Proximity Reader
+    category: Keypads
+    scope: "{qty}) LIFTMASTER KPR2000 WIRED KEYPAD AND PROXIMITY READER"
+    sheets:
+      - {file: liftmaster-kpr2000.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-kpw250:
+    title: LiftMaster KPW250 Wireless Keypad
+    category: Keypads
+    scope: "{qty}) LIFTMASTER KPW250 WIRELESS KEYPAD"
+    sheets:
+      - {file: liftmaster-kpw250.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-kpw250-kpw5-mfg:
+    title: LiftMaster KPW250 & KPW5 (4pg manufacturer brochure)
+    category: Keypads
+    scope: "{qty}) LIFTMASTER KPW250/KPW5 WIRELESS KEYPAD"   # CHECK WORDING — single 4pg brochure covers both KPW250 and KPW5 — confirm model when quoting
+    sheets:
+      - {file: liftmaster-kpw250-kpw5-mfg.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-kpw5:
+    title: LiftMaster KPW5 Wireless Keypad
+    category: Keypads
+    scope: "{qty}) LIFTMASTER KPW5 WIRELESS KEYPAD"
+    sheets:
+      - {file: liftmaster-kpw5.pdf}
+    last_verified: 2026-06-11
+
+  linear-ak-11:
+    title: Linear AK-11 Keypad
+    category: Keypads
+    scope: "{qty}) LINEAR AK-11 DIGITAL KEYLESS ENTRY KEYPAD"
+    sheets:
+      - {file: linear-ak-11.pdf}
+    last_verified: 2026-06-11
+
+  pti-apex:
+    title: PTI Apex Keypad
+    category: Keypads
+    scope: "{qty}) PTI APEX KEYPAD"
+    sheets:
+      - {file: pti-apex.pdf}
+    last_verified: 2026-06-11
+
+  pti-apex-mfg:
+    title: PTI Apex Access Device (mfg cut sheet)
+    category: Keypads
+    scope: "{qty}) PTI APEX KEYPAD"
+    sheets:
+      - {file: pti-apex-mfg.pdf}
+    last_verified: 2026-06-11
+
+  pti-falcon:
+    title: PTI Falcon Security System
+    category: Keypads
+    scope: "{qty}) PTI FALCON SECURITY SYSTEM"   # CHECK WORDING — system-level sheet (base unit + keypads), no single keypad model named — wording drafted from mfg sheet
+    sheets:
+      - {file: pti-falcon.pdf}
+    last_verified: 2026-06-11
+
+  sentex-minikey:
+    title: Sentex MINIkey Keypad
+    category: Keypads
+    scope: "{qty}) SENTEX MINIKEY SELF-CONTAINED KEYPAD SYSTEM"
+    sheets:
+      - {file: sentex-minikey.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-vista-21ip:
+    title: Honeywell VISTA-21iP Control Panel
+    category: Keypads
+    scope: "{qty}) HONEYWELL VISTA-21IP ALARM CONTROL PANEL"   # CHECK WORDING — alarm control panel, not a keypad — lives in Keypads folder; category assignment may need review
+    sheets:
+      - {file: honeywell-vista-21ip.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Photo Eyes & Light Curtains (imported from Incoming 2026-06-11) ----
+
+  emx-irb-ret2:
+    title: EMX IRB-RET2 Retroreflective Photo Eye
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) EMX IRB-RET2 RETROREFLECTIVE PHOTO EYE"   # CHECK WORDING — Metro title cell reads only EMX IRB-RET2 / PHOTO EYES; RET2 is the retroreflective single-eye model, so the SET OF wording used for IRB-MON2 was not applied
+    sheets:
+      - {file: emx-irb-ret2.pdf}
+    last_verified: 2026-06-11
+
+  emx-mrd-1p:
+    title: EMX MRD-1P Radar Presence Sensor
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) EMX MRD-1P RADAR PRESENCE SENSOR"   # CHECK WORDING — novel device type (radar, not a photo eye), wording drafted from mfg sheet
+    sheets:
+      - {file: emx-mrd-1p.pdf}
+    last_verified: 2026-06-11
+
+  enforcer-e-960-d90q:
+    title: Enforcer E-960-D90Q Twin Photobeam Detectors
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) SET OF ENFORCER E-960-D90Q TWIN PHOTOBEAM DETECTORS"
+    sheets:
+      - {file: enforcer-e-960-d90q.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-lmrrul:
+    title: LiftMaster LMRRUL Reflective Photo Eye
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) LIFTMASTER LMRRUL REFLECTIVE PHOTO EYE"
+    sheets:
+      - {file: liftmaster-lmrrul.pdf}
+    last_verified: 2026-06-11
+
+  omron-e3k:
+    title: Omron E3K Reflector Type Photo Eye
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) OMRON E3K REFLECTOR TYPE PHOTO EYE"
+    sheets:
+      - {file: omron-e3k.pdf}
+    last_verified: 2026-06-11
+
+  telco-spaceguard-sg10:
+    title: Telco Spaceguard SG10 Light Curtain
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) TELCO SPACEGUARD SG10 LIGHT CURTAIN"   # CHECK WORDING — 5-page mfg catalog section covering the full SG10 size range; no single order reference
+    sheets:
+      - {file: telco-spaceguard-sg10.pdf}
+    last_verified: 2026-06-11
+
+  telco-spaceguard-sg14:
+    title: Telco Spaceguard SG14 Light Curtain
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) TELCO SPACEGUARD SG14 LIGHT CURTAIN"
+    sheets:
+      - {file: telco-spaceguard-sg14.pdf}
+    last_verified: 2026-06-11
+
+  emx-irb-mon2-mfg:
+    title: EMX IRB-MON2 Photo Eyes (mfg cut sheet)
+    category: Photo Eyes & Light Curtains
+    scope: "{qty}) SET OF EMX IRB-MON2 INFRARED PHOTO EYES"
+    sheets:
+      - {file: emx-irb-mon2-mfg.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Push Button & Switch Stations (imported from Incoming 2026-06-11) ----
+
+  ada-push-button:
+    title: ADA Push Button (4-1/2" square)
+    category: Push Button & Switch Stations
+    scope: "{qty}) 4-1/2” SQUARE ADA PUSH BUTTON W/ BLACK SERVICE BOX"   # CHECK WORDING — generic item — no manufacturer or model on the Metro sheet
+    sheets:
+      - {file: ada-push-button.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-is-scu:
+    title: Aiphone IS-SCU Central Control Unit
+    category: Push Button & Switch Stations
+    scope: "{qty}) AIPHONE IS-SCU CENTRAL CONTROL UNIT"   # CHECK WORDING — Metro title cell reads only IS-SCU; 'central control unit' from Aiphone IS-series naming
+    sheets:
+      - {file: aiphone-is-scu.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-le-door-stations:
+    title: Aiphone LE-Series Door Stations
+    category: Push Button & Switch Stations
+    scope: "{qty}) AIPHONE LE-SERIES DOOR STATIONS"
+    sheets:
+      - {file: aiphone-le-door-stations.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-lef-3l:
+    title: Aiphone LEF-3L 3-Channel Master Station
+    category: Push Button & Switch Stations
+    scope: "{qty}) AIPHONE LEF-3L 3-CHANNEL MASTER STATION"
+    sheets:
+      - {file: aiphone-lef-3l.pdf}
+    last_verified: 2026-06-11
+
+  camden-cm-4085rpte:
+    title: Camden CM-4085RPTE Mushroom Push Button
+    category: Push Button & Switch Stations
+    scope: "{qty}) CAMDEN CM-4085RPTE 1-5/8” MUSHROOM PUSH BUTTON"   # CHECK WORDING — sheet is CM-4000/4100 series; RPTE suffix (red push-to-exit, ADA time delay) taken from filename
+    sheets:
+      - {file: camden-cm-4085rpte.pdf}
+    last_verified: 2026-06-11
+
+  dks-access-devices-brochure:
+    title: DoorKing Access Devices (2pg manufacturer brochure)
+    category: Push Button & Switch Stations
+    scope: "{qty}) DOORKING GATE & INTERIOR CONTROL STATIONS"   # CHECK WORDING — multi-model brochure (1211 exit buttons, 1206 key switch, 1509 keypad, 1200-series 3-button stations) — scope wording generic
+    sheets:
+      - {file: dks-access-devices-brochure.pdf}
+    last_verified: 2026-06-11
+
+  mmtc-1bx:
+    title: MMTC 1BX Exterior Control Station (1-button)
+    category: Push Button & Switch Stations
+    scope: "{qty}) MMTC 1BX EXTERIOR ONE-BUTTON CONTROL STATION"
+    sheets:
+      - {file: mmtc-1bx.pdf}
+    last_verified: 2026-06-11
+
+  mmtc-1kxl-o:
+    title: MMTC 1KXL-O Keyswitch (hold open-close)
+    category: Push Button & Switch Stations
+    scope: "{qty}) MMTC 1KXL-O KEYED CONTROL STATION (HOLD OPEN-CLOSE)"
+    sheets:
+      - {file: mmtc-1kxl-o.pdf}
+    last_verified: 2026-06-11
+
+  mmtc-lce-3:
+    title: MMTC LCE-3 Flush Mount 3-Button Station
+    category: Push Button & Switch Stations
+    scope: "{qty}) MMTC LCE-3 3-BUTTON CONTROL STATION (OPEN-CLOSE-STOP)"
+    sheets:
+      - {file: mmtc-lce-3.pdf}
+    last_verified: 2026-06-11
+
+  mmtc-pbs-2:
+    title: MMTC PBS-2 2-Button Control Station
+    category: Push Button & Switch Stations
+    scope: "{qty}) MMTC PBS-2 2-BUTTON CONTROL STATION (OPEN-CLOSE)"
+    sheets:
+      - {file: mmtc-pbs-2.pdf}
+    last_verified: 2026-06-11
+
+  mmtc-pbs-3:
+    title: MMTC PBS-3 3-Button Control Station
+    category: Push Button & Switch Stations
+    scope: "{qty}) MMTC PBS-3 3-BUTTON CONTROL STATION (OPEN-CLOSE-STOP)"
+    sheets:
+      - {file: mmtc-pbs-3.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Receivers (imported from Incoming 2026-06-11) ----
+
+  click2enter:
+    title: Click2Enter Public Safety Access System
+    category: Receivers
+    scope: "{qty}) CLICK2ENTER PUBLIC SAFETY RADIO ACCESS SYSTEM"   # CHECK WORDING — novel device type — Metro title block reads only CLICK2ENTER, wording drafted from feature bullets
+    sheets:
+      - {file: click2enter.pdf}
+    last_verified: 2026-06-11
+
+  click2enter-mfg:
+    title: Click2Enter (mfg cut sheet)
+    category: Receivers
+    scope: "{qty}) CLICK2ENTER PUBLIC SAFETY RADIO ACCESS SYSTEM"   # CHECK WORDING — same drafted wording as click2enter
+    sheets:
+      - {file: click2enter-mfg.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-850lm-860lm:
+    title: LiftMaster 850LM/860LM Universal Receivers
+    category: Receivers
+    scope: "{qty}) LIFTMASTER 850LM/860LM UNIVERSAL RECEIVERS"   # CHECK WORDING — 4-model mfg sheet (850LM/860LM receivers + 811LM/813LM remotes); scope names the receivers
+    sheets:
+      - {file: liftmaster-850lm-860lm.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-lm312hm:
+    title: LiftMaster LM312HM Receiver
+    category: Receivers
+    scope: "{qty}) LIFTMASTER LM312HM 315MHZ RECEIVERS"
+    sheets:
+      - {file: liftmaster-lm312hm.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-star1000:
+    title: LiftMaster STAR1000 Commercial Access Receiver
+    category: Receivers
+    scope: "{qty}) LIFTMASTER STAR1000 COMMERCIAL ACCESS RECEIVERS"
+    sheets:
+      - {file: liftmaster-star1000.pdf}
+    last_verified: 2026-06-11
+
+  linear-1099-30:
+    title: Linear MultiCode 1099-30 Receiver
+    category: Receivers
+    scope: "{qty}) LINEAR MULTICODE 1099-30 RECEIVERS"
+    sheets:
+      - {file: linear-1099-30.pdf}
+    last_verified: 2026-06-11
+
+  linear-amwor:
+    title: Linear AMWOR Receiver
+    category: Receivers
+    scope: "{qty}) LINEAR AMWOR 318MHZ RECEIVERS"
+    sheets:
+      - {file: linear-amwor.pdf}
+    last_verified: 2026-06-11
+
+  linear-ap-5:
+    title: Linear AP-5 Wireless Access Controller
+    category: Receivers
+    scope: "{qty}) LINEAR AP-5 WIRELESS ACCESS CONTROLLERS"
+    sheets:
+      - {file: linear-ap-5.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Remotes (imported from Incoming 2026-06-11) ----
+
+  liftmaster-371lm:
+    title: LiftMaster 371LM Single-Button Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 371LM SINGLE-BUTTON REMOTES"
+    sheets:
+      - {file: liftmaster-371lm.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-373lm:
+    title: LiftMaster 373LM 3-Button Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 373LM 3-BUTTON REMOTES"
+    sheets:
+      - {file: liftmaster-373lm.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-811lmx:
+    title: LiftMaster 811LMX Single-Button Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 811LMX SINGLE-BUTTON REMOTES"
+    sheets:
+      - {file: liftmaster-811lmx.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-890max:
+    title: LiftMaster 890MAX 3-Button Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 890MAX 3-BUTTON REMOTES"
+    sheets:
+      - {file: liftmaster-890max.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-893max:
+    title: LiftMaster 893MAX 3-Button Visor Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 893MAX 3-BUTTON VISOR REMOTES"
+    sheets:
+      - {file: liftmaster-893max.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-894lt:
+    title: LiftMaster 894LT 4-Button Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER 894LT 4-BUTTON REMOTES"
+    sheets:
+      - {file: liftmaster-894lt.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-passport-remotes:
+    title: LiftMaster Passport Remotes & PPWR Receiver (mfg)
+    category: Remotes
+    scope: "{qty}) LIFTMASTER PASSPORT CREDENTIALED REMOTE CONTROLS"   # CHECK WORDING — family mfg sheet — covers Passport Max/Lite remotes (PPV3M/PPK3M/PPK3PHM/PPLV1/PPLK1/PPLK1PH) plus the PPWR receiver; pick exact model wording at quote time
+    sheets:
+      - {file: liftmaster-passport-remotes.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-pplk1:
+    title: LiftMaster PPLK1/PPLK1PH Keychain Remote
+    category: Remotes
+    scope: "{qty}) LIFTMASTER PPLK1/PPLK1PH KEYCHAIN REMOTES"
+    sheets:
+      - {file: liftmaster-pplk1.pdf}
+    last_verified: 2026-06-11
+
+  linear-act-31b:
+    title: Linear ACT-31B Single-Button Transmitter
+    category: Remotes
+    scope: "{qty}) LINEAR ACT-31B SINGLE-BUTTON TRANSMITTER REMOTES"
+    sheets:
+      - {file: linear-act-31b.pdf}
+    last_verified: 2026-06-11
+
+  linear-mdt-1:
+    title: Linear MDT-1 Single-Button Transmitter
+    category: Remotes
+    scope: "{qty}) LINEAR MDT-1 SINGLE-BUTTON TRANSMITTER REMOTES"
+    sheets:
+      - {file: linear-mdt-1.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Strobes (imported from Incoming 2026-06-11) ----
+
+  enforcer-sl-1301:
+    title: Enforcer SL-1301 Series LED Strobe Lights
+    category: Strobes
+    scope: "{qty}) ENFORCER SL-1301 SERIES LED STROBE LIGHTS"   # CHECK WORDING — sheet covers SL-1301-EAQ/-BAQ/-SAQ variants (6/32/54 LED, SAQ adds 100dB siren) in 5 colors — model picked at quote time
+    sheets:
+      - {file: enforcer-sl-1301.pdf}
+    last_verified: 2026-06-11
+
+  federal-signal-vals:
+    title: Federal Signal VALS Visalert Strobe Light
+    category: Strobes
+    scope: "{qty}) FEDERAL SIGNAL VISALERT VALS STROBE LIGHT"
+    sheets:
+      - {file: federal-signal-vals.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-mx000997:
+    title: HySecurity MX000997 Amber Strobe Beacon
+    category: Strobes
+    scope: "{qty}) HYSECURITY MX000997 AMBER STROBE BEACON"
+    sheets:
+      - {file: hysecurity-mx000997.pdf}
+    last_verified: 2026-06-11
+
+  linear-2510:
+    title: Linear 2510 Strobe Lights
+    category: Strobes
+    scope: "{qty}) LINEAR 2510 STROBE LIGHTS"
+    sheets:
+      - {file: linear-2510.pdf}
+    last_verified: 2026-06-11
+
+  tomar-1790-1014-sm2:
+    title: Tomar 1790-1014-SM2 Strobe Switch (fire access)
+    category: Strobes
+    scope: "{qty}) TOMAR STROBE MODEL 1790-1014-SM2"
+    sheets:
+      - {file: tomar-1790-1014-sm2.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Timers (imported from Incoming 2026-06-11) ----
+
+  emx-ptm:
+    title: EMX PTM 7-Day Programmable Timer
+    category: Timers
+    scope: "{qty}) EMX PTM 7-DAY PROGRAMMABLE TIMER"
+    sheets:
+      - {file: emx-ptm.pdf}
+    last_verified: 2026-06-11
+
+  emx-ptm-mfg:
+    title: EMX PTM 7-Day Timer (mfg cut sheet)
+    category: Timers
+    scope: "{qty}) EMX PTM 7-DAY PROGRAMMABLE TIMER"
+    sheets:
+      - {file: emx-ptm-mfg.pdf}
+    last_verified: 2026-06-11
+
+  seco-larm-sa-027hq:
+    title: Seco-Larm SA-027HQ 365-Day Annual Timer
+    category: Timers
+    scope: "{qty}) SECO-LARM ENFORCER SA-027HQ 365-DAY ANNUAL TIMER"
+    sheets:
+      - {file: seco-larm-sa-027hq.pdf}
+    last_verified: 2026-06-11
+
+  seco-larm-sa-027hq-mfg:
+    title: Seco-Larm SA-027HQ 365-Day Timer (mfg cut sheet)
+    category: Timers
+    scope: "{qty}) SECO-LARM ENFORCER SA-027HQ 365-DAY ANNUAL TIMER"
+    sheets:
+      - {file: seco-larm-sa-027hq-mfg.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Barrier Gates (imported from Incoming 2026-06-11) ----
+
+  delta-scientific-tt212h:
+    title: Delta Scientific TT212H Cable Crash Beam Barrier
+    category: Barrier Gates
+    scope: |-
+      {qty}) DELTA SCIENTIFIC TT212H CABLE CRASH BEAM BARRIER
+       (18 FOOT +)
+    sheets:
+      - {file: delta-scientific-tt212h.pdf}
+    last_verified: 2026-06-11
+
+  dks-1601:
+    title: DoorKing 1601 Barrier Gate Operator
+    category: Barrier Gates
+    scope: "{qty}) DOORKING 1601 BARRIER GATE OPERATOR"
+    sheets:
+      - {file: dks-1601.pdf}
+    last_verified: 2026-06-11
+
+  dks-1601-mfg:
+    title: DoorKing 1601 Barrier Gate (mfg cut sheet)
+    category: Barrier Gates
+    scope: "{qty}) DOORKING 1601 BARRIER GATE OPERATOR"
+    sheets:
+      - {file: dks-1601-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1602-090:
+    title: DoorKing 1602-090 Barrier Arm Operator
+    category: Barrier Gates
+    scope: "{qty}) DOORKING 1602-090 BARRIER ARM OPERATOR"
+    sheets:
+      - {file: dks-1602-090.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-strongarm-m50:
+    title: HySecurity StrongArm M50 Crash Barrier Arm
+    category: Barrier Gates
+    scope: "{qty}) HYSECURITY STRONGARM M50 CRASH BARRIER ARM OPERATOR"
+    sheets:
+      - {file: hysecurity-strongarm-m50.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-strongarm-m50-generic:
+    title: HySecurity StrongArm M50 (generic Metro sheet)
+    category: Barrier Gates
+    scope: "{qty}) HYSECURITY STRONGARM M50 CRASH BARRIER ARM OPERATOR"   # CHECK WORDING — deliberate second Metro variant ('sans extra details') — same device as hysecurity-strongarm-m50 but without the 16' arm/208V specifics and option callouts; drop this item if one M50 Metro sheet is enough
+    sheets:
+      - {file: hysecurity-strongarm-m50-generic.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-strongarm-m50-mfg:
+    title: HySecurity StrongArm M50 (mfg cut sheet)
+    category: Barrier Gates
+    scope: "{qty}) HYSECURITY STRONGARM M50 CRASH BARRIER ARM OPERATOR"
+    sheets:
+      - {file: hysecurity-strongarm-m50-mfg.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-bg790:
+    title: LiftMaster BG790 Counterweighted Barrier Arm
+    category: Barrier Gates
+    scope: "{qty}) LIFTMASTER BG790 COUNTERWEIGHTED WISHBONE BARRIER ARM"
+    sheets:
+      - {file: liftmaster-bg790.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-ma-mat:
+    title: LiftMaster MA/MAT DC Barrier Gate Operator
+    category: Barrier Gates
+    scope: "{qty}) LIFTMASTER MA/MAT HIGH-TRAFFIC DC BARRIER GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-ma-mat.pdf}
+    last_verified: 2026-06-11
+
+  linear-bgus-sg:
+    title: Linear BGUS/SG Barrier Gate Operators
+    category: Barrier Gates
+    scope: "{qty}) LINEAR BGUS/SG SERIES BARRIER GATE OPERATOR"   # CHECK WORDING — family sheet — covers BGUS, BGUS-D, SG and SG-D models (arms 10–20 ft); pick model at quote time
+    sheets:
+      - {file: linear-bgus-sg.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-dm02:
+    title: Magnetic AutoControl DM02 Loop Detector Module
+    category: Loop Detectors
+    scope: "{qty}) MAGNETIC AUTOCONTROL DM02 LOOP DETECTOR MODULES"   # CHECK WORDING — loop detector cut sheet filed under Barrier Gates — looks like the mfg counterpart of library magnetic-loop-detector (whose Metro sheet has no model number); category assignment may need review
+    sheets:
+      - {file: magnetic-dm02.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-access-brochure:
+    title: Magnetic Access Barriers (4pg manufacturer brochure)
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC ACCESS SERIES BARRIER GATE OPERATOR"   # CHECK WORDING — 4-page family brochure covering Access, Access-L, Access Pro and Access Pro-L with technical data table — scope wording generic
+    sheets:
+      - {file: magnetic-access-brochure.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-access-pro:
+    title: Magnetic MicroDrive Access Pro Barrier Gate
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC MICRODRIVE ACCESS PRO BARRIER GATE OPERATOR"
+    sheets:
+      - {file: magnetic-access-pro.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-access-pro-l:
+    title: Magnetic MHTM Access Pro-L Barrier Gate
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC MHTM ACCESS PRO-L BARRIER GATE OPERATOR"
+    sheets:
+      - {file: magnetic-access-pro-l.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-gs01-boom-skirt:
+    title: Magnetic GS01 Barrier Boom Skirt
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC GS01 BARRIER BOOM SKIRTS"
+    sheets:
+      - {file: magnetic-gs01-boom-skirt.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-gue01-gue02-boom-skirt:
+    title: Magnetic GUE01/GUE02 Over-Climb Boom Skirt
+    category: Barrier Gates
+    scope: |-
+      {qty}) MAGNETIC GUE01/GUE02 BOOM SKIRTS WITH OVER-CLIMB
+       PROTECTION
+    sheets:
+      - {file: magnetic-gue01-gue02-boom-skirt.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-h1le:
+    title: Magnetic AutoControl H1LE Barrier Gate
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC AUTOCONTROL H1LE BARRIER GATE OPERATOR"
+    sheets:
+      - {file: magnetic-h1le.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-magstop-pendulum-support:
+    title: Magnetic MAGSTOP Pendulum Support & Boom Lock
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC MAGSTOP BOOM SUPPORT & LOCKING ACCESSORIES"   # CHECK WORDING — accessory info sheet covering pendulum support, support post and boom locking for MAGSTOP barriers — scope wording generic
+    sheets:
+      - {file: magnetic-magstop-pendulum-support.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-parking-pro:
+    title: Magnetic MicroDrive Parking Pro Barrier Gate
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC MICRODRIVE PARKING PRO BARRIER GATE OPERATOR"
+    sheets:
+      - {file: magnetic-parking-pro.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-access-xl2-xxl:
+    title: Magnetic Access XL2/XXL Wide Lane Barrier
+    category: Barrier Gates
+    scope: "{qty}) MAGNETIC ACCESS XL2/XXL WIDE LANE BARRIER GATE OPERATOR"
+    sheets:
+      - {file: magnetic-access-xl2-xxl.pdf}
+    last_verified: 2026-06-11
+
+  nasatka-nmsb-xii:
+    title: Nasatka NMSB XII Crash Beam Barrier
+    category: Barrier Gates
+    scope: "{qty}) NASATKA NMSB XII VERTICAL CRASH BEAM BARRIER"   # CHECK WORDING — 3pg mfg sheet covers DOS K12, engineer-rated K12 and K4 versions with 12'–24' openings — confirm rating/opening when quoting
+    sheets:
+      - {file: nasatka-nmsb-xii.pdf}
+    last_verified: 2026-06-11
+
+  # ---- COMBI (imported from Incoming 2026-06-11) ----
+
+  combi-ca-series:
+    title: Combi CA Series Sizing Chart & 395 Carriage (mfg)
+    category: COMBI
+    scope: "{qty}) COMBI CA SERIES CANTILEVER GATE TRACK SYSTEM"   # CHECK WORDING — series chart covers Small/Medium/Large systems (components CA395-CA465) — no single model for the scope line; p2 is the art. 395 carriage dimension table
+    sheets:
+      - {file: combi-ca-series.pdf}
+    last_verified: 2026-06-11
+
+  combi-9999-grande:
+    title: Combi 9999 Grande 9-Wheel Carriage (mfg drawing)
+    category: COMBI
+    scope: "{qty}) COMBI 9999 GRANDE 9-WHEEL CANTILEVER GATE CARRIAGES"
+    sheets:
+      - {file: combi-9999-grande.pdf}
+    last_verified: 2026-06-11
+
+  combi-9999-medio:
+    title: Combi 9999 Medio 9-Wheel Carriage (mfg drawing)
+    category: COMBI
+    scope: "{qty}) COMBI 9999 MEDIO 9-WHEEL CANTILEVER GATE CARRIAGES"
+    sheets:
+      - {file: combi-9999-medio.pdf}
+    last_verified: 2026-06-11
+
+  combi-399-track:
+    title: Combi 399 Galvanized Track (mfg cut sheet)
+    category: COMBI
+    scope: "{qty}) COMBI 399 GALVANIZED CANTILEVER GATE TRACK"
+    sheets:
+      - {file: combi-399-track.pdf}
+    last_verified: 2026-06-11
+
+  combi-large-track-dimensions:
+    title: Large Combi Track Cross-Section (drawing)
+    category: COMBI
+    scope: "{qty}) LARGE COMBI TRACK CROSS-SECTION DETAIL"   # CHECK WORDING — drawing carries only the handwritten label LARGE COMBI TRACK — no title block
+    sheets:
+      - {file: combi-large-track-dimensions.pdf}
+    last_verified: 2026-06-11
+
+  rolling-center-bg171800:
+    title: Rolling Center BG171800 Mega Magnum Track
+    category: COMBI
+    scope: "{qty}) ROLLING CENTER BG171800 HEAVY CANTILEVER GATE TRACK"   # CHECK WORDING — sheet has no trade name (TRACK 170X188 THICK.12 FOR HEAVY CANTILEVER GATES); DJA estimates quote this 170x188x12mm profile as Super Magnum series track — confirm preferred quoting name
+    sheets:
+      - {file: rolling-center-bg171800.pdf}
+    last_verified: 2026-06-11
+
+  rolling-center-lt013580:
+    title: Rolling Center LT013580 8-Wheel Carriage (Mega Magnum)
+    category: COMBI
+    scope: |-   # CHECK WORDING — sheet has no trade name (8 WHEEL-CARRIAGE FOR HEAVY CANTILEVER GATES); DJA sells this line as Super Magnum — confirm preferred quoting name
+      {qty}) ROLLING CENTER LT013580 8-WHEEL CARRIAGES FOR HEAVY
+       CANTILEVER GATES
+    sheets:
+      - {file: rolling-center-lt013580.pdf}
+      - {file: rolling-center-lt013580-drawing.pdf}
+    last_verified: 2026-06-11
+
+  fac-3000-hd:
+    title: FAC 3000H Heavy Cantilever System
+    category: COMBI
+    scope: "{qty}) FAC 3000H HEAVY CANTILEVER GATE TRACK SYSTEM"   # CHECK WORDING — series tech sheet (clearance to 82', max gate 7716 lb) — no single model; DJA estimates quote the carriage as F3010 HD with P.140Z track
+    sheets:
+      - {file: fac-3000-hd.pdf}
+      - {file: fac-3000-hd-carriage.pdf}
+    last_verified: 2026-06-11
+
+  fac-telescopic-kit:
+    title: FAC Telescopic Sliding Gate Kit (mfg brochure)
+    category: COMBI
+    scope: "{qty}) FAC TELESCOPIC MULTI-LEAF SLIDING GATE HARDWARE KIT"   # CHECK WORDING — novel device type — wording drafted from brochure cover (4-pp leaflet KA5102-M w/ component list + dimensioning table)
+    sheets:
+      - {file: fac-telescopic-kit.pdf}
+    last_verified: 2026-06-11
+
+  fac-bi-folding-kit:
+    title: FAC Bi-Folding Gate Kit (mfg brochure)
+    category: COMBI
+    scope: "{qty}) FAC BI-FOLDING GATE HARDWARE KIT"   # CHECK WORDING — novel device type — wording drafted from brochure cover (2-pp leaflet KC7101-B w/ component list + dimensioning table)
+    sheets:
+      - {file: fac-bi-folding-kit.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Concrete Footings (imported from Incoming 2026-06-11) ----
+
+  autogate-vpg-concrete:
+    title: AutoGate VPG Concrete Pad & Conduit Details (mfg)
+    category: Concrete Footings
+    scope: "{qty}) CONCRETE MOUNTING PAD FOR AUTOGATE VERTICAL PIVOT GATE"
+    sheets:
+      - {file: autogate-vpg-concrete.pdf}
+    last_verified: 2026-06-11
+
+  hb-rb-rebar-positioner:
+    title: Hohmann & Barnard RB Rebar Positioner
+    category: Concrete Footings
+    scope: "{qty}) HOHMANN & BARNARD RB REBAR POSITIONERS"
+    sheets:
+      - {file: hb-rb-rebar-positioner.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidedriver-pad:
+    title: HySecurity SlideDriver Series Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) HYSECURITY SLIDEDRIVER SERIES CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: hysecurity-slidedriver-pad.pdf}
+    last_verified: 2026-06-11
+
+  csl24ul-concrete-pad:
+    title: LiftMaster CSL24UL Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) LIFTMASTER CSL24UL CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: csl24ul-concrete-pad.pdf}
+    last_verified: 2026-06-11
+
+  csw-concrete-pad:
+    title: LiftMaster CSW Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) LIFTMASTER CSW CONCRETE MOUNTING PADS"   # CHECK WORDING — sheet TITLE reads only CONCRETE MOUNTING PAD — CSW identification from filename and operator photos
+    sheets:
+      - {file: csw-concrete-pad.pdf}
+    last_verified: 2026-06-11
+
+  matdc-concrete-pad:
+    title: LiftMaster MATDC Operator Footprint Pad
+    category: Concrete Footings
+    scope: "{qty}) LIFTMASTER MATDC CONCRETE MOUNTING PADS"   # CHECK WORDING — sheet TITLE reads only OPERATOR FOOTPRINT (24"x24"x24" pad, tower base) — MATDC identification from filename
+    sheets:
+      - {file: matdc-concrete-pad.pdf}
+    last_verified: 2026-06-11
+
+  max-1700-fs-pro-pad:
+    title: Max Controls 1700 FS Pro Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) MAX CONTROLS 1700 FS PRO CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: max-1700-fs-pro-pad.pdf}
+    last_verified: 2026-06-11
+
+  max-2200-pro-pad:
+    title: Max 2200 Pro Concrete Pad Placement (mfg sheet)
+    category: Concrete Footings
+    scope: "{qty}) MAX CONTROLS MAX 2200 PRO CONCRETE MOUNTING PADS"   # CHECK WORDING — mfg install page (UL 325 2018, Matrix III) covers MAX 1500 PRO / 2200 PRO / F18 PRO — filed by Metro as the 2200 PRO pad sheet
+    sheets:
+      - {file: max-2200-pro-pad.pdf}
+    last_verified: 2026-06-11
+
+  megatron-2200-hp-pro-pad:
+    title: Max Megatron 2200 HP Pro Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) MAX MEGATRON 2200 HP PRO CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: megatron-2200-hp-pro-pad.pdf}
+    last_verified: 2026-06-11
+
+  megatron-tank-pad:
+    title: Max Megatron Tank Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) MAX MEGATRON TANK CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: megatron-tank-pad.pdf}
+    last_verified: 2026-06-11
+
+  rhino-4000-fs-pad:
+    title: Max Rhino 4000 FS Concrete Mounting Pad
+    category: Concrete Footings
+    scope: "{qty}) MAX RHINO 4000 FS CONCRETE MOUNTING PADS"
+    sheets:
+      - {file: rhino-4000-fs-pad.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Concrete Mix Designs (imported from Incoming 2026-06-11) ----
+
+  oregon-onsite-pdx-3000:
+    title: Oregon On-Site PDX 3000 Mix Design (3000 PSI)
+    category: Concrete Mix Designs
+    scope: "• 3000 PSI CONCRETE PER OREGON ON-SITE PDX 3000 MIX DESIGN"   # CHECK WORDING — first mix-design sheets in the library — non-quantity bullet scope line modeled on the cleanup precedent
+    sheets:
+      - {file: oregon-onsite-pdx-3000.pdf}
+    last_verified: 2026-06-11
+
+  oregon-onsite-pdx-3500:
+    title: Oregon On-Site PDX 3500 Mix Design (3500 PSI)
+    category: Concrete Mix Designs
+    scope: "• 3500 PSI CONCRETE PER OREGON ON-SITE PDX 3500 MIX DESIGN"   # CHECK WORDING — first mix-design sheets in the library — non-quantity bullet scope line modeled on the cleanup precedent
+    sheets:
+      - {file: oregon-onsite-pdx-3500.pdf}
+    last_verified: 2026-06-11
+
+  oregon-onsite-pdx-4000:
+    title: Oregon On-Site PDX 4000 Mix Design (4000 PSI)
+    category: Concrete Mix Designs
+    scope: "• 4000 PSI CONCRETE PER OREGON ON-SITE PDX 4000 MIX DESIGN"   # CHECK WORDING — first mix-design sheets in the library — non-quantity bullet scope line modeled on the cleanup precedent
+    sheets:
+      - {file: oregon-onsite-pdx-4000.pdf}
+      - {file: oregon-onsite-pdx-4000-tests.pdf}
+    last_verified: 2026-06-11
+
+  oregon-onsite-pdx-5000:
+    title: Oregon On-Site PDX 5000 Mix Design (5000 PSI)
+    category: Concrete Mix Designs
+    scope: "• 5000 PSI CONCRETE PER OREGON ON-SITE PDX 5000 MIX DESIGN"   # CHECK WORDING — first mix-design sheets in the library — non-quantity bullet scope line modeled on the cleanup precedent
+    sheets:
+      - {file: oregon-onsite-pdx-5000.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gate Operator - Stands (imported from Incoming 2026-06-11) ----
+
+  hysecurity-slidedriver-base-extension:
+    title: HySecurity SlideDriver Base Extension
+    category: Gate Operator - Stands
+    scope: "{qty}) HYSECURITY SLIDEDRIVER SERIES BASE EXTENSIONS"
+    sheets:
+      - {file: hysecurity-slidedriver-base-extension.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-mrin:
+    title: LiftMaster MRIN Riser Kit (INSL24UL/IHSL24UL)
+    category: Gate Operator - Stands
+    scope: |-
+      {qty}) LIFTMASTER MRIN RISER KITS FOR INSL24UL & IHSL24UL
+       SLIDE GATE OPERATORS
+    sheets:
+      - {file: liftmaster-mrin.pdf}
+    last_verified: 2026-06-11
+
+  csl-steel-stand:
+    title: CSL Steel Stand (M&M Fab)
+    category: Gate Operator - Stands
+    scope: "{qty}) CUSTOM STEEL MOUNTING STAND FOR LIFTMASTER CSL OPERATOR"   # CHECK WORDING — CSL association from filename only; M&M Fab drawing is labeled SG-0014 with no device name
+    sheets:
+      - {file: csl-steel-stand.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gate Operators (imported from Incoming 2026-06-11) ----
+
+  hysecurity-base-extension-mfg:
+    title: HySecurity SlideDriver Base Extension (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER BASE EXTENSION"
+    sheets:
+      - {file: hysecurity-base-extension-mfg.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hycharger-dc:
+    title: HySecurity DC Power Supply w/HyCharger DC
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY DC POWER SUPPLY W/HYCHARGER DC"
+    sheets:
+      - {file: hysecurity-hycharger-dc.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hy5b-mfg:
+    title: HySecurity Hy5B 2.0 Vehicle Detector (mfg cut sheet)
+    category: Loop Detectors
+    scope: "{qty}) HYSECURITY HY5B 2.0 LOOP DETECTOR MODULES"
+    sheets:
+      - {file: hysecurity-hy5b-mfg.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hydrasupply-xl:
+    title: HySecurity HydraSupply XL Wedge Barrier HPU
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY HYDRASUPPLY XL UNIVERSAL WEDGE HPU"   # CHECK WORDING — novel device type (retrofit HPU for wedge barriers), wording from mfg cover
+    sheets:
+      - {file: hysecurity-hydrasupply-xl.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-internal-solenoid-lock:
+    title: HySecurity Internal Solenoid Lock (SlideDriver deadbolt)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER INTERNAL SOLENOID LOCK"
+    sheets:
+      - {file: hysecurity-internal-solenoid-lock.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-smarttouch-725-wiring:
+    title: HySecurity SmartTouch 725 Controller Connections (wiring)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SMARTTOUCH 725 CONTROLLER"   # CHECK WORDING — manual excerpt (Fig 19 controller connections, p34) — confirm quoting line
+    sheets:
+      - {file: hysecurity-smarttouch-725-wiring.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidedriver-snow-kit:
+    title: HySecurity SlideDriver Snow Kit
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER SNOW KIT"
+    sheets:
+      - {file: hysecurity-slidedriver-snow-kit.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-heater-kit:
+    title: HySecurity Heater Kit (heater strip & thermostat)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY COLD WEATHER HEATER KIT W/THERMOSTAT"
+    sheets:
+      - {file: hysecurity-heater-kit.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hydraswing:
+    title: HySecurity HydraSwing Hydraulic Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY HYDRASWING HYDRAULIC SWING GATE OPERATOR"   # CHECK WORDING — family sheet covers HSW40/40F/80F/150 — confirm model when quoting
+    sheets:
+      - {file: hysecurity-hydraswing.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-hydraswing-40f-twin:
+    title: HySecurity HydraSwing 40F Twin Dual Swing Gate Operator
+    category: Gate Operators
+    scope: |-
+      {qty}) HYSECURITY HYDRASWING 40F TWIN DUAL SWING
+       GATE OPERATOR
+    sheets:
+      - {file: hysecurity-hydraswing-40f-twin.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-sd15:
+    title: HySecurity SlideDriver II SD15
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER II SD15 SLIDE GATE OPENER"
+    sheets:
+      - {file: hysecurity-sd15.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-sd40:
+    title: HySecurity SlideDriver II SD40
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER II SD40 SLIDE GATE OPENER"
+    sheets:
+      - {file: hysecurity-sd40.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidedriver-ii-wiring:
+    title: HySecurity SlideDriver II Wiring Charts (wire sizing)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER II SLIDE GATE OPENER"   # CHECK WORDING — wiring reference (manual MX5386 Rev C pp31-33, all SD II models) — confirm quoting line
+    sheets:
+      - {file: hysecurity-slidedriver-ii-wiring.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidedriver-ii-modular:
+    title: HySecurity SlideDriver II Modular
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER II MODULAR SLIDE GATE OPERATOR"   # CHECK WORDING — covers SD40-M/SD50F-M/SD80V-M/SD200V-M modular variants — confirm model when quoting
+    sheets:
+      - {file: hysecurity-slidedriver-ii-modular.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-sd40-mfg:
+    title: HySecurity SlideDriver II SD40 (4pg manufacturer brochure)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDEDRIVER II SD40 SLIDE GATE OPENER"
+    sheets:
+      - {file: hysecurity-sd40-mfg.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidesmart-cnx:
+    title: HySecurity SlideSmart CNX Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDESMART CNX SLIDE GATE OPERATOR"
+    sheets:
+      - {file: hysecurity-slidesmart-cnx.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidesmart-dc:
+    title: HySecurity SlideSmart DC Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDESMART DC SLIDE GATE OPERATOR"   # CHECK WORDING — covers DC 10F/DC 15 (+DCS solar variants) — confirm model when quoting
+    sheets:
+      - {file: hysecurity-slidesmart-dc.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-slidesmart-hd:
+    title: HySecurity SlideSmart HD Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SLIDESMART HD SLIDE GATE OPERATOR"   # CHECK WORDING — covers HD15F/HD25/HD30 — confirm model when quoting
+    sheets:
+      - {file: hysecurity-slidesmart-hd.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-strongarm:
+    title: HySecurity StrongArm Barrier Arm Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY STRONGARM BARRIER ARM OPERATOR"
+    sheets:
+      - {file: hysecurity-strongarm.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-strongarm-wiring:
+    title: HySecurity StrongArm Wiring Charts (wire sizing)
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY STRONGARM BARRIER ARM OPERATOR"   # CHECK WORDING — wiring reference (manual MX3657-01 Rev G pp30-32) — confirm quoting line
+    sheets:
+      - {file: hysecurity-strongarm-wiring.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-swingsmart-dc:
+    title: HySecurity SwingSmart DC Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) HYSECURITY SWINGSMART DC SWING GATE OPERATOR"
+    sheets:
+      - {file: hysecurity-swingsmart-dc.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gate Operators (imported from Incoming 2026-06-11) ----
+
+  csw-lockable-cover:
+    title: Custom CSW Lockable Cover
+    category: Gate Operators
+    scope: "{qty}) LOCKABLE STEEL COVER FOR LIFTMASTER CSW OPERATOR"   # CHECK WORDING — 2017 Metro sheet titled only LOCKABLE COVER (padlock hasp for CSW series); confirm distinct product from the 2025 csw-steel-cover library sheet
+    sheets:
+      - {file: csw-lockable-cover.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-csl24ul:
+    title: LiftMaster CSL-24UL Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER ELITE CSL-24UL SLIDE GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-csl24ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-csw24ul:
+    title: LiftMaster CSW-24UL Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER ELITE CSW-24UL SWING GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-csw24ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-csw200ul:
+    title: LiftMaster CSW200UL Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER CSW200UL HIGH-TRAFFIC SWING GATE OPERATOR"   # CHECK WORDING — only the 2pp mfg cut sheet is current-tier (covers CSW200501UL 1/2HP + CSW200101UL 1HP); Metro house sheets for CSW-200UL exist only in the OLD tier (2019)
+    sheets:
+      - {file: liftmaster-csw200ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-hdsl24ul:
+    title: LiftMaster HDSL24UL Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER HDSL24UL HEAVY-DUTY SLIDE GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-hdsl24ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-hdsw24ul:
+    title: LiftMaster HDSW24UL Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER HDSW24UL HEAVY-DUTY SWING GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-hdsw24ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-hdsw24ul-mfg:
+    title: LiftMaster HDSW24UL (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER HDSW24UL HEAVY-DUTY SWING GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-hdsw24ul-mfg.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-insl24ul:
+    title: LiftMaster INSL24UL Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER INSL24UL HEAVY-DUTY SLIDE GATE OPERATOR"   # CHECK WORDING — 3pp doc assembled from mfg pages (brochure overview p2 + manual spec table p7 + earth ground rod step p15) — no Metro house sheet exists for INSL24UL; confirm the ground-rod page belongs in the submittal
+    sheets:
+      - {file: liftmaster-insl24ul.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-la500pkgul:
+    title: LiftMaster LA500PKGUL Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LIFTMASTER LA500PKGUL SWING GATE OPERATOR"
+    sheets:
+      - {file: liftmaster-la500pkgul.pdf}
+    last_verified: 2026-06-11
+
+  csw-stubup-lh:
+    title: CSW/HDSW Conduit Stub Up (LH)
+    category: Gate Operators
+    scope: "{qty}) CSW/HDSW CONDUIT STUB UP DETAIL (LH)"   # CHECK WORDING — wording mirrored from csw-stubup-rh — special-watch item: the long-missing LH counterpart; the RH entry's 'no LH sheet supplied' comment can be retired
+    sheets:
+      - {file: csw-stubup-lh.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gate Operators (imported from Incoming 2026-06-11) ----
+
+  all-o-matic-sl-150-dc:
+    title: All-O-Matic SL-150 DC Slider
+    category: Gate Operators
+    scope: "{qty}) ALL-O-MATIC SL-150 DC SLIDE GATE OPERATOR"
+    sheets:
+      - {file: all-o-matic-sl-150-dc.pdf}
+    last_verified: 2026-06-11
+
+  all-o-matic-sl-150-dc-mfg:
+    title: All-O-Matic SL-150 DC Slider (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) ALL-O-MATIC SL-150 DC SLIDE GATE OPERATOR"
+    sheets:
+      - {file: all-o-matic-sl-150-dc-mfg.pdf}
+    last_verified: 2026-06-11
+
+  all-o-matic-sw-300-dc:
+    title: All-O-Matic SW-300DC Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) ALL-O-MATIC SW-300DC SWING GATE OPERATOR"
+    sheets:
+      - {file: all-o-matic-sw-300-dc.pdf}
+    last_verified: 2026-06-11
+
+  all-o-matic-sw-375:
+    title: All-O-Matic SW-375 Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) ALL-O-MATIC SW-375 SWING GATE OPERATOR"
+    sheets:
+      - {file: all-o-matic-sw-375.pdf}
+    last_verified: 2026-06-11
+
+  bavak-speedgate-b-secure:
+    title: Bavak Speedgate B-secure High-Speed Gate
+    category: Gate Operators
+    scope: "{qty}) BAVAK SPEEDGATE B-SECURE HIGH-SPEED VEHICLE GATE"   # CHECK WORDING — novel device type (high-speed sliding gate system), wording drafted from mfg sheet
+    sheets:
+      - {file: bavak-speedgate-b-secure.pdf}
+    last_verified: 2026-06-11
+
+  byan-500-800-900-mfg:
+    title: Byan 500 & 800/900 Swing Operators (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) BYAN HYDRAULIC SWING GATE OPERATOR"   # CHECK WORDING — multi-model mfg line sheet (500, 800/900) — scope wording generic
+    sheets:
+      - {file: byan-500-800-900-mfg.pdf}
+    last_verified: 2026-06-11
+
+  byan-500:
+    title: Byan 500 Residential Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) BYAN 500 RESIDENTIAL HYDRAULIC SWING GATE OPERATOR"
+    sheets:
+      - {file: byan-500.pdf}
+    last_verified: 2026-06-11
+
+  byan-800-900:
+    title: Byan 800/900 Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) BYAN 800/900 HYDRAULIC SWING GATE OPERATOR"
+    sheets:
+      - {file: byan-800-900.pdf}
+    last_verified: 2026-06-11
+
+  byan-800-900-mfg:
+    title: Byan 800/900 Continuous Duty Operator (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) BYAN 800/900 HYDRAULIC SWING GATE OPERATOR"
+    sheets:
+      - {file: byan-800-900-mfg.pdf}
+    last_verified: 2026-06-11
+
+  byan-g2m:
+    title: Byan G2M Plus Microprocessor Board
+    category: Gate Operators
+    scope: "{qty}) BYAN G2M PLUS MICROPROCESSOR CONTROL BOARDS"
+    sheets:
+      - {file: byan-g2m.pdf}
+    last_verified: 2026-06-11
+
+  byan-g2m-mfg:
+    title: Byan G2M Microprocessor & Pre Wire (mfg cut sheet)
+    category: Gate Operators
+    scope: "{qty}) BYAN G2M PLUS MICROPROCESSOR CONTROL BOARDS"
+    sheets:
+      - {file: byan-g2m-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-2351-080:
+    title: DoorKing 2351-080 Tracker Expansion Board
+    category: Gate Operators
+    scope: "{qty}) DOORKING 2351-080 TRACKER EXPANSION BOARDS"
+    sheets:
+      - {file: dks-2351-080.pdf}
+    last_verified: 2026-06-11
+
+  dks-6006:
+    title: DoorKing 6006 Swing Gate Actuator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 6006 VEHICULAR SWING GATE ACTUATOR"
+    sheets:
+      - {file: dks-6006.pdf}
+    last_verified: 2026-06-11
+
+  dks-6524:
+    title: DoorKing 6524 AC/DC Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 6524 VEHICULAR AC/DC SWING GATE OPERATOR"
+    sheets:
+      - {file: dks-6524.pdf}
+    last_verified: 2026-06-11
+
+  dks-6550:
+    title: DoorKing 6550 Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 6550 VEHICULAR SWING GATE OPERATOR"
+    sheets:
+      - {file: dks-6550.pdf}
+    last_verified: 2026-06-11
+
+  dks-9024:
+    title: DoorKing 9024 AC/DC Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 9024 VEHICULAR AC/DC SLIDE GATE OPERATOR"
+    sheets:
+      - {file: dks-9024.pdf}
+    last_verified: 2026-06-11
+
+  dks-9150:
+    title: DoorKing 9150 Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 9150 VEHICULAR SLIDE GATE OPERATOR"
+    sheets:
+      - {file: dks-9150.pdf}
+    last_verified: 2026-06-11
+
+  dks-9310:
+    title: DoorKing 9310 Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) DOORKING 9310 VEHICULAR SLIDE GATE OPERATOR"
+    sheets:
+      - {file: dks-9310.pdf}
+    last_verified: 2026-06-11
+
+  dks-swing-operators-brochure:
+    title: DoorKing AC & DC Swing Gate Operators (mfg brochure)
+    category: Gate Operators
+    scope: "{qty}) DOORKING AC/DC VEHICULAR SWING GATE OPERATOR"   # CHECK WORDING — multi-model tri-fold brochure (6050/6100/6300/6500/6550/6524) — scope wording generic
+    sheets:
+      - {file: dks-swing-operators-brochure.pdf}
+    last_verified: 2026-06-11
+
+  linear-apex-ii:
+    title: Linear ApeX II Control Board
+    category: Gate Operators
+    scope: "{qty}) LINEAR APEX II GATE OPERATOR CONTROL BOARDS"
+    sheets:
+      - {file: linear-apex-ii.pdf}
+    last_verified: 2026-06-11
+
+  linear-hslg-2:
+    title: Linear HSLG-2 Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) LINEAR HSLG-2 SLIDE GATE OPERATOR"
+    sheets:
+      - {file: linear-hslg-2.pdf}
+    last_verified: 2026-06-11
+
+  max-megatron-2200-fast-plus:
+    title: Max Controls Megatron 2200 Fast Plus Swing Gate Operator
+    category: Gate Operators
+    scope: |-
+      {qty}) MAX CONTROLS MEGATRON 2200 FAST PLUS SWING GATE
+       OPERATOR
+    sheets:
+      - {file: max-megatron-2200-fast-plus.pdf}
+    last_verified: 2026-06-11
+
+  max-megatron-2200-hp-pro:
+    title: Max Controls Megatron 2200 HP Pro Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) MAX CONTROLS MEGATRON 2200 HP PRO SWING GATE OPERATOR"
+    sheets:
+      - {file: max-megatron-2200-hp-pro.pdf}
+    last_verified: 2026-06-11
+
+  max-megatron-tank:
+    title: Max Controls Megatron Tank Swing Gate Operator
+    category: Gate Operators
+    scope: "{qty}) MAX CONTROLS MEGATRON TANK SWING GATE OPERATOR"
+    sheets:
+      - {file: max-megatron-tank.pdf}
+    last_verified: 2026-06-11
+
+  max-rhino-4000-fs:
+    title: Max Controls Rhino 4000 FS Slide Gate Operator
+    category: Gate Operators
+    scope: "{qty}) MAX CONTROLS RHINO 4000 FS SLIDE GATE OPERATOR"
+    sheets:
+      - {file: max-rhino-4000-fs.pdf}
+    last_verified: 2026-06-11
+
+  tymetal-tym-200-sw:
+    title: TyMetal TYM-200-SW Swing Gate System (drawing)
+    category: Gate Operators
+    scope: "{qty}) TYMETAL TYM-200-SW SWING SECURITY GATE SYSTEM"
+    sheets:
+      - {file: tymetal-tym-200-sw.pdf}
+    last_verified: 2026-06-11
+
+  tymetal-tym-hyd-b-chainlink:
+    title: TyMetal TYM-HYD-B Gate System, Chain Link (drawing)
+    category: Gate Operators
+    scope: |-
+      {qty}) TYMETAL TYM-HYD-B SECURITY GATE SYSTEM WITH BOX FRAME
+       CANTILEVER GATE
+    sheets:
+      - {file: tymetal-tym-hyd-b-chainlink.pdf}
+    last_verified: 2026-06-11
+
+  tymetal-tym-hyd-b-ornamental:
+    title: TyMetal TYM-HYD-B Gate System, Ornamental (drawing)
+    category: Gate Operators
+    scope: |-
+      {qty}) TYMETAL TYM-HYD-B SECURITY GATE SYSTEM WITH ORNAMENTAL
+       BOX FRAME CANTILEVER GATE
+    sheets:
+      - {file: tymetal-tym-hyd-b-ornamental.pdf}
+    last_verified: 2026-06-11
+
+  tymetal-tym-hyd-vf2-3:
+    title: TyMetal TYM-HYD-VF2/3 Fortress Slide Gate & Operator
+    category: Gate Operators
+    scope: |-
+      {qty}) TYMETAL TYM-HYD-VF2/3 FORTRESS BOX FRAME CANTILEVER
+       SLIDE GATE & OPERATOR SYSTEM
+    sheets:
+      - {file: tymetal-tym-hyd-vf2-3.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Posts, Stands, Goosenecks (imported from Incoming 2026-06-11) ----
+
+  capxl-stand-bk08:
+    title: LiftMaster CAPXL Stand (BK08)
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) MOUNTING STAND FOR LIFTMASTER CAPXL"
+    sheets:
+      - {file: capxl-stand-bk08.pdf}
+    last_verified: 2026-06-11
+
+  dks-1200-049:
+    title: DoorKing 1200-049 Dual-Height Stand
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DOORKING 1200-049 DUAL-HEIGHT STANDS"
+    sheets:
+      - {file: dks-1200-049.pdf}
+    last_verified: 2026-06-11
+
+  dks-1835-herc-stand:
+    title: DoorKing 1835 Herc Stand
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DOORKING 1835 HERC MOUNTING STANDS"
+    sheets:
+      - {file: dks-1835-herc-stand.pdf}
+    last_verified: 2026-06-11
+
+  dks-1835-stand:
+    title: DoorKing 1835 Stand
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DOORKING 1835 MOUNTING STANDS"
+    sheets:
+      - {file: dks-1835-stand.pdf}
+    last_verified: 2026-06-11
+
+  dks-mounting-posts:
+    title: DoorKing Mounting Posts (mfg cut sheet)
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DOORKING ACCESS CONTROL MOUNTING POSTS"   # CHECK WORDING — family cut sheet (designer/architectural/gooseneck/dual/standard styles), post model picked at quote time
+    sheets:
+      - {file: dks-mounting-posts.pdf}
+    last_verified: 2026-06-11
+
+  dks-mounting-posts-brochure:
+    title: DoorKing Mounting Posts (5pg manufacturer brochure)
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DOORKING ACCESS CONTROL MOUNTING POSTS"   # CHECK WORDING — family brochure, same wording caveat as dks-mounting-posts
+    sheets:
+      - {file: dks-mounting-posts-brochure.pdf}
+    last_verified: 2026-06-11
+
+  capxl-herc-stand-bk08:
+    title: LiftMaster CAPXL Herc Stand (BK08)
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) HERC MOUNTING STAND FOR LIFTMASTER CAPXL"   # CHECK WORDING — CAPXL association from filename; drawing title block reads BK08 - STAND only
+    sheets:
+      - {file: capxl-herc-stand-bk08.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-dual-42-75:
+    title: Custom Dual-Height Herc Stand (42" & 75¼")
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) CUSTOM DUAL-HEIGHT HERC MOUNTING STANDS (42” & 75¼”)"   # CHECK WORDING — filename says 75.5”, drawing dimension reads 75¼”; sheet titled CUSTOM HERC STAND / BASIC DESIGN
+    sheets:
+      - {file: herc-stand-dual-42-75.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-dual-4x4:
+    title: Dual-Height 4x4 Hercules Stand
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) DUAL-HEIGHT 4” x 4” HERCULES STANDS"
+    sheets:
+      - {file: herc-stand-dual-4x4.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-large-5x5:
+    title: Large 5x5 Hercules Stand (62")
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) LARGE 5” x 5” HERCULES STANDS"
+    sheets:
+      - {file: herc-stand-large-5x5.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-standard-4x4:
+    title: Standard 4x4 Hercules Stand (60")
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) STANDARD 4” x 4” HERCULES STANDS"
+    sheets:
+      - {file: herc-stand-standard-4x4.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-78:
+    title: Basic Hercules Stand (78")
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 78” BASIC HERCULES STANDS"
+    sheets:
+      - {file: herc-stand-78.pdf}
+    last_verified: 2026-06-11
+
+  herc-stand-truck-72:
+    title: Truck Height Hercules Stand (72")
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) 72” TRUCK HEIGHT HERCULES STANDS"
+    sheets:
+      - {file: herc-stand-truck-72.pdf}
+    last_verified: 2026-06-11
+
+  pedestal-pro-42-9c:
+    title: Pedestal Pro 42-9C Gooseneck Pedestal
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) PEDESTAL PRO 42-9C GOOSENECK MOUNTING PEDESTALS"
+    sheets:
+      - {file: pedestal-pro-42-9c.pdf}
+    last_verified: 2026-06-11
+
+  sentinel-14030r:
+    title: Sentinel 14030R Swing Barrier Receiver Post
+    category: Posts, Stands, Goosenecks
+    scope: "{qty}) SENTINEL SWING BARRIER RECEIVER POSTS (14030R)"
+    sheets:
+      - {file: sentinel-14030r.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  aiphone-is-ss-2g:
+    title: Aiphone IS-SS-2G Door Station
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-SS-2G STAINLESS STEEL DOOR STATION"
+    sheets:
+      - {file: aiphone-is-ss-2g.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-lef-10c:
+    title: Aiphone LEF-10C 10-Call Master Station
+    category: Access Control
+    scope: "{qty}) AIPHONE LEF-10C 10-CALL MASTER STATION"
+    sheets:
+      - {file: aiphone-lef-10c.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-is-setup:
+    title: Aiphone IS Series Setup & Wiring (catalog pages)
+    category: Access Control
+    scope: "{qty}) AIPHONE IS SERIES VIDEO INTERCOM SYSTEM"   # CHECK WORDING — catalog setup extract (pp. 21 & 111: IS wiring distances, station dimensions, UL power supplies) — confirm quoting line
+    sheets:
+      - {file: aiphone-is-setup.pdf}
+    last_verified: 2026-06-11
+
+  cellgate-watchman-evo-w460:
+    title: CellGate Watchman EVO W460 Video Telephone Entry
+    category: Access Control
+    scope: "{qty}) CELLGATE WATCHMAN EVO W460 VIDEO TELEPHONE ENTRY"
+    sheets:
+      - {file: cellgate-watchman-evo-w460.pdf}
+    last_verified: 2026-06-11
+
+  cellgate-watchman-w410:
+    title: CellGate Watchman W410 Telephone Entry
+    category: Access Control
+    scope: "{qty}) CELLGATE WATCHMAN W410 TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: cellgate-watchman-w410.pdf}
+    last_verified: 2026-06-11
+
+  doorbird-d2101kh:
+    title: DoorBird D2101KH IP Video Intercom
+    category: Access Control
+    scope: "{qty}) DOORBIRD D2101KH IP VIDEO INTERCOM"   # CHECK WORDING — Metro title cell reads DOORBIRD DK101KH — likely typo for D2101KH (filename + matching DK21XKH enclosure); confirm model
+    sheets:
+      - {file: doorbird-d2101kh.pdf}
+    last_verified: 2026-06-11
+
+  doorbird-dk21xkh:
+    title: DoorBird DK21XKH Rain Hood
+    category: Access Control
+    scope: "{qty}) DOORBIRD DK21XKH STAINLESS STEEL RAIN HOOD"
+    sheets:
+      - {file: doorbird-dk21xkh.pdf}
+    last_verified: 2026-06-11
+
+  dks-1800-1801-080:
+    title: DoorKing 1800-080/1801-080 Cellular Connection
+    category: Access Control
+    scope: |-   # CHECK WORDING — one sheet covers 1800-080 (voice only) and 1801-080 (voice + data) — confirm model when quoting
+      {qty}) DOORKING 1800-080/1801-080 TELEPHONE ENTRY
+       CELLULAR CONNECTION
+    sheets:
+      - {file: dks-1800-1801-080.pdf}
+    last_verified: 2026-06-11
+
+  dks-1802epd:
+    title: DoorKing 1802-EPD Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1802-EPD TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1802epd.pdf}
+    last_verified: 2026-06-11
+
+  dks-1802epd-mfg:
+    title: DoorKing 1802-EPD Telephone Entry (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) DOORKING 1802-EPD TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1802epd-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-classic-mfg:
+    title: DoorKing 1812 Classic Telephone Intercom (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) DOORKING 1812 CLASSIC TELEPHONE INTERCOM SYSTEM"
+    sheets:
+      - {file: dks-1812-classic-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-plus-mfg:
+    title: DoorKing 1812 Plus Telephone Entry (4pg mfg brochure)
+    category: Access Control
+    scope: "{qty}) DOORKING 1812 PLUS TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1812-plus-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-series-mfg:
+    title: DoorKing 1812 Series Telephone Entry (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) DOORKING 1812 SERIES TELEPHONE ENTRY SYSTEM"   # CHECK WORDING — single sheet covers 1812, 1812 Plus and 1812 Access Plus — confirm model when quoting
+    sheets:
+      - {file: dks-1812-series-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-089:
+    title: DoorKing 1812-089 Classic Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1812-089 CLASSIC TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1812-089.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-090:
+    title: DoorKing 1812-090 Classic Telephone Entry (Access Plus)
+    category: Access Control
+    scope: "{qty}) DOORKING 1812-090 CLASSIC TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1812-090.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-095:
+    title: DoorKing 1812-095 Curved Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1812-095 CURVED TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1812-095.pdf}
+    last_verified: 2026-06-11
+
+  dks-1812-096:
+    title: DoorKing 1812-096 Curved Telephone Entry (Access Plus)
+    category: Access Control
+    scope: "{qty}) DOORKING 1812-096 CURVED TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1812-096.pdf}
+    last_verified: 2026-06-11
+
+  dks-1834-080:
+    title: DoorKing 1834 80 Series Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1834 80 SERIES TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1834-080.pdf}
+    last_verified: 2026-06-11
+
+  dks-1835-mfg:
+    title: DoorKing 1835 PC Programmable Telephone Entry (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) DOORKING 1835 PC PROGRAMMABLE TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1835-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1835-080:
+    title: DoorKing 1835-080 Surface Mount Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1835-080 SURFACE MOUNT TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1835-080.pdf}
+    last_verified: 2026-06-11
+
+  dks-1835-089:
+    title: DoorKing 1835-089 Wall Mount Telephone Entry
+    category: Access Control
+    scope: "{qty}) DOORKING 1835-089 WALL MOUNT TELEPHONE ENTRY SYSTEM"
+    sheets:
+      - {file: dks-1835-089.pdf}
+    last_verified: 2026-06-11
+
+  dks-2112-evolve:
+    title: DoorKing 2112 eVolve Video Entry System
+    category: Access Control
+    scope: "{qty}) DOORKING 2112 EVOLVE VIDEO ENTRY SYSTEM"
+    sheets:
+      - {file: dks-2112-evolve.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-capxlv2:
+    title: LiftMaster CAPXLV2 Smart Video Intercom
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAPXLV2 SMART VIDEO INTERCOM"
+    sheets:
+      - {file: liftmaster-capxlv2.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-capxm:
+    title: LiftMaster CAPXM Smart Video Intercom
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAPXM SMART VIDEO INTERCOM"
+    sheets:
+      - {file: liftmaster-capxm.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-capxs:
+    title: LiftMaster CAPXS Smart Video Intercom
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAPXS SMART VIDEO INTERCOM"
+    sheets:
+      - {file: liftmaster-capxs.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-ipac:
+    title: LiftMaster IPAC Access Control (4pg mfg brochure)
+    category: Access Control
+    scope: "{qty}) LIFTMASTER IPAC INTERNET PROTOCOL ACCESS CONTROL"
+    sheets:
+      - {file: liftmaster-ipac.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  aiphone-is-ccu:
+    title: Aiphone IS-CCU Central Control Unit
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-CCU CENTRAL CONTROL UNIT"   # CHECK WORDING — Metro title cell reads only IS-CCU; 'central control unit' from Aiphone IS-series naming (same situation as aiphone-is-scu)
+    sheets:
+      - {file: aiphone-is-ccu.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-is-rack:
+    title: Aiphone IS-RACK Rack Mounting Shelf
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-RACK 19” RACK MOUNTING SHELF"
+    sheets:
+      - {file: aiphone-is-rack.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-is-rcu:
+    title: Aiphone IS-RCU Room Station Control Unit
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-RCU ROOM STATION CONTROL UNIT"   # CHECK WORDING — Metro title cell reads only IS-RCU; 'room station control unit' from filename and the sheet's IS-SS/IS-RS feature notes
+    sheets:
+      - {file: aiphone-is-rcu.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs-ipdc:
+    title: Brivo ACS IP Door Controller (IPDC)
+    category: Access Control
+    scope: "{qty}) BRIVO ACS IP DOOR CONTROLLER"
+    sheets:
+      - {file: brivo-acs-ipdc.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs5000-5008-s:
+    title: Brivo ACS5000-S/ACS5008-S Control Panels
+    category: Access Control
+    scope: "{qty}) BRIVO ACS5000-S/ ACS5008-S CONTROL PANEL"
+    sheets:
+      - {file: brivo-acs5000-5008-s.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs5000-edge:
+    title: Brivo ACS5000-Edge Door Controller
+    category: Access Control
+    scope: "{qty}) BRIVO ACS5000-EDGE IP DOOR CONTROLLER"
+    sheets:
+      - {file: brivo-acs5000-edge.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs6000-6008:
+    title: Brivo ACS6000/ACS6008 Series Control Panel
+    category: Access Control
+    scope: "{qty}) BRIVO ACS6000/ ACS6008 SERIES CONTROL PANEL"
+    sheets:
+      - {file: brivo-acs6000-6008.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs6100:
+    title: Brivo ACS6100 Series Control Panel
+    category: Access Control
+    scope: "{qty}) BRIVO ACS6100 SERIES CONTROL PANEL"
+    sheets:
+      - {file: brivo-acs6100.pdf}
+    last_verified: 2026-06-11
+
+  brivo-cellular-network-module:
+    title: Brivo Cellular Network Module
+    category: Access Control
+    scope: "{qty}) BRIVO CELLULAR NETWORK MODULE"
+    sheets:
+      - {file: brivo-cellular-network-module.pdf}
+    last_verified: 2026-06-11
+
+  brivo-acs300:
+    title: Brivo ACS300 Controller
+    category: Access Control
+    scope: "{qty}) BRIVO ACS300 CONTROLLER"
+    sheets:
+      - {file: brivo-acs300.pdf}
+    last_verified: 2026-06-11
+
+  dsx-1048:
+    title: DSX 1048 Intelligent Controller
+    category: Access Control
+    scope: "{qty}) DSX-1048 INTELLIGENT CONTROLLER"
+    sheets:
+      - {file: dsx-1048.pdf}
+    last_verified: 2026-06-11
+
+  dsx-lan-d:
+    title: DSX LAN-D LAN Communications Module
+    category: Access Control
+    scope: "{qty}) DSX-LAN-D LAN COMMUNICATIONS MODULE"
+    sheets:
+      - {file: dsx-lan-d.pdf}
+    last_verified: 2026-06-11
+
+  dsx-windsx-software:
+    title: DSX WinDSX Access Control Software
+    category: Access Control
+    scope: "{qty}) DSX WINDSX ACCESS CONTROL SOFTWARE"   # CHECK WORDING — 5pp software overview; sheet title block is 'Access Control - Microsoft Access & SQL Server Editions', WinDSX/WinDSX-SQL from body text - filename says WinStart but that name appears nowhere in the document
+    sheets:
+      - {file: dsx-windsx-software.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-cap2d:
+    title: LiftMaster CAP2D Smart Access Door Controller
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAP2D SMART ACCESS DOOR CONTROLLER"
+    sheets:
+      - {file: liftmaster-cap2d.pdf}
+    last_verified: 2026-06-11
+
+  maxsys-pc4020:
+    title: Maxsys PC4020 Control Panel
+    category: Access Control
+    scope: "{qty}) MAXSYS PC4020 16 TO 128 ZONE CONTROL PANEL"
+    sheets:
+      - {file: maxsys-pc4020.pdf}
+    last_verified: 2026-06-11
+
+  pti-falcon-xt:
+    title: PTI Falcon XT System Controller
+    category: Access Control
+    scope: "{qty}) PTI FALCON XT SYSTEM CONTROLLER"
+    sheets:
+      - {file: pti-falcon-xt.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  aiphone-is-pu-ul:
+    title: Aiphone IS-PU-UL Power Supply
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-PU-UL 48VDC POWER SUPPLIES"
+    sheets:
+      - {file: aiphone-is-pu-ul.pdf}
+    last_verified: 2026-06-11
+
+  aiphone-ps-1208ul:
+    title: Aiphone PS-1208UL Power Supply
+    category: Access Control
+    scope: "{qty}) AIPHONE PS-1208UL 12VDC POWER SUPPLIES"
+    sheets:
+      - {file: aiphone-ps-1208ul.pdf}
+    last_verified: 2026-06-11
+
+  altronix-acmcb:
+    title: Altronix ACMCB Series Power Supply/Chargers
+    category: Access Control
+    scope: "{qty}) ALTRONIX ACMCB SERIES POWER SUPPLY/CHARGERS"   # CHECK WORDING — 4pp series sheet — power supply/charger + 8-output access power controller combos, 12VDC/24VDC — confirm exact model when quoting
+    sheets:
+      - {file: altronix-acmcb.pdf}
+    last_verified: 2026-06-11
+
+  altronix-al175ulx:
+    title: Altronix AL175ULX Power Supply/Charger
+    category: Access Control
+    scope: "{qty}) ALTRONIX AL175ULX 12/24VDC POWER SUPPLY/CHARGERS"
+    sheets:
+      - {file: altronix-al175ulx.pdf}
+    last_verified: 2026-06-11
+
+  altronix-al400ulx:
+    title: Altronix AL400ULX Series Power Supply/Chargers
+    category: Access Control
+    scope: "{qty}) ALTRONIX AL400ULX SERIES POWER SUPPLY/CHARGERS"   # CHECK WORDING — 5pp series sheet — 12VDC/4A or 24VDC/3A with 1/4/8/16-output versions (AL400ULX/PD4/PD8/PD16CB) — confirm model when quoting
+    sheets:
+      - {file: altronix-al400ulx.pdf}
+    last_verified: 2026-06-11
+
+  tdk-lambda-rws-b:
+    title: TDK-Lambda RWS-B Series Power Supply
+    category: Access Control
+    scope: "{qty}) TDK-LAMBDA RWS-B SERIES POWER SUPPLIES"   # CHECK WORDING — general-purpose 50-600W single-output series, multiple voltage models — confirm wattage/voltage when quoting
+    sheets:
+      - {file: tdk-lambda-rws-b.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  awid-lr-2000:
+    title: AWID LR-2000 Extra Long-Range Reader
+    category: Access Control
+    scope: "{qty}) AWID LR-2000 EXTRA LONG-RANGE UHF READERS"
+    sheets:
+      - {file: awid-lr-2000.pdf}
+    last_verified: 2026-06-11
+
+  brivo-b-bspkf-b:
+    title: Brivo B-BSPKF-B Smart Reader w/ Keypad
+    category: Access Control
+    scope: "{qty}) BRIVO B-BSPKF-B SINGLE GANG TRI-TECHNOLOGY READERS W/ KEYPAD"
+    sheets:
+      - {file: brivo-b-bspkf-b.pdf}
+    last_verified: 2026-06-11
+
+  brivo-b-bspsf-b:
+    title: Brivo B-BSPSF-B Smart Reader (w/ LiftMaster & DKS)
+    category: Access Control
+    scope: "{qty}) BRIVO B-BSPSF-B SINGLE GANG TRI-TECHNOLOGY READERS"
+    sheets:
+      - {file: brivo-b-bspsf-b.pdf}
+    last_verified: 2026-06-11
+
+  brivo-smart-readers-mfg:
+    title: Brivo Smart Readers (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) BRIVO SMART READERS (B-BS/B-BSP SERIES)"   # CHECK WORDING — family mfg sheet covers B-BSMF/B-BSSF/B-BSKF/B-BSPMF/B-BSPSF/B-BSPKF — confirm model when quoting
+    sheets:
+      - {file: brivo-smart-readers-mfg.pdf}
+    last_verified: 2026-06-11
+
+  hid-5335a:
+    title: HID ProxReader 5335A
+    category: Access Control
+    scope: "{qty}) HID PROXREADER 5335A PROXIMITY READERS"
+    sheets:
+      - {file: hid-5335a.pdf}
+    last_verified: 2026-06-11
+
+  hid-proxpoint:
+    title: HID ProxPoint Reader
+    category: Access Control
+    scope: "{qty}) HID PROXPOINT PROXIMITY READERS"
+    sheets:
+      - {file: hid-proxpoint.pdf}
+    last_verified: 2026-06-11
+
+  hid-signo-readers:
+    title: HID Signo Readers 20/40/20K/40K
+    category: Access Control
+    scope: "{qty}) HID SIGNO 20/40/20K/40K CARD READERS"   # CHECK WORDING — family mfg sheet covers Signo 20, 40, 20K and 40K — confirm model when quoting
+    sheets:
+      - {file: hid-signo-readers.pdf}
+    last_verified: 2026-06-11
+
+  hid-iclass-r90:
+    title: HID iCLASS R90 Long Range Reader
+    category: Access Control
+    scope: "{qty}) HID ICLASS R90 LONG RANGE READERS"
+    sheets:
+      - {file: hid-iclass-r90.pdf}
+    last_verified: 2026-06-11
+
+  hid-iclass-readers:
+    title: HID iCLASS Readers R10/R15/R30/R40/RK40
+    category: Access Control
+    scope: "{qty}) HID ICLASS CONTACTLESS SMART CARD READERS"   # CHECK WORDING — family mfg sheet covers R10/R15/R30/R40/RK40 — confirm model when quoting
+    sheets:
+      - {file: hid-iclass-readers.pdf}
+    last_verified: 2026-06-11
+
+  hid-multiclass-readers:
+    title: HID multiCLASS Readers RP15/RP40/RPK40
+    category: Access Control
+    scope: "{qty}) HID MULTICLASS RP15/RP40/RPK40 CARD READERS"   # CHECK WORDING — family mfg sheet covers RP15/RP40/RPK40 — confirm model when quoting
+    sheets:
+      - {file: hid-multiclass-readers.pdf}
+    last_verified: 2026-06-11
+
+  hid-multiclass-se-readers:
+    title: HID multiCLASS SE Readers RP10/RP15/RP40/RPK40
+    category: Access Control
+    scope: "{qty}) HID MULTICLASS SE RP10/RP15/RP40/RPK40 CARD READERS"   # CHECK WORDING — family mfg sheet covers RP10/RP15/RP40/RPK40 — confirm model when quoting
+    sheets:
+      - {file: hid-multiclass-se-readers.pdf}
+    last_verified: 2026-06-11
+
+  hid-pivclass-readers:
+    title: HID pivCLASS RK40/RPK40 Readers (FIPS 201)
+    category: Access Control
+    scope: "{qty}) HID PIVCLASS RK40/RPK40 FIPS 201 READERS"   # CHECK WORDING — sheet covers RK40 and RPK40 (keypad) — confirm model when quoting
+    sheets:
+      - {file: hid-pivclass-readers.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-lmsc1000:
+    title: LiftMaster LMSC1000 RFID Long-Range Reader & Tags
+    category: Access Control
+    scope: "{qty}) LIFTMASTER LMSC1000 RFID LONG-RANGE READERS"   # CHECK WORDING — sheet covers LMSC1000 reader plus LMUNTG/LMHNTG vehicle tags; scope names the reader
+    sheets:
+      - {file: liftmaster-lmsc1000.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-srdrst-srdrkp:
+    title: LiftMaster SRDRST/SRDRKP Smart Readers
+    category: Access Control
+    scope: "{qty}) LIFTMASTER SRDRST/SRDRKP SMART READERS"   # CHECK WORDING — Metro sheet covers SRDRST (single gang) and SRDRKP (keypad) — confirm model when quoting
+    sheets:
+      - {file: liftmaster-srdrst-srdrkp.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-srdrst-srdrkp-mfg:
+    title: LiftMaster SRDRST/SRDRKP/SRDRMM Smart Readers (mfg cut sheet)
+    category: Access Control
+    scope: "{qty}) LIFTMASTER SRDRST/SRDRKP/SRDRMM SMART READERS"   # CHECK WORDING — family data sheet covers SRDRST/SRDRKP/SRDRMM — confirm model when quoting
+    sheets:
+      - {file: liftmaster-srdrst-srdrkp-mfg.pdf}
+    last_verified: 2026-06-11
+
+  nedap-upass-target:
+    title: Nedap uPASS Target Long-Range UHF Reader
+    category: Access Control
+    scope: "{qty}) NEDAP UPASS TARGET LONG-RANGE UHF READERS"
+    sheets:
+      - {file: nedap-upass-target.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  aiphone-relays:
+    title: Aiphone Accessory Relays
+    category: Access Control
+    scope: "{qty}) AIPHONE ACCESSORY RELAYS"   # CHECK WORDING — 2pp Aiphone accessories catalog extract (pp 78-79) covering RY-AC, TAR-3, RY-PA & MAW-B relays — no single model for the scope line
+    sheets:
+      - {file: aiphone-relays.pdf}
+    last_verified: 2026-06-11
+
+  camden-cx-12-plus:
+    title: Camden CX-12 Plus Door Interface Relay
+    category: Access Control
+    scope: "{qty}) CAMDEN CX-12 PLUS DOOR INTERFACE RELAY"
+    sheets:
+      - {file: camden-cx-12-plus.pdf}
+    last_verified: 2026-06-11
+
+  dsx-frb8:
+    title: DSX FRB8 Fused Relay Board
+    category: Access Control
+    scope: "{qty}) DSX FRB8 FUSED RELAY BOARD"
+    sheets:
+      - {file: dsx-frb8.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Access Control (imported from Incoming 2026-06-11) ----
+
+  aiphone-is-mv:
+    title: Aiphone IS-MV Video Master Station
+    category: Access Control
+    scope: "{qty}) AIPHONE IS-MV VIDEO MASTER STATION"
+    sheets:
+      - {file: aiphone-is-mv.pdf}
+    last_verified: 2026-06-11
+
+  cypress-optw-100:
+    title: Cypress OPTW-100 Passive Wiegand Splitter
+    category: Access Control
+    scope: "{qty}) CYPRESS OPTW-100 PASSIVE WIEGAND SPLITTER"   # CHECK WORDING — Metro sheet spells item type PASSIVE WEIGAND SPLITTER — scope uses standard Wiegand spelling; confirm
+    sheets:
+      - {file: cypress-optw-100.pdf}
+    last_verified: 2026-06-11
+
+  altronix-smp5:
+    title: Altronix SMP5 Power Supply/Charger Board
+    category: Access Control
+    scope: "{qty}) ALTRONIX SMP5 POWER SUPPLY/CHARGER BOARDS"
+    sheets:
+      - {file: altronix-smp5.pdf}
+    last_verified: 2026-06-11
+
+  dks-1000-power-inverter:
+    title: DoorKing 1000 Power Inverter & Backup System
+    category: Access Control
+    scope: "{qty}) DOORKING 1000 POWER INVERTER & BACKUP SYSTEM"   # CHECK WORDING — sheet covers 1000 MSW (1/2 HP, 1 battery) and 1000 PSW (1 HP, 2 batteries) — confirm model when quoting
+    sheets:
+      - {file: dks-1000-power-inverter.pdf}
+    last_verified: 2026-06-11
+
+  dks-1200-key-switches:
+    title: DoorKing 1200 Series Key Switches (mfg brochure)
+    category: Access Control
+    scope: "{qty}) DOORKING 1200 SERIES KEY SWITCHES"   # CHECK WORDING — brochure covers models 1206/1207/1209/1210 — confirm model when quoting; existing red markup on p2 highlights the 1206
+    sheets:
+      - {file: dks-1200-key-switches.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-vista-gsm4g:
+    title: Honeywell VISTA-GSM4G Cellular Communicator
+    category: Access Control
+    scope: "{qty}) HONEYWELL VISTA-GSM4G CELLULAR COMMUNICATOR"
+    sheets:
+      - {file: honeywell-vista-gsm4g.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-cap4ap:
+    title: LiftMaster CAP4AP Smart Access Controller
+    category: Access Control
+    scope: "{qty}) LIFTMASTER CAP4AP SMART ACCESS CONTROLLER"
+    sheets:
+      - {file: liftmaster-cap4ap.pdf}
+    last_verified: 2026-06-11
+
+  wesco-wrp-6u:
+    title: Wesco WRP-6U Wall Mount Rack
+    category: Access Control
+    scope: "{qty}) WESCO WRP-6U WALL MOUNT RACK"
+    sheets:
+      - {file: wesco-wrp-6u.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Barriers, Bollards, Clearance Bars (imported from Incoming 2026-06-11) ----
+
+  pti-bollard-cap-detail:
+    title: PTI Bollard Cap Detail (drawing)
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) BOLLARD CAPS PER PTI DETAIL DRAWING"   # CHECK WORDING — fabrication detail with no quoting line — wording drafted from drawing title block
+    sheets:
+      - {file: pti-bollard-cap-detail.pdf}
+    last_verified: 2026-06-11
+
+  steel-bollard-cover:
+    title: Steel Bollard w/ Yellow Cover
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) STEEL BOLLARDS W/ YELLOW COVERS"
+    sheets:
+      - {file: steel-bollard-cover.pdf}
+    last_verified: 2026-06-11
+
+  ensabarrier-897-15:
+    title: Ensabarrier 897-15 Stanchion w/ Posts
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) ENSABARRIER 897-15 WALL MOUNT STANCHIONS W/ POSTS"   # CHECK WORDING — brand printed 'ensabarrier' (Tensabarrier?); full model on sheet is 897-15-S-33-NO-YAX-C
+    sheets:
+      - {file: ensabarrier-897-15.pdf}
+    last_verified: 2026-06-11
+
+  faac-j275ha-parts:
+    title: FAAC J275HA Bollard Parts Diagram
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) FAAC J275HA AUTOMATIC HYDRAULIC TRAFFIC BOLLARDS"   # CHECK WORDING — spare-parts diagram, not a spec cut — main J275 spec page still pending extract from the J Series guide (flagged below)
+    sheets:
+      - {file: faac-j275ha-parts.pdf}
+    last_verified: 2026-06-11
+
+  ideal-clearance-bar-6ft8:
+    title: Ideal Shield Clearance Bar (6’8”)
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) IDEAL SHIELD 78” CLEARANCE BARS (6’8” CLEARANCE)"   # CHECK WORDING — sheet graphics inconsistent — drawing reads 6’8” but bottom mockup reads 7’3” and text block 7’-2”; height taken from drawing + filename
+    sheets:
+      - {file: ideal-clearance-bar-6ft8.pdf}
+    last_verified: 2026-06-11
+
+  ideal-clearance-bar-7ft2:
+    title: Ideal Shield Clearance Bar (7’2”)
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) IDEAL SHIELD 78” CLEARANCE BARS (7’2” CLEARANCE)"
+    sheets:
+      - {file: ideal-clearance-bar-7ft2.pdf}
+    last_verified: 2026-06-11
+
+  clearance-bar-7ft:
+    title: 7’ Clearance Bar (4.5”, yellow)
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) 4.5” YELLOW CLEARANCE BAR W/ BLACK LETTERING"   # CHECK WORDING — no manufacturer or model on sheet — 7’ from filename and install photo; IDEAL attribution unverified
+    sheets:
+      - {file: clearance-bar-7ft.pdf}
+    last_verified: 2026-06-11
+
+  uline-h-4901-h-3713:
+    title: Uline H-4901/H-3713 Guard Rails
+    category: Barriers, Bollards, Clearance Bars
+    scope: "{qty}) ULINE H-4901/H-3713 REMOVABLE & STATIONARY GUARD RAILS"
+    sheets:
+      - {file: uline-h-4901-h-3713.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Battery Backup (imported from Incoming 2026-06-11) ----
+
+  dks-1000-bbu:
+    title: DoorKing 1000 Power Inverter & Backup System
+    category: Battery Backup
+    scope: "{qty}) DOORKING 1000 POWER INVERTER & BACKUP SYSTEM"
+    sheets:
+      - {file: dks-1000-bbu.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Cameras & NVRs (imported from Incoming 2026-06-11) ----
+
+  acti-a81:
+    title: ACTi A81 3MP Outdoor Zoom Dome Camera
+    category: Cameras & NVRs
+    scope: "{qty}) ACTI A81 3MP OUTDOOR ZOOM DOME CAMERA"
+    sheets:
+      - {file: acti-a81.pdf}
+    last_verified: 2026-06-11
+
+  acti-e911:
+    title: ACTi E911 3MP Indoor Mini Dome Camera
+    category: Cameras & NVRs
+    scope: "{qty}) ACTI E911 3MP INDOOR MINI DOME CAMERA"
+    sheets:
+      - {file: acti-e911.pdf}
+    last_verified: 2026-06-11
+
+  exacqvision-el-s:
+    title: ExacqVision EL-S Hybrid NVR Server
+    category: Cameras & NVRs
+    scope: "{qty}) EXACQVISION EL-S HYBRID NVR SERVER"
+    sheets:
+      - {file: exacqvision-el-s.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Chainlink (imported from Incoming 2026-06-11) ----
+
+  chainlink-9ga-galvanized:
+    title: Galvanized 9 Ga. Chain-Link
+    category: Chainlink
+    scope: "{qty}) GALVANIZED 9 GA. CHAIN-LINK GATE/ FENCING MATERIAL"
+    sheets:
+      - {file: chainlink-9ga-galvanized.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Communication PoE Switches (imported from Incoming 2026-06-11) ----
+
+  exacqvision-elp:
+    title: ExacqVision ELP-Series IP Camera Server
+    category: Communication PoE Switches
+    scope: "{qty}) EXACQVISION ELP-SERIES IP CAMERA SERVER"
+    sheets:
+      - {file: exacqvision-elp.pdf}
+    last_verified: 2026-06-11
+
+  zyxel-gs1900:
+    title: ZyXEL GS1900 Series Smart Managed Switch
+    category: Communication PoE Switches
+    scope: "{qty}) ZYXEL GS1900 SERIES GBE SMART MANAGED SWITCH"
+    sheets:
+      - {file: zyxel-gs1900.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Enclosures (imported from Incoming 2026-06-11) ----
+
+  hoffman-18x18x6:
+    title: Hoffman 18x18x6 Screw-Cover Enclosure
+    category: Enclosures
+    scope: "{qty}) HOFFMAN 18” x 18” x 6” SCREW-COVER ENCLOSURES"
+    sheets:
+      - {file: hoffman-18x18x6.pdf}
+    last_verified: 2026-06-11
+
+  hoffman-20x16x6:
+    title: Hoffman 20x16x6 Screw-Cover Enclosure
+    category: Enclosures
+    scope: "{qty}) HOFFMAN 20” x 16” x 6” SCREW-COVER ENCLOSURES"
+    sheets:
+      - {file: hoffman-20x16x6.pdf}
+    last_verified: 2026-06-11
+
+  hoffman-electrical-enclosure:
+    title: Hoffman Hinged-Door Electrical Enclosure
+    category: Enclosures
+    scope: "{qty}) HOFFMAN HINGED-DOOR ELECTRICAL ENCLOSURES"   # CHECK WORDING — no model number or dimensions on the Metro sheet; HINGED-DOOR drawn from the features list
+    sheets:
+      - {file: hoffman-electrical-enclosure.pdf}
+    last_verified: 2026-06-11
+
+  l-com-nb181608:
+    title: L-Com NB181608-1HFS-UL Weatherproof Enclosure
+    category: Enclosures
+    scope: |-
+      {qty}) L-COM NB181608-1HFS-UL 18” x 16” x 8” WEATHERPROOF
+       ENCLOSURES
+    sheets:
+      - {file: l-com-nb181608.pdf}
+    last_verified: 2026-06-11
+
+  l-com-nb141207:
+    title: L-Com NB141207-1HFS-UL Weatherproof Enclosure
+    category: Enclosures
+    scope: |-
+      {qty}) L-COM NB141207-1HFS-UL 14” x 12” x 7” WEATHERPROOF
+       ENCLOSURES
+    sheets:
+      - {file: l-com-nb141207.pdf}
+      - {file: l-com-nb141207-drawing.pdf}
+    last_verified: 2026-06-11
+
+  l-com-nb181608-mfg:
+    title: L-Com NB181608-1HFS-UL (mfg cut sheet)
+    category: Enclosures
+    scope: |-
+      {qty}) L-COM NB181608-1HFS-UL 18” x 16” x 8” WEATHERPROOF
+       ENCLOSURES
+    sheets:
+      - {file: l-com-nb181608-mfg.pdf}
+    last_verified: 2026-06-11
+
+  plastic-enclosure:
+    title: Plastic Enclosure
+    category: Enclosures
+    scope: "{qty}) PLASTIC ENCLOSURES"   # CHECK WORDING — generic Metro sheet — photos only, no manufacturer, model, or dimensions
+    sheets:
+      - {file: plastic-enclosure.pdf}
+    last_verified: 2026-06-11
+
+  rittal-enclosure:
+    title: Rittal Electrical Enclosure
+    category: Enclosures
+    scope: "{qty}) RITTAL ELECTRICAL ENCLOSURES"   # CHECK WORDING — no model number on the Metro sheet
+    sheets:
+      - {file: rittal-enclosure.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Fire & Emergency Access (imported from Incoming 2026-06-11) ----
+
+  flb100-mini:
+    title: FLB100-Mini Fire Lock Box
+    category: Fire & Emergency Access
+    scope: "{qty}) FLB100-MINI FIRE LOCK BOX FOR FIRE DEPT ACCESS"
+    sheets:
+      - {file: flb100-mini.pdf}
+    last_verified: 2026-06-11
+
+  flb100-mfg:
+    title: Access One FLB100 Series (mfg cut sheet)
+    category: Fire & Emergency Access
+    scope: "{qty}) FLB100 FIRE LOCK BOX FOR FIRE DEPT ACCESS"
+    sheets:
+      - {file: flb100-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-1400-series:
+    title: DoorKing 1400 Series Lock Boxes
+    category: Fire & Emergency Access
+    scope: "{qty}) DOORKING 1400 SERIES LOCK BOXES"
+    sheets:
+      - {file: dks-1400-series.pdf}
+    last_verified: 2026-06-11
+
+  hysecurity-mx3095:
+    title: HySecurity MX3095 Fire & Emergency Access Lock Box
+    category: Fire & Emergency Access
+    scope: "{qty}) HYSECURITY MX3095 FIRE AND EMERGENCY ACCESS LOCK BOX"
+    sheets:
+      - {file: hysecurity-mx3095.pdf}
+    last_verified: 2026-06-11
+
+  knox-3291:
+    title: Knox 3291 Multi-Purpose Electrical Switch
+    category: Fire & Emergency Access
+    scope: "{qty}) KNOX 3291 MULTI-PURPOSE ELECTRICAL SWITCH"   # CHECK WORDING — mfg installation-instruction sheet, item #3291 from hand-marked annotation
+    sheets:
+      - {file: knox-3291.pdf}
+    last_verified: 2026-06-11
+
+  knox-3200:
+    title: KnoxBox 3200 Key Lock Box
+    category: Fire & Emergency Access
+    scope: "{qty}) KNOXBOX 3200 HIGH-SECURITY KEY LOCK BOX"
+    sheets:
+      - {file: knox-3200.pdf}
+    last_verified: 2026-06-11
+
+  knox-3700-padlock:
+    title: Knox 3700 Series Padlock
+    category: Fire & Emergency Access
+    scope: "{qty}) KNOX PADLOCK FOR EMERGENCY FIRE DEPT. ACCESS"   # CHECK WORDING — Metro TITLE is just KNOX PADLOCK; models KLS-3781..3784, series name from filename
+    sheets:
+      - {file: knox-3700-padlock.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Flood Lights (imported from Incoming 2026-06-11) ----
+
+  atlas-pfxl162led:
+    title: Atlas PFXL162LED LED Flood Light
+    category: Flood Lights
+    scope: "{qty}) ATLAS PFXL162LED LED FLOOD LIGHT"
+    sheets:
+      - {file: atlas-pfxl162led.pdf}
+    last_verified: 2026-06-11
+
+  rab-ffled26n:
+    title: RAB FFLED26N LED Flood Light
+    category: Flood Lights
+    scope: "{qty}) RAB FFLED26N LED FLOOD LIGHT"
+    sheets:
+      - {file: rab-ffled26n.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Gates - Manual Operation (imported from Incoming 2026-06-11) ----
+
+  ameristar-transport-link:
+    title: Ameristar Transport Link 8’H Cantilever Gate
+    category: Gates - Manual Operation
+    scope: "{qty}) AMERISTAR TRANSPORT LINK 8’H CANTILEVER GATES"   # CHECK WORDING — one PDF covers two widths (14’-16’ and 18’-20’) — split if quoting needs per-size items
+    sheets:
+      - {file: ameristar-transport-link.pdf}
+    last_verified: 2026-06-11
+
+  sentinel-dual-bar:
+    title: Sentinel Manual Dual Swing Bar
+    category: Gates - Manual Operation
+    scope: "{qty}) SENTINEL MANUAL DUAL SWING BARRIER BARS"
+    sheets:
+      - {file: sentinel-dual-bar.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Hoods & Housings (imported from Incoming 2026-06-11) ----
+
+  custom-hood-13x13:
+    title: Custom 13x13 Hood w/ UHMW Back Plate
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM 13” x 13” HOODS WITH UHMW BACK PLATES"
+    sheets:
+      - {file: custom-hood-13x13.pdf}
+    last_verified: 2026-06-11
+
+  custom-hood-14x24:
+    title: Custom 14x24 Hood w/ Back Plate
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM 14” x 24” HOODS WITH BACK PLATES"   # CHECK WORDING — title-block project field reads GOOSENECK — read as the application (gooseneck-mounted hood), not a customer; no site address on sheet
+    sheets:
+      - {file: custom-hood-14x24.pdf}
+    last_verified: 2026-06-11
+
+  pedestal-pro-lando-20x14:
+    title: Pedestal Pro Lando 20x14 Housing
+    category: Hoods & Housings
+    scope: "{qty}) PEDESTAL PRO LANDO 20” x 14” HOUSINGS"
+    sheets:
+      - {file: pedestal-pro-lando-20x14.pdf}
+    last_verified: 2026-06-11
+
+  pedestal-pro-lando-20x14-mfg:
+    title: Pedestal Pro Lando-CS-20x14-E (mfg cut sheet)
+    category: Hoods & Housings
+    scope: "{qty}) PEDESTAL PRO LANDO-CS-20x14-E HOUSINGS"   # CHECK WORDING — paired as mfg sheet for the Metro Lando 20x14 — Metro 2014 sheet says 16ga stainless, 2022 mfg CS model is 14ga powder-coated steel (a Lando-SS stainless variant also exists); confirm same quoted product
+    sheets:
+      - {file: pedestal-pro-lando-20x14-mfg.pdf}
+    last_verified: 2026-06-11
+
+  pedestal-pro-mc-cs-16-e:
+    title: Pedestal Pro MC-CS-16-E Housing
+    category: Hoods & Housings
+    scope: "{qty}) PEDESTAL PRO MC-CS-16-E STEEL HOUSINGS"
+    sheets:
+      - {file: pedestal-pro-mc-cs-16-e.pdf}
+    last_verified: 2026-06-11
+
+  reader-mounting-box-hood:
+    title: Custom Reader Mounting Box w/ Hood
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM 6” x 6” STEEL READER MOUNTING BOXES WITH HOODS"
+    sheets:
+      - {file: reader-mounting-box-hood.pdf}
+    last_verified: 2026-06-11
+
+  reader-mounting-box:
+    title: Custom Reader Mounting Box
+    category: Hoods & Housings
+    scope: "{qty}) CUSTOM 5” x 5” STEEL READER MOUNTING BOXES"
+    sheets:
+      - {file: reader-mounting-box.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Internet Gateway (imported from Incoming 2026-06-11) ----
+
+  liftmaster-828lm:
+    title: LiftMaster 828LM myQ Internet Gateway
+    category: Internet Gateway
+    scope: "{qty}) LIFTMASTER 828LM MYQ INTERNET GATEWAY"
+    sheets:
+      - {file: liftmaster-828lm.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Maglocks (imported from Incoming 2026-06-11) ----
+
+  liftmaster-mg1300:
+    title: LiftMaster MG1300 Maglock
+    category: Maglocks
+    scope: "{qty}) LIFTMASTER MG1300 1300 LB MAGNETIC GATE LOCK"   # CHECK WORDING — Metro sheet TITLE is generic MAGLOCK-1300; LiftMaster MG1300 attribution from filename
+    sheets:
+      - {file: liftmaster-mg1300.pdf}
+    last_verified: 2026-06-11
+
+  platinum-mag13:
+    title: Platinum MAG13 Magnetic Lock
+    category: Maglocks
+    scope: "{qty}) PLATINUM MAG13 1300LB CAPACITY MAGNETIC LOCK"   # CHECK WORDING — sheet header reads PLATINUM-MAG13; filename SKU is MAG24-13 (24VDC 1300 lb)
+    sheets:
+      - {file: platinum-mag13.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Miscellaneous (imported from Incoming 2026-06-11) ----
+
+  convex-mirror:
+    title: 30” Convex Mirror
+    category: Miscellaneous
+    scope: "{qty}) 30” CONVEX MIRRORS FOR PEDESTRIAN SAFETY"
+    sheets:
+      - {file: convex-mirror.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Pedestrian Door & Gate Hardware (imported from Incoming 2026-06-11) ----
+
+  bosch-ds160:
+    title: Bosch DS160 Series Request-to-Exit Detector
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) BOSCH DS160 SERIES REQUEST-TO-EXIT DETECTORS"
+    sheets:
+      - {file: bosch-ds160.pdf}
+    last_verified: 2026-06-11
+
+  intercom-keypad-backbox:
+    title: Metro Back Box for Intercom or Keypad
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) CUSTOM STEEL BACK BOX FOR INTERCOM OR KEYPAD"   # CHECK WORDING — filename says "Ped Gate Steel Enclosure" but the 2006 AutoCAD title block reads "BACK BOX FOR INTERCOM OR KEYPAD"; dimension drawing only, no spec text
+    sheets:
+      - {file: intercom-keypad-backbox.pdf}
+    last_verified: 2026-06-11
+
+  vals-24a:
+    title: VALS 24A Signal Source
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) VALS SIGNAL SOURCE 24A"
+    sheets:
+      - {file: vals-24a.pdf}
+    last_verified: 2026-06-11
+
+  dorma-8900:
+    title: Dorma 8900 Surface Door Closer
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 8900 SURFACE CLOSERS"
+    sheets:
+      - {file: dorma-8900.pdf}
+    last_verified: 2026-06-11
+
+  dorma-8900-hd:
+    title: Dorma 8900 Series HD Surface Door Closer
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 8900 SERIES HEAVY-DUTY SURFACE CLOSERS"
+    sheets:
+      - {file: dorma-8900-hd.pdf}
+    last_verified: 2026-06-11
+
+  dorma-8900-mfg:
+    title: Dorma 8900 Series Door Closers (mfg cut sheet)
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 8900 SERIES SURFACE APPLIED DOOR CLOSERS"
+    sheets:
+      - {file: dorma-8900-mfg.pdf}
+    last_verified: 2026-06-11
+
+  lockey-tb200-400-600:
+    title: Lockey TB200/TB400/TB600 Hydraulic Gate Closer
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) LOCKEY TB200/TB400/TB600 HYDRAULIC GATE CLOSERS"   # CHECK WORDING — only doc available is the mfg installation-instructions sheet (does carry the spec/dimension table); wording from its header
+    sheets:
+      - {file: lockey-tb200-400-600.pdf}
+    last_verified: 2026-06-11
+
+  lcn-9540:
+    title: LCN 9540 Series Swing Door Operator
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) LCN 9540 SERIES SURFACE MOUNT SWING DOOR OPERATORS"
+    sheets:
+      - {file: lcn-9540.pdf}
+    last_verified: 2026-06-11
+
+  record-8700:
+    title: Record 8700 Series Overhead Concealed Double Operator
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) RECORD 8700 SERIES OVERHEAD CONCEALED DOUBLE OPERATORS"
+    sheets:
+      - {file: record-8700.pdf}
+    last_verified: 2026-06-11
+
+  hes-5200:
+    title: HES 5200 Series Electric Strike
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) HES 5200 SERIES ELECTRIC STRIKES"
+    sheets:
+      - {file: hes-5200.pdf}
+    last_verified: 2026-06-11
+
+  hes-9600:
+    title: HES 9600 Series Electric Strike
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) HES 9600 SERIES SURFACE MOUNT ELECTRIC STRIKES"
+    sheets:
+      - {file: hes-9600.pdf}
+    last_verified: 2026-06-11
+
+  von-duprin-6100-6200:
+    title: Von Duprin 6100/6200 Series Electric Strikes (mfg cut sheet)
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) VON DUPRIN 6100/6200 SERIES ELECTRIC STRIKES"
+    sheets:
+      - {file: von-duprin-6100-6200.pdf}
+      - {file: von-duprin-6100-6200-dims.pdf}
+    last_verified: 2026-06-11
+
+  von-duprin-6211:
+    title: Von Duprin 6211 Electric Strike
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) VON DUPRIN 6211 ELECTRIC STRIKES"
+    sheets:
+      - {file: von-duprin-6211.pdf}
+    last_verified: 2026-06-11
+
+  von-duprin-6300:
+    title: Von Duprin 6300 Series Surface Mount Electric Strike
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) VON DUPRIN 6300 SERIES SURFACE MOUNT ELECTRIC STRIKES"
+    sheets:
+      - {file: von-duprin-6300.pdf}
+    last_verified: 2026-06-11
+
+  detex-v40:
+    title: Detex V40 Rim Exit Device
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DETEX V40 RIM EXIT DEVICES"
+    sheets:
+      - {file: detex-v40.pdf}
+    last_verified: 2026-06-11
+
+  dorma-9000-series:
+    title: Dorma 9000 Series Narrow Stile Exit Devices (mfg cut sheet)
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 9000 SERIES NARROW STILE EXIT DEVICES"
+    sheets:
+      - {file: dorma-9000-series.pdf}
+    last_verified: 2026-06-11
+
+  dorma-9300:
+    title: Dorma 9300 Rim Exit Device
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 9300 RIM EXIT DEVICES"
+    sheets:
+      - {file: dorma-9300.pdf}
+    last_verified: 2026-06-11
+
+  dorma-9700:
+    title: Dorma 9700 Narrow Stile Rim Exit Device
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA 9700 NARROW STILE RIM EXIT DEVICES"
+    sheets:
+      - {file: dorma-9700.pdf}
+    last_verified: 2026-06-11
+
+  dorma-c800:
+    title: Dorma C800 Leverset
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA C800 LEVERSETS"
+    sheets:
+      - {file: dorma-c800.pdf}
+    last_verified: 2026-06-11
+
+  kaba-l1000:
+    title: Kaba Simplex L1000 Combination Lever Lock
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) KABA SIMPLEX L1000 MECHANICAL PUSHBUTTON LEVER LOCKS"
+    sheets:
+      - {file: kaba-l1000.pdf}
+    last_verified: 2026-06-11
+
+  dorma-yr03r:
+    title: Dorma YR03R Entrance Lever Trim
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) DORMA YR03R ENTRANCE LEVER TRIM"
+    sheets:
+      - {file: dorma-yr03r.pdf}
+    last_verified: 2026-06-11
+
+  marks-usa-survivor-series:
+    title: Marks USA Survivor Series Leversets
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) MARKS USA SURVIVOR SERIES GRADE 1 LEVERSETS"
+    sheets:
+      - {file: marks-usa-survivor-series.pdf}
+    last_verified: 2026-06-11
+
+  crashbar-protective-cover:
+    title: Metro Crash Bar Protective Cover
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) CUSTOM GALVANIZED STEEL CRASH BAR PROTECTIVE COVERS"
+    sheets:
+      - {file: crashbar-protective-cover.pdf}
+    last_verified: 2026-06-11
+
+  schlage-nd-series:
+    title: Schlage ND Series Grade 1 Cylindrical Lock
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) SCHLAGE ND SERIES GRADE 1 CYLINDRICAL LEVER LOCKS"
+    sheets:
+      - {file: schlage-nd-series.pdf}
+    last_verified: 2026-06-11
+
+  trilogy-dl2700:
+    title: Trilogy DL2700 Digital Lock
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) TRILOGY DL2700 DIGITAL PUSHBUTTON LOCKS"
+    sheets:
+      - {file: trilogy-dl2700.pdf}
+    last_verified: 2026-06-11
+
+  trilogy-dl2800:
+    title: Trilogy DL2800 Digital Lock
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) TRILOGY DL2800 DIGITAL PUSHBUTTON LOCKS"
+    sheets:
+      - {file: trilogy-dl2800.pdf}
+    last_verified: 2026-06-11
+
+  trilogy-etdl:
+    title: Trilogy ETDL Keyless Exit Trim
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) TRILOGY ETDL KEYLESS EXIT TRIM FOR PANIC BARS"
+    sheets:
+      - {file: trilogy-etdl.pdf}
+    last_verified: 2026-06-11
+
+  trimco-1191-3:
+    title: Trimco 1191-3 Offset Door Pull
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) TRIMCO 1191-3 OFFSET DOOR PULLS"
+    sheets:
+      - {file: trimco-1191-3.pdf}
+    last_verified: 2026-06-11
+
+  von-duprin-99:
+    title: Von Duprin 99 Panic Bar
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) VON DUPRIN 99 PANIC BARS"
+    sheets:
+      - {file: von-duprin-99.pdf}
+    last_verified: 2026-06-11
+
+  von-duprin-qel:
+    title: Von Duprin QEL Quiet Electric Latch Exit Device
+    category: Pedestrian Door & Gate Hardware
+    scope: |-
+      {qty}) VON DUPRIN QEL QUIET ELECTRIC LATCH RETRACTION
+       EXIT DEVICES
+    sheets:
+      - {file: von-duprin-qel.pdf}
+    last_verified: 2026-06-11
+
+  gri-180-184-8080t:
+    title: GRI 180/184/8080-T Steel Door Recessed Switch Set
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) GRI 180/184/8080-T RECESSED STEEL DOOR SWITCH SETS"
+    sheets:
+      - {file: gri-180-184-8080t.pdf}
+    last_verified: 2026-06-11
+
+  honeywell-5800mini:
+    title: Honeywell 5800MINI Wireless Door/Window Contact
+    category: Pedestrian Door & Gate Hardware
+    scope: "{qty}) HONEYWELL 5800MINI WIRELESS DOOR/WINDOW CONTACTS"
+    sheets:
+      - {file: honeywell-5800mini.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Postal Access (imported from Incoming 2026-06-11) ----
+
+  dks-1402:
+    title: DoorKing 1402 Postal Lock Box
+    category: Postal Access
+    scope: "{qty}) DOORKING 1402 POSTAL LOCK BOX"
+    sheets:
+      - {file: dks-1402.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Powder Coating (imported from Incoming 2026-06-11) ----
+
+  cardinal-powder-color-chart:
+    title: Cardinal Powder Coating Color Chart
+    category: Powder Coating
+    scope: "• POWDER COAT FINISH, COLOR PER CARDINAL COLOR CHART"   # CHECK WORDING — color chart, not a device sheet — quoting line drafted, no prior powder-coating item to copy
+    sheets:
+      - {file: cardinal-powder-color-chart.pdf}
+    last_verified: 2026-06-11
+
+  # ---- (root) (imported from Incoming 2026-06-11) ----
+
+  dks-1812:
+    title: DoorKing 1812 Series Telephone Entry System
+    category: Access Control
+    scope: "{qty}) DOORKING 1812 SERIES ENTRY + ACCESS CONTROL SYSTEM"
+    sheets:
+      - {file: dks-1812.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Sealants (imported from Incoming 2026-06-11) ----
+
+  chemque-q-seal-290s:
+    title: Chemque Q-Seal 290S Detector Loop Sealant
+    category: Sealants
+    scope: "{qty}) CHEMQUE Q-SEAL 290S DETECTOR LOOP SEALANT"
+    sheets:
+      - {file: chemque-q-seal-290s.pdf}
+    last_verified: 2026-06-11
+
+  gardner-drive-seal-4:
+    title: Gardner Drive-Seal 4 Blacktop Filler-Sealer
+    category: Sealants
+    scope: "{qty}) GARDNER DRIVE-SEAL 4 BLACKTOP FILLER-SEALER"
+    sheets:
+      - {file: gardner-drive-seal-4.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Sound System (imported from Incoming 2026-06-11) ----
+
+  atlasied-aa200phd:
+    title: AtlasIED AA200PHD 200W Mixer Amplifier
+    category: Sound System
+    scope: "{qty}) ATLASIED AA200PHD 200W MIXER AMPLIFIER"
+    sheets:
+      - {file: atlasied-aa200phd.pdf}
+    last_verified: 2026-06-11
+
+  atlasied-sbms:
+    title: AtlasIED SBMS 8” Loudspeaker Package
+    category: Sound System
+    scope: "{qty}) ATLASIED SBMS 8” LOUDSPEAKER PACKAGE"
+    sheets:
+      - {file: atlasied-sbms.pdf}
+    last_verified: 2026-06-11
+
+  atlasied-sm12cxt-b:
+    title: AtlasIED SM12CXT-B Coaxial Speaker
+    category: Sound System
+    scope: "{qty}) ATLASIED SM12CXT-B COAXIAL LOUDSPEAKER"
+    sheets:
+      - {file: atlasied-sm12cxt-b.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Torxun (imported from Incoming 2026-06-11) ----
+
+  torxun-autoped-model-10:
+    title: Torxun AutoPed Model-10 Pedestrian Gate Operator
+    category: Torxun
+    scope: "{qty}) TORXUN AUTOPED MODEL-10 PEDESTRIAN GATE OPERATOR"
+    sheets:
+      - {file: torxun-autoped-model-10.pdf}
+      - {file: torxun-autoped-model-10-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-barguard:
+    title: Torxun BarGuard Panic Bar Guard
+    category: Torxun
+    scope: "{qty}) TORXUN BARGUARD PANIC BAR GUARDS"
+    sheets:
+      - {file: torxun-barguard.pdf}
+    last_verified: 2026-06-11
+
+  torxun-heavy-hinge:
+    title: Torxun Heavy Hinge for Folding Gates
+    category: Torxun
+    scope: "{qty}) TORXUN HEAVY HINGES FOR FOLDING GATES"
+    sheets:
+      - {file: torxun-heavy-hinge.pdf}
+      - {file: torxun-heavy-hinge-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-heavy-v:
+    title: Torxun Heavy V V-Track
+    category: Torxun
+    scope: "{qty}) TORXUN HEAVY V GALVANIZED V-TRACK SECTIONS"
+    sheets:
+      - {file: torxun-heavy-v.pdf}
+      - {file: torxun-heavy-v-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-lock-guard:
+    title: Torxun Lock Guard, Half Moon
+    category: Torxun
+    scope: "{qty}) TORXUN HALF-MOON LOCK GUARDS"
+    sheets:
+      - {file: torxun-lock-guard.pdf}
+      - {file: torxun-lock-guard-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-model-3:
+    title: Torxun Model 3 Folding Gate Operator
+    category: Torxun
+    scope: "{qty}) TORXUN MODEL 3 FOLDING GATE TOWER OPERATOR"
+    sheets:
+      - {file: torxun-model-3.pdf}
+      - {file: torxun-model-3-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-model-7-secureslide:
+    title: Torxun Model 7 SecureSlide Gate Operator
+    category: Torxun
+    scope: |-
+      {qty}) TORXUN MODEL 7 SECURESLIDE PEDESTRIAN
+       SLIDE GATE OPERATOR
+    sheets:
+      - {file: torxun-model-7-secureslide.pdf}
+      - {file: torxun-model-7-secureslide-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-quickfold-flexarm:
+    title: Torxun QuickFold FlexArm Kit
+    category: Torxun
+    scope: "{qty}) TORXUN QUICKFOLD FLEXARM FOLDING GATE KITS"
+    sheets:
+      - {file: torxun-quickfold-flexarm.pdf}
+      - {file: torxun-quickfold-flexarm-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-quickfold-flexguide:
+    title: Torxun QuickFold FlexGuide Kit
+    category: Torxun
+    scope: "{qty}) TORXUN QUICKFOLD FLEXGUIDE FOLDING GATE TRACK KITS"
+    sheets:
+      - {file: torxun-quickfold-flexguide.pdf}
+      - {file: torxun-quickfold-flexguide-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-sensorvault-bea:
+    title: Torxun SensorVault Stand for BEA LZR
+    category: Torxun
+    scope: "{qty}) TORXUN SENSORVAULT STANDS FOR BEA LZR SENSOR"
+    sheets:
+      - {file: torxun-sensorvault-bea.pdf}
+      - {file: torxun-sensorvault-bea-back.pdf}
+    last_verified: 2026-06-11
+
+  torxun-sensorvault-photoeye:
+    title: Torxun SensorVault Stand for Photo Eyes
+    category: Torxun
+    scope: "{qty}) TORXUN SENSORVAULT STANDS FOR PHOTO EYES"
+    sheets:
+      - {file: torxun-sensorvault-photoeye.pdf}
+      - {file: torxun-sensorvault-photoeye-back.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Traffic Lights & Signs (imported from Incoming 2026-06-11) ----
+
+  dks-1610-signal-light:
+    title: DoorKing 1610 Parking Control Signal Light
+    category: Traffic Lights & Signs
+    scope: "{qty}) DOORKING 1610 PARKING CONTROL SIGNAL LIGHT"
+    sheets:
+      - {file: dks-1610-signal-light.pdf}
+    last_verified: 2026-06-11
+
+  dks-1615-080-081-mfg:
+    title: DoorKing 1610 Warning Sign & Signal Light (mfg cut sheet)
+    category: Traffic Lights & Signs
+    scope: "{qty}) DOORKING 1610 WARNING SIGN & SIGNAL LIGHT"   # CHECK WORDING — one mfg sheet covers BOTH devices (P/Ns 1615-080/-081 per filename) — twin of dks-1610-signal-light AND dks-warning-signs
+    sheets:
+      - {file: dks-1615-080-081-mfg.pdf}
+    last_verified: 2026-06-11
+
+  dks-warning-signs:
+    title: DoorKing Warning Signs
+    category: Traffic Lights & Signs
+    scope: "{qty}) DOORKING WARNING SIGNS"   # CHECK WORDING — no model number on the Metro sheet (title cell reads DKS WARNING SIGN; shows 5 MPH/ DO NOT BACK UP and WRONG WAY/ STOP lighted signs)
+    sheets:
+      - {file: dks-warning-signs.pdf}
+    last_verified: 2026-06-11
+
+  gate-warning-sign:
+    title: Moving Gate Warning Sign Placard
+    category: Traffic Lights & Signs
+    scope: "{qty}) MOVING GATE WARNING SIGNS"   # CHECK WORDING — no mfg/title block — scan of the standard UL 325-style moving-gate placard itself; wording drafted from the sign text
+    sheets:
+      - {file: gate-warning-sign.pdf}
+    last_verified: 2026-06-11
+
+  liftmaster-rgl-ctl:
+    title: LiftMaster RGL-CTL Red/Green Traffic Light
+    category: Traffic Lights & Signs
+    scope: "{qty}) LIFTMASTER RGL-CTL RED/GREEN TRAFFIC LIGHT"
+    sheets:
+      - {file: liftmaster-rgl-ctl.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-signal:
+    title: Magnetic AutoControl SIGNAL Traffic Light
+    category: Traffic Lights & Signs
+    scope: "{qty}) MAGNETIC AUTOCONTROL SIGNAL LED TRAFFIC LIGHT"   # CHECK WORDING — family sheet (single red / double red-green / red-yellow heads, 210 mm LED) — signal model picked at quote time
+    sheets:
+      - {file: magnetic-signal.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Traffic Spikes & Speed Bumps (imported from Incoming 2026-06-11) ----
+
+  dks-1610-150:
+    title: DoorKing 1610-150 Speed Bump
+    category: Traffic Spikes & Speed Bumps
+    scope: "{qty}) DOORKING 1610-150 SPEED BUMP SECTIONS"
+    sheets:
+      - {file: dks-1610-150.pdf}
+    last_verified: 2026-06-11
+
+  dks-1610-traffic-spikes:
+    title: DoorKing 1610 Traffic Spikes Above & In-Ground
+    category: Traffic Spikes & Speed Bumps
+    scope: "{qty}) DOORKING 1610 TRAFFIC CONTROL SPIKE SYSTEM"   # CHECK WORDING — 11x17 family sheet covers surface-mount spikes, flush-mount spikes and the speed bump — specify mount type at quote time
+    sheets:
+      - {file: dks-1610-traffic-spikes.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Turnstiles (imported from Incoming 2026-06-11) ----
+
+  alvarado-mst:
+    title: Alvarado MST Full Height Turnstile
+    category: Turnstiles
+    scope: "{qty}) ALVARADO MST FULL HEIGHT TURNSTILE"
+    sheets:
+      - {file: alvarado-mst.pdf}
+      - {file: alvarado-mst-dims.pdf}
+    last_verified: 2026-06-11
+
+  alvarado-mstt:
+    title: Alvarado MSTT Tandem Full Height Turnstile
+    category: Turnstiles
+    scope: "{qty}) ALVARADO MSTT TANDEM FULL HEIGHT TURNSTILE"
+    sheets:
+      - {file: alvarado-mstt.pdf}
+    last_verified: 2026-06-11
+
+  magnetic-mpt:
+    title: Magnetic AutoControl MPT Full Height Turnstile
+    category: Turnstiles
+    scope: "{qty}) MAGNETIC AUTOCONTROL MPT FULL HEIGHT TURNSTILE"
+    sheets:
+      - {file: magnetic-mpt.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Vertical Pivot Gates (imported from Incoming 2026-06-11) ----
+
+  autogate-300-chainlink:
+    title: AutoGate 300 Chainlink Vertical Pivot Gate
+    category: Vertical Pivot Gates
+    scope: "{qty}) AUTOGATE 300 CHAINLINK VERTICAL PIVOT GATE OPERATOR"
+    sheets:
+      - {file: autogate-300-chainlink.pdf}
+    last_verified: 2026-06-11
+
+  autogate-buckeye-500-lh:
+    title: AutoGate 500 Buckeye Vertical Pivot Gate (LH)
+    category: Vertical Pivot Gates
+    scope: |-
+      {qty}) AUTOGATE 500 BUCKEYE VERTICAL PIVOT GATE
+       OPERATOR (LH)
+    sheets:
+      - {file: autogate-buckeye-500-lh.pdf}
+    last_verified: 2026-06-11
+
+  autogate-vpg-styles:
+    title: AutoGate VPG Gate Styles & Specs (mfg)
+    category: Vertical Pivot Gates
+    scope: "{qty}) AUTOGATE VERTICAL PIVOT LIFT GATE OPERATOR"   # CHECK WORDING — line-wide styles/specs sheet (models 100-1000), no single model — confirm quoting line
+    sheets:
+      - {file: autogate-vpg-styles.pdf}
+    last_verified: 2026-06-11
+
+  tilt-a-way-hyjd-25-wiring:
+    title: Tilt-A-Way HYJD-25 3-Phase Wiring Diagram
+    category: Vertical Pivot Gates
+    scope: "{qty}) TILT-A-WAY HYJD-25 HYDRAULIC VERTICAL PIVOT GATE"   # CHECK WORDING — wiring schematic, quoting line drafted from model — sheet carries a 'PDF Complete' trial watermark, consider sourcing a cleaner copy
+    sheets:
+      - {file: tilt-a-way-hyjd-25-wiring.pdf}
+    last_verified: 2026-06-11
+
+  tilt-a-way-cold-weather:
+    title: Tilt-A-Way HYJD-25 Cold Weather Package
+    category: Vertical Pivot Gates
+    scope: "{qty}) TILT-A-WAY HYJD-25 COLD WEATHER PACKAGE"
+    sheets:
+      - {file: tilt-a-way-cold-weather.pdf}
+    last_verified: 2026-06-11
+
+  tilt-a-way-dcm:
+    title: Tilt-A-Way DCM Vertical Pivot Gate
+    category: Vertical Pivot Gates
+    scope: "{qty}) TILT-A-WAY DCM VERTICAL PIVOT GATE OPERATOR"
+    sheets:
+      - {file: tilt-a-way-dcm.pdf}
+    last_verified: 2026-06-11
+
+  solid-rock-vertical-lift:
+    title: Solid Rock Hydraulic Vertical Lift Gate Operator
+    category: Vertical Pivot Gates
+    scope: |-
+      {qty}) SOLID ROCK COMMERCIAL HYDRAULIC VERTICAL LIFT
+       GATE OPERATOR
+    sheets:
+      - {file: solid-rock-vertical-lift.pdf}
+    last_verified: 2026-06-11
+
+  solid-rock-8ft-hydraulic-lh:
+    title: Solid Rock 8' Hydraulic Operator (LH)
+    category: Vertical Pivot Gates
+    scope: |-   # CHECK WORDING — drawing's own title is '8' Hydraulic Left Hand Operator'; 'vertical lift gate' taken from the Solid Rock mfg spec sheet
+      {qty}) SOLID ROCK 8' HYDRAULIC VERTICAL LIFT GATE
+       OPERATOR (LH)
+    sheets:
+      - {file: solid-rock-8ft-hydraulic-lh.pdf}
+    last_verified: 2026-06-11
+
+  solid-rock-8ft-hydraulic-rh:
+    title: Solid Rock 8' Hydraulic Operator (RH)
+    category: Vertical Pivot Gates
+    scope: |-   # CHECK WORDING — drawing's own title is '8' Hydraulic Right Hand Operator'; 'vertical lift gate' taken from the Solid Rock mfg spec sheet
+      {qty}) SOLID ROCK 8' HYDRAULIC VERTICAL LIFT GATE
+       OPERATOR (RH)
+    sheets:
+      - {file: solid-rock-8ft-hydraulic-rh.pdf}
+    last_verified: 2026-06-11
+
+  solid-rock-gate-designs:
+    title: Solid Rock Standard Gate Designs
+    category: Vertical Pivot Gates
+    scope: "{qty}) SOLID ROCK STANDARD GATE PANEL DESIGNS"   # CHECK WORDING — panel style options chart (codes 1-9: picket/chainlink/security w & w/o crown, barbed wire), not a single device — confirm quoting line
+    sheets:
+      - {file: solid-rock-gate-designs.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Welding (imported from Incoming 2026-06-11) ----
+
+  aluminum-mig-wps:
+    title: Aluminum MIG Welding Procedure Spec (WPS)
+    category: Welding
+    scope: "• ALUMINUM MIG WELDING (GMAW) PER ATTACHED WPS"   # CHECK WORDING — generic unsigned WPS — no letterhead, WPS number, or PQR reference; confirm this is the document Metro intends to submit
+    sheets:
+      - {file: aluminum-mig-wps.pdf}
+    last_verified: 2026-06-11
+
+  welder-cert-todd-cotton:
+    title: Welder Certification — Todd Cotton (AWS D1.1)
+    category: Welding
+    scope: "• WELDING BY AWS D1.1 CERTIFIED WELDER (CITY OF PORTLAND)"   # CHECK WORDING — employee-specific certification card — confirm a personnel cert belongs in the shared library
+    sheets:
+      - {file: welder-cert-todd-cotton.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Wire (imported from Incoming 2026-06-11) ----
+
+  lutze-driveflex-xlpe-pvc:
+    title: Lutze DriveFlex XLPE PVC Shielded VFD Cable
+    category: Wire
+    scope: "{qty}) LUTZE DRIVEFLEX XLPE/PVC SHIELDED VFD CABLE"
+    sheets:
+      - {file: lutze-driveflex-xlpe-pvc.pdf}
+    last_verified: 2026-06-11
+
+  smartwire-714310vnq:
+    title: Smartwire 714310VNQ 18/4 Shielded Cable
+    category: Wire
+    scope: "{qty}) SMARTWIRE 714310VNQ 18/4 SHIELDED NON-PLENUM CABLE"
+    sheets:
+      - {file: smartwire-714310vnq.pdf}
+    last_verified: 2026-06-11
+
+  # ---- Loops (imported from Incoming 2026-06-11) ----
+
+  optex-ovs-01gt:
+    title: Optex OVS-01GT Vehicle Presence Sensor
+    category: Loops
+    scope: "{qty}) OPTEX OVS-01GT VEHICLE PRESENCE SENSORS"
+    sheets:
+      - {file: optex-ovs-01gt.pdf}
+    last_verified: 2026-06-11
+
+  optex-ovs-02gt:
+    title: Optex OVS-02GT Virtual Loop 2.0
+    category: Loops
+    scope: "{qty}) OPTEX OVS-02GT VIRTUAL LOOP 2.0 VEHICLE PRESENCE SENSORS"
+    sheets:
+      - {file: optex-ovs-02gt.pdf}
+    last_verified: 2026-06-11
+
+  oregon-loop-install-code:
+    title: Oregon Loop Install Code (Div. 30 exemptions)
+    category: Loops
+    scope: "• LOOP INSTALLATION PER OREGON ELECTRICAL EXEMPTION CODE (DIV. 30)"   # CHECK WORDING — document-type item (mix-design precedent); 5pp image-only scan of OAR Division 30 electrical exemptions
+    sheets:
+      - {file: oregon-loop-install-code.pdf}
+    last_verified: 2026-06-11

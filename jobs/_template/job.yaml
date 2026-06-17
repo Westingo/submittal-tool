@@ -1,0 +1,25 @@
+project:
+  name: PROJECT NAME
+  address: ["STREET ADDRESS", "CITY, OR ZIP"]
+  submitted: MM/DD/YYYY
+
+gates:
+  - id: gate-1
+    heading: "AUTOMATE <GATE NAME> SLIDE GATE (BY OTHERS):"
+    label: "For <Gate Name> Gate"          # text stamped on each spec sheet
+    preset: hysecurity-slide-gate          # or liftmaster-slide-gate
+    # Optional per-gate tweaks:
+    # remove: [opticom-721]
+    # qty_overrides:
+    #   - {id: presence-loops, qty: 3}
+    # add:
+    #   - {id: loopdetlm, qty: 2}
+    # extra_scope:
+    #   - "• PDX BADGING"
+    # scope_notes:                         # red sub-bullet on the cover page
+    #   - {item: sd50f, text: "NOTE TEXT HERE"}
+    # sheet_notes:                         # box stamped on the spec sheet itself
+    #   - {item: sd50f, sheet: 1, text: "NOTE TEXT", pos: [400, 100], color: blue}
+
+drawings: []
+  # - {file: A.01-layout.pdf, label: "For <Gate Name> Gate", pos: [473, 480]}

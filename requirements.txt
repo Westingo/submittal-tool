@@ -1,0 +1,5 @@
+pymupdf
+pyyaml
+fastapi
+uvicorn
+python-multipart

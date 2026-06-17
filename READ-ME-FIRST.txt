@@ -1,0 +1,16 @@
+LIBRARY UPDATE — 2026-06-10 batch
+Extract this over your submittal-tool folder (it only touches library\).
+
+Adds 13 new devices and replaces 2 existing files:
+  knox-3502.pdf            <- replaced with the 2025 version
+  liftmaster-3phconv.pdf   <- replaced with your master copy
+
+NOT added (and why):
+  SolidRock Manual Instructions   - site-specific (Columbia Wastewater)
+  WW Beaverton Wiring Diagrams    - site-specific (Willamette Water Supply)
+  00 Template / Metro logo / jpg  - assets, not products
+
+CHECK WORDING on three scope lines (search "CHECK WORDING" in library.yaml):
+  flb100-fire-schematic, cap2d-wiring, aluminum-med-combi
+The aluminum-med-combi drawing had no title text at all, so that one is a
+pure guess. Edit the scope text in library.yaml; refresh the browser after.

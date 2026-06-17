@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+
+# Job folders are work products (customer data + generated PDFs) — never
+# version-controlled. Only the _template scaffold ships, so new_job.py and
+# the web UI can create jobs on a fresh clone.
+/jobs/*
+!/jobs/_template/

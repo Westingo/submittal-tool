@@ -1,0 +1,18 @@
+# Standard LiftMaster IHSL24UL slide gate package
+items:
+  - {id: ihsl24ul, qty: 1}
+  - {id: ground-rod, qty: 1}
+  - {id: mounting-post, qty: 2}
+  - {id: 3phconv, qty: 1}
+  - {id: presence-loops, qty: 3}
+  - {id: sawcut-exit-loop, qty: 1}
+  - {id: loopdetlm, qty: 2}
+  - {id: gooseneck, qty: 1}
+  - {id: hooded-assembly, qty: 2}
+  - {id: knox-3502, qty: 1}
+  - {id: gate-edges, qty: 3}
+  - {id: lmtbul-photo-eyes, qty: 1}
+  - {id: beacon, qty: 1}
+  - {id: fall-post, qty: 1}
+  - {id: physical-stop, qty: 1}
+  - {id: cleanup}
