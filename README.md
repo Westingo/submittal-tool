@@ -3,19 +3,29 @@
 Builds a complete submittal PDF (cover/scope pages + stamped spec sheets +
 drawings) from a small YAML job file.
 
-## Quick start — Windows (no setup)
+## Quick start — Windows desktop app
 
 Download the project (green **Code ▸ Download ZIP** button on GitHub, then
 unzip — or `git clone`), open the folder, and **double-click `run.bat`**.
 The first run takes about a minute (it sets up a private Python environment
-and installs what it needs); after that it starts in seconds. Your browser
-opens to the app automatically. Keep the black window open while you work;
-close it or double-click **`stop.bat`** to shut it down.
+and installs what it needs); after that the app opens in **its own window**
+in a few seconds — no browser, no tabs. Close the window (or double-click
+`stop.bat`) to quit.
+
+For a permanent icon, double-click **`Create Desktop Shortcut.bat`** once —
+it puts a "Metro Submittal Builder" shortcut on your Desktop that launches
+the window directly.
 
 Requires Python 3.12 — if it's missing, `run.bat` tells you where to get it
-(tick "Add python.exe to PATH" during the Python install).
+(tick "Add python.exe to PATH" during the Python install). The desktop
+window uses the built-in Windows WebView2 runtime (present on Windows 10/11).
 
-## Quick start — web UI (manual)
+> A fully standalone `.exe` (no Python needed) can be built with
+> `package.ps1` + `SubmittalBuilder.spec`, but SentinelOne / managed AV will
+> quarantine the unsigned binary until IT allowlists it — so the Python-based
+> launcher above is the supported path.
+
+## Quick start — web UI / headless (manual)
 
     pip install pymupdf pyyaml fastapi uvicorn python-multipart
     python app.py

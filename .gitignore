@@ -9,3 +9,8 @@ __pycache__/
 # the web UI can create jobs on a fresh clone.
 /jobs/*
 !/jobs/_template/
+
+# PyInstaller build outputs (the .spec is tracked; the artifacts are not)
+/build_pyi/
+/dist/
+build_pyi_log.txt

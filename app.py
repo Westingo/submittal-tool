@@ -9,13 +9,15 @@ Metro Access Control — Submittal Builder (web UI)
 Wraps build.py: the form writes jobs/<slug>/job.yaml, saves uploaded
 drawings, runs the build, and hands back the finished PDF.
 """
-import os, re, sys, glob, json, subprocess
+import os, re, glob, json, io, contextlib
 import yaml
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-JOBS = os.path.join(ROOT, "jobs")
+from paths import bundled, data
+import build as builder
+
+JOBS = data("jobs")
 
 app = FastAPI(title="Submittal Builder")
 
@@ -26,12 +28,12 @@ def slugify(name):
 
 @app.get("/", response_class=HTMLResponse)
 def index():
-    return open(os.path.join(ROOT, "static", "index.html"), encoding="utf-8").read()
+    return open(bundled("static", "index.html"), encoding="utf-8").read()
 
 
 @app.get("/api/config")
 def config():
-    lib = yaml.safe_load(open(os.path.join(ROOT, "library", "library.yaml"), encoding="utf-8"))["items"]
+    lib = yaml.safe_load(open(data("library", "library.yaml"), encoding="utf-8"))["items"]
     items = {}
     for iid, e in lib.items():
         items[iid] = {
@@ -42,7 +44,7 @@ def config():
             "pending": bool(e.get("sheet_pending")),
         }
     presets = {}
-    for p in sorted(glob.glob(os.path.join(ROOT, "presets", "*.yaml"))):
+    for p in sorted(glob.glob(data("presets", "*.yaml"))):
         name = os.path.splitext(os.path.basename(p))[0]
         presets[name] = yaml.safe_load(open(p, encoding="utf-8"))["items"]
     return {"items": items, "presets": presets}
@@ -110,11 +112,22 @@ async def build(job: str = Form(...), drawings: list[UploadFile] = File(default=
     with open(os.path.join(job_dir, "job.yaml"), "w", encoding="utf-8") as f:
         yaml.safe_dump(manifest, f, sort_keys=False, allow_unicode=True)
 
-    # run the builder
-    proc = subprocess.run([sys.executable, os.path.join(ROOT, "build.py"), job_dir],
-                          capture_output=True, text=True, encoding="utf-8", errors="replace")
-    log = (proc.stdout or "") + (proc.stderr or "")
-    if proc.returncode != 0:
+    # run the builder in-process (works frozen; build.py has no global state
+    # between runs and re-reads library.yaml each call)
+    buf = io.StringIO()
+    ok = True
+    try:
+        with contextlib.redirect_stdout(buf):
+            builder.main(job_dir)
+    except SystemExit as e:          # build.py uses sys.exit(msg) for hard errors
+        if e.code not in (None, 0):
+            buf.write(f"\n{e.code}")
+            ok = False
+    except Exception as e:
+        buf.write(f"\nERROR: {e}")
+        ok = False
+    log = buf.getvalue()
+    if not ok:
         return JSONResponse({"ok": False, "log": log}, status_code=500)
 
     pdfs = sorted(glob.glob(os.path.join(job_dir, "*.pdf")), key=os.path.getmtime, reverse=True)

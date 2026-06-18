@@ -2,8 +2,8 @@
 rem ===================================================================
 rem  Metro Access Control - Submittal Builder
 rem  Double-click this file to start the app. First run sets things up
-rem  (about a minute); after that it starts in a few seconds.
-rem  Keep the window that opens running while you work.
+rem  (about a minute); after that it opens in its own window in seconds.
+rem  Close the app window (or double-click stop.bat) to shut it down.
 rem ===================================================================
 setlocal
 cd /d "%~dp0"
@@ -39,6 +39,7 @@ if not exist ".venv\Scripts\python.exe" (
   )
 )
 set "VENV_PY=.venv\Scripts\python.exe"
+set "VENV_PYW=.venv\Scripts\pythonw.exe"
 
 rem --- install dependencies on first run -----------------------------
 if not exist ".venv\.deps-installed" (
@@ -55,18 +56,10 @@ if not exist ".venv\.deps-installed" (
   echo installed> ".venv\.deps-installed"
 )
 
-rem --- open the browser a few seconds after the server starts --------
-start "" /min cmd /c "ping -n 5 127.0.0.1 >nul & explorer http://localhost:8484"
-
+rem --- launch the desktop window (pythonw = no console) and exit ------
+rem  The app opens in its own window; this console closes itself.
 echo.
-echo   ==============================================================
-echo     Metro Submittal Builder is starting...
-echo     Your browser will open at  http://localhost:8484
-echo.
-echo     KEEP THIS WINDOW OPEN while you work.
-echo     Close it (or double-click stop.bat) to shut the app down.
-echo   ==============================================================
-echo.
-"%VENV_PY%" app.py
+echo   Opening Metro Submittal Builder...
+start "" "%VENV_PYW%" desktop.py
 
 endlocal

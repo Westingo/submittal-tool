@@ -103,6 +103,11 @@
   .dl{display:none;margin:12px;border:1.5px solid var(--rule);padding:10px 12px;text-align:center;
     text-decoration:none;color:var(--ink);font-family:var(--serif)}
   .dl b{color:var(--callout)}
+  .dl a{color:var(--callout)}
+  .dl .acts{margin-top:8px;display:flex;gap:8px;justify-content:center}
+  .dl .acts button{border:1px solid var(--callout);background:#fff;color:var(--callout);
+    font:inherit;padding:6px 12px;cursor:pointer}
+  .dl .acts button:hover{background:#f0f1ff}
   .joblist{list-style:none;margin:0;padding:0}
   .joblist li{border-top:1px solid #e3e4e7;padding:7px 14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px}
   .joblist a{color:var(--callout)}
@@ -151,7 +156,7 @@
     <div class="sheet">
       <h2>Build</h2>
       <div class="pad"><button class="stamp" id="build" type="button">Build package</button></div>
-      <a class="dl" id="dl" href="#">Download <b id="dlname"></b></a>
+      <div class="dl" id="dl"></div>
       <pre id="log"></pre>
     </div>
     <div class="sheet">
@@ -172,14 +177,29 @@ $('#today').textContent = new Date().toLocaleDateString('en-US');
 
 fetch('/api/config').then(r=>r.json()).then(c=>{ CFG=c; addGate(); refreshJobs(); });
 
+// In the desktop window pywebview injects window.pywebview.api; in a plain
+// browser it's absent and we fall back to the /download route.
+function isDesktop(){ return !!(window.pywebview && window.pywebview.api); }
+function openPdf(slug, fname){
+  if(isDesktop()) window.pywebview.api.open_pdf(slug, fname);
+  else window.location = `/download/${slug}/${encodeURIComponent(fname)}`;
+}
+function openFolder(slug){
+  if(isDesktop()) window.pywebview.api.open_folder(slug);
+}
+
 function refreshJobs(){
   fetch('/api/jobs').then(r=>r.json()).then(list=>{
     const ul = $('#jobs'); ul.innerHTML='';
     if(!list.length){ ul.innerHTML='<li>No jobs yet — build one.</li>'; return; }
     for(const j of list){
       const li=document.createElement('li');
-      li.innerHTML = `<span>${j.slug}</span>` +
-        (j.pdf?`<a href="/download/${j.slug}/${encodeURIComponent(j.pdf)}">PDF</a>`:'<span>—</span>');
+      const span=document.createElement('span'); span.textContent=j.slug; li.appendChild(span);
+      if(j.pdf){
+        const a=document.createElement('a'); a.href='#'; a.textContent='open';
+        a.onclick=e=>{ e.preventDefault(); openPdf(j.slug, j.pdf); };
+        li.appendChild(a);
+      } else { const s=document.createElement('span'); s.textContent='—'; li.appendChild(s); }
       ul.appendChild(li);
     }
   });
@@ -364,10 +384,23 @@ $('#build').addEventListener('click', async ()=>{
     const res = await r.json();
     $('#log').innerHTML = (res.log||'').replace(/^.*WARNING.*$/gm, m=>`<span class="warn">${m}</span>`);
     if(res.ok && res.pdf){
-      const a=$('#dl');
-      a.href=`/download/${res.slug}/${encodeURIComponent(res.pdf)}`;
-      $('#dlname').textContent=res.pdf;
-      a.style.display='block';
+      const dl=$('#dl');
+      dl.innerHTML = `Built <b>${res.pdf}</b>`;
+      const acts=document.createElement('div'); acts.className='acts';
+      if(isDesktop()){
+        const open=document.createElement('button'); open.type='button'; open.textContent='Open PDF';
+        open.onclick=()=>openPdf(res.slug,res.pdf);
+        const fold=document.createElement('button'); fold.type='button'; fold.textContent='Open folder';
+        fold.onclick=()=>openFolder(res.slug);
+        acts.append(open, fold);
+        openPdf(res.slug,res.pdf);              // pop it open automatically
+      } else {
+        const a=document.createElement('a');
+        a.href=`/download/${res.slug}/${encodeURIComponent(res.pdf)}`;
+        a.textContent='Download'; acts.appendChild(a);
+      }
+      dl.appendChild(acts);
+      dl.style.display='block';
       refreshJobs();
     }
   }catch(err){ $('#log').textContent='Build failed: '+err; }

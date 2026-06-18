@@ -21,7 +21,7 @@ import sys, os, glob
 import yaml
 import fitz
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+from paths import bundled, data
 
 BLUE = (0.0, 0.0, 1.0)
 RED = (1.0, 0.0, 0.0)
@@ -33,7 +33,7 @@ def find_font(bold=False):
     """Cambria if the user dropped it in fonts/, else Liberation Serif, else Times."""
     pats = ["cambriab*", "cambria-bold*"] if bold else ["cambria.*", "cambria-regular*"]
     for p in pats:
-        hits = glob.glob(os.path.join(ROOT, "fonts", p))
+        hits = glob.glob(bundled("fonts", p))
         if hits:
             return hits[0]
     candidates = (
@@ -151,7 +151,7 @@ def stamp_box(page, pos, lines, color=BLUE, size=10):
 # ---------------------------------------------------------------- main
 def main(job_dir):
     job = yaml.safe_load(open(os.path.join(job_dir, "job.yaml"), encoding="utf-8"))
-    lib = yaml.safe_load(open(os.path.join(ROOT, "library", "library.yaml"), encoding="utf-8"))["items"]
+    lib = yaml.safe_load(open(data("library", "library.yaml"), encoding="utf-8"))["items"]
     out = fitz.open()
 
     # Resolve each gate's item list (preset + overrides), collect labels per item
@@ -160,7 +160,7 @@ def main(job_dir):
         if gate.get("items") is not None:          # explicit list (e.g. from the web UI)
             items = [dict(i) for i in gate["items"]]   # may be empty — overrides preset entirely
         else:
-            preset = yaml.safe_load(open(os.path.join(ROOT, "presets", gate["preset"] + ".yaml"), encoding="utf-8"))
+            preset = yaml.safe_load(open(data("presets", gate["preset"] + ".yaml"), encoding="utf-8"))
             items = [dict(i) for i in preset["items"]]
         for rm in gate.get("remove", []):
             items = [i for i in items if i["id"] != rm]
@@ -180,7 +180,7 @@ def main(job_dir):
                 item_labels[i["id"]].append(gate["label"].strip())
 
     # 1. Cover page per gate
-    tpl = os.path.join(ROOT, "assets", "cover-template.pdf")
+    tpl = bundled("assets", "cover-template.pdf")
     for gate in job["gates"]:
         build_cover(out, tpl, job["project"], gate, gate_items[gate["id"]], lib)
         print(f"cover: {gate['id']} ({len(gate_items[gate['id']])} line items)")
@@ -200,7 +200,7 @@ def main(job_dir):
                 missing.append(item_id)
             continue
         for s_idx, sheet in enumerate(entry["sheets"], start=1):
-            path = os.path.join(ROOT, "library", sheet["file"])
+            path = data("library", sheet["file"])
             src = fitz.open(path)
             first = len(out)
             out.insert_pdf(src)
