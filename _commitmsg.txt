@@ -1,0 +1,18 @@
+Add Gate Drawings: parametric to-scale slide gate elevation generator
+
+New "Gate Drawings" tab in the app window. Enter clear opening, gate
+height, post size and drive type; a live SVG preview redraws as you type
+and "Save drawing PDF" writes a true vector, to-scale PDF.
+
+- drawgen.py computes the elevation once as primitive ops (lines/rects/
+  text) in PDF points, rendered identically as SVG (preview) and PDF
+  (save) so they always match. Auto-fits a standard architectural scale
+  (1" .. 1/16" = 1'-0") and labels it; dimensioned clear opening + height,
+  posts, ground line, title block.
+- app.py: /api/drawing/preview (SVG+scale), /api/drawing/save (PDF to a
+  drawings/ folder), /download-drawing; desktop.py opens saved drawings in
+  the default viewer (auto-opens on save), browser falls back to download.
+- drawings/ gitignored (work products).
+
+v1 is the simple schematic; next: cantilever tail, infill/bracing, then
+electrical drawings.

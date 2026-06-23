@@ -14,6 +14,9 @@ desktop-error.log
 /jobs/*
 !/jobs/_template/
 
+# Generated gate drawings (work products)
+/drawings/
+
 # PyInstaller build outputs (the .spec is tracked; the artifacts are not)
 /build_pyi/
 /dist/

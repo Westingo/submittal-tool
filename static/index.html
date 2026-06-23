@@ -29,8 +29,20 @@
   .tb .brand span{color:var(--callout)}
   .tb .role{font-family:var(--serif);font-variant:small-caps;letter-spacing:.18em;color:var(--faint);align-self:center}
 
-  main{max-width:1060px;margin:22px auto 80px;padding:0 14px;display:grid;grid-template-columns:1fr 320px;gap:20px}
-  @media(max-width:900px){main{grid-template-columns:1fr}}
+  main{max-width:1060px;margin:0 auto 80px;padding:0 14px}
+  .grid2{display:grid;grid-template-columns:1fr 320px;gap:20px}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+  .tabs{max-width:1060px;margin:16px auto 0;padding:0 14px;display:flex;gap:4px}
+  .tabs button{border:1.5px solid var(--rule);border-bottom:none;background:#dcdde0;color:var(--ink);
+    font-family:var(--serif);font-variant:small-caps;letter-spacing:.12em;font-size:13px;padding:8px 18px;cursor:pointer}
+  .tabs button.active{background:var(--sheet);position:relative;top:1px}
+  .dgrid{display:grid;grid-template-columns:320px 1fr;gap:20px}
+  @media(max-width:900px){.dgrid{grid-template-columns:1fr}}
+  .ftin{display:flex;align-items:center;gap:6px}
+  .ftin input{width:70px;border:1px solid #b9bcc2;padding:7px 8px;font:inherit}
+  .ftin span{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  #d-preview{border:1px solid #d4d5d8;background:#fff;overflow:auto;min-height:340px;padding:6px}
+  #d-preview svg{display:block;width:100%;height:auto}
 
   .sheet{background:var(--sheet);border:1.5px solid var(--rule);margin-bottom:20px}
   .sheet>h2{margin:0;border-bottom:1px solid var(--rule);padding:9px 14px;
@@ -124,7 +136,13 @@
   </div>
 </header>
 
+<div class="tabs">
+  <button id="tab-sub" class="active" type="button">Submittal Builder</button>
+  <button id="tab-draw" type="button">Gate Drawings</button>
+</div>
+
 <main>
+  <div id="view-submittal" class="grid2">
   <section>
     <div class="sheet">
       <h2>Project <small>cover page</small></h2>
@@ -164,6 +182,42 @@
       <ul class="joblist" id="jobs"><li>Loading…</li></ul>
     </div>
   </aside>
+  </div><!-- /view-submittal -->
+
+  <div id="view-drawings" hidden>
+    <div class="dgrid">
+      <div class="sheet">
+        <h2>Gate drawing <small>to scale</small></h2>
+        <div class="pad">
+          <label for="d-type">Gate type</label>
+          <select id="d-type"><option value="slide">Slide gate</option></select>
+          <label for="d-drive">Drive</label>
+          <select id="d-drive">
+            <option value="cantilever">Cantilever</option>
+            <option value="rolling">Rolling / V-track</option>
+          </select>
+          <label>Clear opening</label>
+          <div class="ftin">
+            <input id="d-op-ft" type="number" min="0" max="100" value="20"><span>ft</span>
+            <input id="d-op-in" type="number" min="0" max="11" value="0"><span>in</span>
+          </div>
+          <label>Gate height</label>
+          <div class="ftin">
+            <input id="d-h-ft" type="number" min="0" max="20" value="6"><span>ft</span>
+            <input id="d-h-in" type="number" min="0" max="11" value="0"><span>in</span>
+          </div>
+          <label for="d-post">Post size (in)</label>
+          <input id="d-post" type="number" min="2" max="12" value="4" style="width:90px">
+          <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
+          <div class="dl" id="d-dl"></div>
+        </div>
+      </div>
+      <div class="sheet">
+        <h2>Preview <small id="d-scale"></small></h2>
+        <div class="pad"><div id="d-preview">Adjust dimensions to generate a drawing…</div></div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -405,6 +459,67 @@ $('#build').addEventListener('click', async ()=>{
     }
   }catch(err){ $('#log').textContent='Build failed: '+err; }
   btn.disabled=false; btn.textContent='Build package';
+});
+
+/* ---------------- Gate Drawings tab ---------------- */
+const tabSub=$('#tab-sub'), tabDraw=$('#tab-draw');
+function showView(draw){
+  $('#view-submittal').hidden = draw;
+  $('#view-drawings').hidden = !draw;
+  tabSub.classList.toggle('active', !draw);
+  tabDraw.classList.toggle('active', draw);
+  if(draw) refreshPreview();
+}
+tabSub.onclick=()=>showView(false);
+tabDraw.onclick=()=>showView(true);
+
+function drawingParams(){
+  const v=id=>+($(id).value||0);
+  return {
+    gate_type: $('#d-type').value,
+    drive: $('#d-drive').value,
+    opening_in: v('#d-op-ft')*12 + v('#d-op-in'),
+    height_in: v('#d-h-ft')*12 + v('#d-h-in'),
+    post_in: v('#d-post'),
+    date: new Date().toLocaleDateString('en-US')
+  };
+}
+let previewTimer=null;
+function refreshPreview(){
+  clearTimeout(previewTimer);
+  previewTimer=setTimeout(async ()=>{
+    try{
+      const r=await fetch('/api/drawing/preview',{method:'POST',
+        headers:{'Content-Type':'application/json'}, body:JSON.stringify(drawingParams())});
+      const res=await r.json();
+      $('#d-preview').innerHTML=res.svg||'';
+      $('#d-scale').textContent=res.scale?('scale '+res.scale):'';
+    }catch(e){ $('#d-preview').textContent='Preview error: '+e; }
+  },180);
+}
+['#d-type','#d-drive','#d-op-ft','#d-op-in','#d-h-ft','#d-h-in','#d-post']
+  .forEach(id=>{ const el=$(id); if(el) el.addEventListener('input', refreshPreview); });
+
+function openDrawing(fname){
+  if(isDesktop()) window.pywebview.api.open_drawing(fname);
+  else window.location=`/download-drawing/${encodeURIComponent(fname)}`;
+}
+$('#d-save').addEventListener('click', async ()=>{
+  const b=$('#d-save'); b.disabled=true; b.textContent='Saving…';
+  try{
+    const r=await fetch('/api/drawing/save',{method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify(drawingParams())});
+    const res=await r.json();
+    if(res.ok && res.file){
+      const dl=$('#d-dl'); dl.innerHTML=`Saved <b>${res.file}</b>`;
+      const acts=document.createElement('div'); acts.className='acts';
+      const o=document.createElement('button'); o.type='button'; o.textContent='Open PDF';
+      o.onclick=()=>openDrawing(res.file); acts.appendChild(o);
+      dl.appendChild(acts); dl.style.display='block';
+      openDrawing(res.file);
+    }
+  }catch(e){ alert('Save failed: '+e); }
+  b.disabled=false; b.textContent='Save drawing PDF';
 });
 </script>
 </body>

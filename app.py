@@ -11,11 +11,12 @@ drawings, runs the build, and hands back the finished PDF.
 """
 import os, re, glob, json, io, contextlib
 import yaml
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, Body
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 
 from paths import bundled, data
 import build as builder
+import drawgen
 
 JOBS = data("jobs")
 
@@ -138,6 +139,42 @@ async def build(job: str = Form(...), drawings: list[UploadFile] = File(default=
 @app.get("/download/{slug}/{fname}")
 def download(slug: str, fname: str):
     path = os.path.join(JOBS, os.path.basename(slug), os.path.basename(fname))
+    if not os.path.isfile(path):
+        return JSONResponse({"error": "not found"}, status_code=404)
+    return FileResponse(path, media_type="application/pdf", filename=fname)
+
+
+# ---------------------------------------------------------------- drawings
+DRAWINGS = data("drawings")
+
+
+def _drawing_name(params):
+    # ft_in already contains the hyphen ("24'-0\""); drop the ' and " for a
+    # filesystem-safe token -> "24-0"
+    op = drawgen.ft_in(drawgen._num(params, "opening_in", 240, 12, 1200)).replace('"', "").replace("'", "")
+    ht = drawgen.ft_in(drawgen._num(params, "height_in", 72, 12, 240)).replace('"', "").replace("'", "")
+    date = str(params.get("date", "") or "").replace("/", "-")
+    stamp = f" - {date}" if date else ""
+    return f"Slide Gate {op} x {ht}{stamp}.pdf".replace("  ", " ")
+
+
+@app.post("/api/drawing/preview")
+def drawing_preview(params: dict = Body(...)):
+    d = drawgen.compute(params)
+    return {"svg": drawgen.to_svg(d), "scale": d["scale"]}
+
+
+@app.post("/api/drawing/save")
+def drawing_save(params: dict = Body(...)):
+    os.makedirs(DRAWINGS, exist_ok=True)
+    name = _drawing_name(params)
+    drawgen.to_pdf(drawgen.compute(params), os.path.join(DRAWINGS, name))
+    return {"ok": True, "file": name}
+
+
+@app.get("/download-drawing/{fname}")
+def download_drawing(fname: str):
+    path = os.path.join(DRAWINGS, os.path.basename(fname))
     if not os.path.isfile(path):
         return JSONResponse({"error": "not found"}, status_code=404)
     return FileResponse(path, media_type="application/pdf", filename=fname)

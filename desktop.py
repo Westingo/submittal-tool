@@ -57,6 +57,13 @@ class Api:
             return True
         return False
 
+    def open_drawing(self, fname):
+        p = data("drawings", os.path.basename(fname))
+        if os.path.isfile(p):
+            os.startfile(p)
+            return True
+        return False
+
 
 def _serve():
     # uvicorn skips signal-handler install off the main thread, so this is safe
