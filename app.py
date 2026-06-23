@@ -17,6 +17,7 @@ from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from paths import bundled, data
 import build as builder
 import drawgen
+import settings
 
 JOBS = data("jobs")
 
@@ -30,6 +31,19 @@ def slugify(name):
 @app.get("/", response_class=HTMLResponse)
 def index():
     return open(bundled("static", "index.html"), encoding="utf-8").read()
+
+
+@app.get("/api/settings")
+def get_settings():
+    return {"workspace": settings.get_workspace()}
+
+
+@app.post("/api/settings")
+def post_settings(body: dict = Body(...)):
+    ws = (body or {}).get("workspace")
+    if ws and os.path.isdir(os.path.expanduser(ws.strip())):
+        settings.set_workspace(ws)
+    return {"workspace": settings.get_workspace()}
 
 
 @app.get("/api/config")

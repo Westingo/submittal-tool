@@ -37,6 +37,11 @@
   .tabs button{border:1.5px solid var(--rule);border-bottom:none;background:#dcdde0;color:var(--ink);
     font-family:var(--serif);font-variant:small-caps;letter-spacing:.12em;font-size:13px;padding:8px 18px;cursor:pointer}
   .tabs button.active{background:var(--sheet);position:relative;top:1px}
+  .wsbar{max-width:1060px;margin:8px auto 0;padding:0 14px;display:flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .wsbar code{color:var(--ink);background:#e9eaec;padding:2px 7px;border:1px solid #d4d5d8;
+    max-width:560px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wsbar button{border:1px solid #b9bcc2;background:#fff;font:inherit;font-size:11px;padding:3px 9px;cursor:pointer}
   .dgrid{display:grid;grid-template-columns:320px 1fr;gap:20px}
   @media(max-width:900px){.dgrid{grid-template-columns:1fr}}
   .ftin{display:flex;align-items:center;gap:6px}
@@ -149,6 +154,12 @@
 <div class="tabs">
   <button id="tab-sub" class="active" type="button">Submittal Builder</button>
   <button id="tab-draw" type="button">Gate Drawings</button>
+</div>
+
+<div class="wsbar">
+  <span>Workspace:</span><code id="ws-path">…</code>
+  <button id="ws-change" type="button">Change folder…</button>
+  <button id="ws-reveal" type="button">Open in Explorer</button>
 </div>
 
 <main>
@@ -272,6 +283,25 @@ function openPdf(slug, fname){
 function openFolder(slug){
   if(isDesktop()) window.pywebview.api.open_folder(slug);
 }
+
+/* workspace folder (mirrors a real folder on the PC) */
+let WORKSPACE = '';
+async function loadWorkspace(){
+  try{ const s = await (await fetch('/api/settings')).json(); WORKSPACE = s.workspace||''; $('#ws-path').textContent = WORKSPACE; }
+  catch(e){ $('#ws-path').textContent = '(unavailable)'; }
+}
+async function changeWorkspace(){
+  let path = '';
+  if(isDesktop()) path = await window.pywebview.api.pick_folder();
+  else path = prompt('Workspace folder (full path):', WORKSPACE) || '';
+  if(!path) return;
+  const s = await (await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({workspace:path})})).json();
+  WORKSPACE = s.workspace||''; $('#ws-path').textContent = WORKSPACE;
+}
+$('#ws-change').addEventListener('click', changeWorkspace);
+$('#ws-reveal').addEventListener('click', ()=>{ if(isDesktop() && WORKSPACE) window.pywebview.api.reveal(WORKSPACE); });
+loadWorkspace();
 
 function refreshJobs(){
   fetch('/api/jobs').then(r=>r.json()).then(list=>{

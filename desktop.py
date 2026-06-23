@@ -64,6 +64,28 @@ class Api:
             return True
         return False
 
+    def pick_folder(self):
+        """Native 'choose folder' dialog; returns the path or '' if cancelled."""
+        try:
+            import webview
+            res = webview.windows[0].create_file_dialog(webview.FOLDER_DIALOG)
+            if res:
+                return res[0] if isinstance(res, (list, tuple)) else str(res)
+        except Exception:
+            pass
+        return ""
+
+    def reveal(self, path):
+        """Open a folder (or a file's folder) in Windows Explorer."""
+        p = os.path.abspath(path)
+        if os.path.isdir(p):
+            os.startfile(p)
+            return True
+        if os.path.isfile(p):
+            os.startfile(os.path.dirname(p))
+            return True
+        return False
+
 
 def _serve():
     # uvicorn skips signal-handler install off the main thread, so this is safe
