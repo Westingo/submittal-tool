@@ -217,11 +217,13 @@ def compute(params):
 
     # symbol drawn at LOCAL origin (0,0); bubble offset; returns bubble dxy
     def draw_symbol(t):
-        if t == "operator":
-            HIT(-22, -17, 44, 34)
-            R(-20, -15, 40, 30, 1.1, INK, GREY)
-            R(-15, -10, 30, 20, 0.6, INK, WHITE)
-            return (-30, -26)
+        if t == "operator":              # CSL-24UL slide-gate operator (top view)
+            HIT(-23, -23, 46, 46)
+            RR(-21, -21, 42, 42, 6, 1.2, INK, fill=GREY)        # housing footprint
+            RR(-16, -16, 32, 32, 5, 0.8, INK, fill=WHITE)       # recessed top
+            RR(-12, -12, 24, 24, 4, 0.7, INK, fill=GREY)        # cover / lid
+            R(-5, -24, 10, 4, 0.7, INK, fill=GREY)              # drive housing tab
+            return (-32, -30)
         if t in ("presence_loop", "free_exit_loop"):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
