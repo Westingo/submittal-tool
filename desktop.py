@@ -64,6 +64,14 @@ class Api:
             return True
         return False
 
+    def open_path(self, path):
+        """Open any file in its default app (used for saved drawing PDFs)."""
+        p = os.path.abspath(path)
+        if os.path.isfile(p):
+            os.startfile(p)
+            return True
+        return False
+
     def pick_folder(self):
         """Native 'choose folder' dialog; returns the path or '' if cancelled."""
         try:

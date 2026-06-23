@@ -210,6 +210,8 @@
       <div class="sheet">
         <h2>Gate drawing <small>to scale</small></h2>
         <div class="pad">
+          <label for="d-open">Open saved drawing</label>
+          <select id="d-open"><option value="">— new / pick a saved drawing —</option></select>
           <label for="d-type">Gate type</label>
           <select id="d-type"><option value="slide">Slide gate</option></select>
           <label for="d-config">Configuration</label>
@@ -536,8 +538,32 @@ function showView(draw){
   $('#view-drawings').hidden = !draw;
   tabSub.classList.toggle('active', !draw);
   tabDraw.classList.toggle('active', draw);
-  if(draw) refreshPreview();
+  if(draw){ refreshPreview(); refreshDrawingList(); }
 }
+
+async function refreshDrawingList(){
+  const sel=$('#d-open'); if(!sel) return;
+  try{
+    const list=await (await fetch('/api/drawing/list')).json();
+    sel.innerHTML='';
+    const o0=document.createElement('option'); o0.value=''; o0.textContent='— new / pick a saved drawing —'; sel.appendChild(o0);
+    for(const d of list){ const o=document.createElement('option'); o.value=d.path; o.textContent=`${d.job} / ${d.name}`; sel.appendChild(o); }
+  }catch(e){}
+}
+function loadDrawing(j){
+  $('#d-config').value = j.config||'double';
+  const op=+(j.opening_in||288); $('#d-op-ft').value=Math.floor(op/12); $('#d-op-in').value=op%12;
+  $('#d-project').value=j.project||''; $('#d-site').value=j.site||'';
+  if(j.date){ const p=String(j.date).split('/'); if(p.length===3){ const [m,d,y]=p;
+    $('#d-pdate').value=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; } }
+  DEVICES = Array.isArray(j.devices)? j.devices : []; selDev=null;
+  refreshPreview();
+}
+$('#d-open').addEventListener('change', async e=>{
+  const path=e.target.value; if(!path) return;
+  try{ loadDrawing(await (await fetch('/api/drawing/open?path='+encodeURIComponent(path))).json()); }
+  catch(err){ alert('Could not open: '+err); }
+});
 tabSub.onclick=()=>showView(false);
 tabDraw.onclick=()=>showView(true);
 
@@ -654,23 +680,26 @@ document.addEventListener('keydown', e=>{
 ['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate']
   .forEach(id=>{ const el=$(id); if(el){ el.addEventListener('input', refreshPreview); el.addEventListener('change', refreshPreview); } });
 
-function openDrawing(fname){
-  if(isDesktop()) window.pywebview.api.open_drawing(fname);
-  else window.location=`/download-drawing/${encodeURIComponent(fname)}`;
+function openDrawingPdf(path){
+  if(isDesktop()) window.pywebview.api.open_path(path);
+  else window.location=`/download-file?path=${encodeURIComponent(path)}`;
 }
 $('#d-save').addEventListener('click', async ()=>{
+  if(!$('#d-project').value.trim()){ alert('Enter a project name — that becomes the job folder.'); $('#d-project').focus(); return; }
   const b=$('#d-save'); b.disabled=true; b.textContent='Saving…';
   try{
     const r=await fetch('/api/drawing/save',{method:'POST',
       headers:{'Content-Type':'application/json'}, body:JSON.stringify(fullParams())});
     const res=await r.json();
-    if(res.ok && res.file){
-      const dl=$('#d-dl'); dl.innerHTML=`Saved <b>${res.file}</b>`;
+    if(res.ok && res.pdf){
+      const dl=$('#d-dl'); dl.innerHTML=`Saved to <b>${res.job} / ${res.name}</b>`;
       const acts=document.createElement('div'); acts.className='acts';
-      const o=document.createElement('button'); o.type='button'; o.textContent='Open PDF';
-      o.onclick=()=>openDrawing(res.file); acts.appendChild(o);
-      dl.appendChild(acts); dl.style.display='block';
-      openDrawing(res.file);
+      const o=document.createElement('button'); o.type='button'; o.textContent='Open PDF'; o.onclick=()=>openDrawingPdf(res.pdf);
+      const f=document.createElement('button'); f.type='button'; f.textContent='Open folder';
+      f.onclick=()=>{ if(isDesktop()) window.pywebview.api.reveal(res.pdf); };
+      acts.append(o,f); dl.appendChild(acts); dl.style.display='block';
+      openDrawingPdf(res.pdf);
+      refreshDrawingList();
     }
   }catch(e){ alert('Save failed: '+e); }
   b.disabled=false; b.textContent='Save drawing PDF';

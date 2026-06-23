@@ -159,16 +159,14 @@ def download(slug: str, fname: str):
 
 
 # ---------------------------------------------------------------- drawings
-DRAWINGS = data("drawings")
+def _safe(name):
+    return re.sub(r'[<>:"/\\|?*\n\r\t]+', " ", str(name or "").strip()).strip() or "Untitled"
 
 
-def _drawing_name(params):
-    op = drawgen.ft_in(drawgen._num(params, "opening_in", 288, 24, 1200)).replace('"', "").replace("'", "")
-    config = str(params.get("config", "double")).title()
-    sheet = str(params.get("sheet_no", "A.01"))
-    date = str(params.get("date", "") or "").replace("/", "-")
-    stamp = f" - {date}" if date else ""
-    return f"{config} Slide Gate {op} - {sheet}{stamp}.pdf".replace("  ", " ")
+def _in_workspace(path):
+    ws = os.path.abspath(settings.get_workspace())
+    p = os.path.abspath(path)
+    return p == ws or p.startswith(ws + os.sep)
 
 
 @app.post("/api/drawing/preview")
@@ -180,18 +178,45 @@ def drawing_preview(params: dict = Body(...)):
 
 @app.post("/api/drawing/save")
 def drawing_save(params: dict = Body(...)):
-    os.makedirs(DRAWINGS, exist_ok=True)
-    name = _drawing_name(params)
-    drawgen.to_pdf(drawgen.compute(params), os.path.join(DRAWINGS, name))
-    return {"ok": True, "file": name}
+    ws = settings.get_workspace()
+    job = _safe(params.get("project") or "Untitled Job")
+    name = _safe(f"{params.get('sheet_no', 'A.01')} {params.get('sheet_title', 'Equipment Layout')}")
+    jobdir = os.path.join(ws, job)
+    os.makedirs(jobdir, exist_ok=True)
+    with open(os.path.join(jobdir, name + ".json"), "w", encoding="utf-8") as f:
+        json.dump(params, f, indent=2)
+    pdf = os.path.join(jobdir, name + ".pdf")
+    drawgen.to_pdf(drawgen.compute(params), pdf)
+    return {"ok": True, "job": job, "name": name, "pdf": pdf}
 
 
-@app.get("/download-drawing/{fname}")
-def download_drawing(fname: str):
-    path = os.path.join(DRAWINGS, os.path.basename(fname))
-    if not os.path.isfile(path):
+@app.get("/api/drawing/list")
+def drawing_list():
+    ws = settings.get_workspace()
+    out = []
+    for job in sorted(os.listdir(ws)):
+        jdir = os.path.join(ws, job)
+        if not os.path.isdir(jdir):
+            continue
+        for f in sorted(os.listdir(jdir)):
+            if f.lower().endswith(".json"):
+                out.append({"job": job, "name": f[:-5], "path": os.path.join(jdir, f)})
+    return out
+
+
+@app.get("/api/drawing/open")
+def drawing_open(path: str):
+    if not (_in_workspace(path) and os.path.isfile(path)):
         return JSONResponse({"error": "not found"}, status_code=404)
-    return FileResponse(path, media_type="application/pdf", filename=fname)
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/download-file")
+def download_file(path: str):
+    if not (_in_workspace(path) and os.path.isfile(path)):
+        return JSONResponse({"error": "not found"}, status_code=404)
+    return FileResponse(path, media_type="application/pdf", filename=os.path.basename(path))
 
 
 if __name__ == "__main__":
