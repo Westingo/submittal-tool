@@ -149,19 +149,18 @@ DRAWINGS = data("drawings")
 
 
 def _drawing_name(params):
-    # ft_in already contains the hyphen ("24'-0\""); drop the ' and " for a
-    # filesystem-safe token -> "24-0"
-    op = drawgen.ft_in(drawgen._num(params, "opening_in", 240, 12, 1200)).replace('"', "").replace("'", "")
-    ht = drawgen.ft_in(drawgen._num(params, "height_in", 72, 12, 240)).replace('"', "").replace("'", "")
+    op = drawgen.ft_in(drawgen._num(params, "opening_in", 288, 24, 1200)).replace('"', "").replace("'", "")
+    config = str(params.get("config", "double")).title()
+    sheet = str(params.get("sheet_no", "A.01"))
     date = str(params.get("date", "") or "").replace("/", "-")
     stamp = f" - {date}" if date else ""
-    return f"Slide Gate {op} x {ht}{stamp}.pdf".replace("  ", " ")
+    return f"{config} Slide Gate {op} - {sheet}{stamp}.pdf".replace("  ", " ")
 
 
 @app.post("/api/drawing/preview")
 def drawing_preview(params: dict = Body(...)):
     d = drawgen.compute(params)
-    return {"svg": drawgen.to_svg(d), "scale": d["scale"]}
+    return {"svg": drawgen.to_svg(d), "scale": d["scale"], "devices": d["devices"]}
 
 
 @app.post("/api/drawing/save")

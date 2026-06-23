@@ -45,11 +45,13 @@
   #d-preview svg{display:block;width:100%;height:auto}
   .eqhead{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
     color:var(--faint);margin:14px 0 4px;border-top:1px solid #e3e4e7;padding-top:10px}
-  .eqrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12.5px;
-    color:var(--ink);margin:5px 0}
-  .eqrow span{flex:1}
-  .eqrow input[type=number],.eqrow input[type=text]{border:1px solid #b9bcc2;padding:5px 6px;font:inherit}
-  .eqrow input[type=number]{width:56px;text-align:center}
+  .palette{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0}
+  .palette button{border:1px dashed var(--callout);background:#fff;color:var(--callout);
+    font:inherit;font-size:11px;padding:4px 7px;cursor:pointer}
+  .palette button:hover{background:#f0f1ff}
+  .palrow{display:flex;gap:6px;margin-top:6px}
+  .palrow button{border:1px solid #b9bcc2;background:#fff;font:inherit;font-size:11px;padding:5px 8px;cursor:pointer}
+  #d-preview .dev.sel *{stroke:#2433e0}
 
   .sheet{background:var(--sheet);border:1.5px solid var(--rule);margin-bottom:20px}
   .sheet>h2{margin:0;border-bottom:1px solid var(--rule);padding:9px 14px;
@@ -215,15 +217,24 @@
           <label for="d-pdate">Date</label>
           <input id="d-pdate" type="date">
 
-          <div class="eqhead">Equipment on drawing</div>
-          <div class="eqrow"><span>Operator model</span><input id="eq-op-model" type="text" value="CSL-24UL" style="width:120px"></div>
-          <div class="eqrow"><span>Presence loops</span><input id="eq-presence" type="number" min="0" max="2" value="2"></div>
-          <div class="eqrow"><span>Gate edge sensors</span><input id="eq-edge" type="number" min="0" max="12" value="6"></div>
-          <div class="eqrow"><input id="eq-freeexit" type="checkbox" checked><span>Free exit loop</span></div>
-          <div class="eqrow"><input id="eq-gooseneck" type="checkbox" checked><span>Gooseneck pedestal</span></div>
-          <div class="eqrow"><input id="eq-fire" type="checkbox" checked><span>Fire switch</span></div>
-          <div class="eqrow"><input id="eq-keypad" type="checkbox" checked><span>Access keypad</span></div>
-          <div class="eqrow"><input id="eq-eyes" type="checkbox" checked><span>Safety eyes</span></div>
+          <div class="eqhead">Add equipment (drag to place)</div>
+          <div class="palette">
+            <button type="button" data-add="operator">+ Operator</button>
+            <button type="button" data-add="presence_loop">+ Presence loop</button>
+            <button type="button" data-add="free_exit_loop">+ Free exit loop</button>
+            <button type="button" data-add="gooseneck">+ Gooseneck</button>
+            <button type="button" data-add="fire_switch">+ Fire switch</button>
+            <button type="button" data-add="keypad">+ Keypad</button>
+            <button type="button" data-add="edge_sensor">+ Edge sensor</button>
+            <button type="button" data-add="safety_eye">+ Safety eye</button>
+          </div>
+          <div class="palrow">
+            <button id="d-del" type="button">Delete selected</button>
+            <button id="d-reset" type="button">Reset to standard kit</button>
+          </div>
+          <label for="eq-op-model" style="margin-top:10px">Operator model (legend)</label>
+          <input id="eq-op-model" type="text" value="CSL-24UL">
+          <p class="hint">Drag any device on the plan to position it. Click a device, then "Delete selected" (or the Del key) to remove it.</p>
 
           <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
           <div class="dl" id="d-dl"></div>
@@ -490,7 +501,10 @@ function showView(draw){
 tabSub.onclick=()=>showView(false);
 tabDraw.onclick=()=>showView(true);
 
-function drawingParams(){
+let DEVICES = null;        // null until first preview seeds the standard kit
+let selDev = null;         // id of the selected device
+
+function baseParams(){
   const v=id=>+($(id).value||0);
   const dv=$('#d-pdate').value;
   const date = dv ? (()=>{const [y,m,d]=dv.split('-');return `${m}/${d}/${y}`;})() : '';
@@ -498,39 +512,76 @@ function drawingParams(){
     gate_type: $('#d-type').value,
     config: $('#d-config').value,
     opening_in: v('#d-op-ft')*12 + v('#d-op-in'),
+    operator_model: ($('#eq-op-model').value.trim().toUpperCase())||'CSL-24UL',
     project: $('#d-project').value.trim().toUpperCase(),
     site: $('#d-site').value.trim().toUpperCase(),
-    date,
-    sheet_no: 'A.01',
-    sheet_title: 'EQUIPMENT LAYOUT',
-    equipment: {
-      operator_model: ($('#eq-op-model').value.trim().toUpperCase())||'CSL-24UL',
-      presence_loops: v('#eq-presence'),
-      free_exit_loop: $('#eq-freeexit').checked,
-      gooseneck: $('#eq-gooseneck').checked,
-      fire_switch: $('#eq-fire').checked,
-      keypad: $('#eq-keypad').checked,
-      edge_sensors: v('#eq-edge'),
-      safety_eyes: $('#eq-eyes').checked
-    }
+    date, sheet_no:'A.01', sheet_title:'EQUIPMENT LAYOUT'
   };
 }
+function fullParams(){ const p=baseParams(); if(DEVICES) p.devices=DEVICES; return p; }
 $('#d-pdate').value = todayISO;
+
 let previewTimer=null;
 function refreshPreview(){
   clearTimeout(previewTimer);
   previewTimer=setTimeout(async ()=>{
     try{
       const r=await fetch('/api/drawing/preview',{method:'POST',
-        headers:{'Content-Type':'application/json'}, body:JSON.stringify(drawingParams())});
+        headers:{'Content-Type':'application/json'}, body:JSON.stringify(fullParams())});
       const res=await r.json();
+      if(DEVICES===null) DEVICES=res.devices||[];   // adopt the seeded kit
       $('#d-preview').innerHTML=res.svg||'';
       $('#d-scale').textContent=res.scale?('scale '+res.scale):'';
+      attachDrag();
     }catch(e){ $('#d-preview').textContent='Preview error: '+e; }
-  },180);
+  },150);
 }
-['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate',
- '#eq-op-model','#eq-presence','#eq-edge','#eq-freeexit','#eq-gooseneck','#eq-fire','#eq-keypad','#eq-eyes']
+
+/* drag devices on the plan */
+function attachDrag(){
+  const svg=$('#d-preview svg'); if(!svg) return;
+  svg.querySelectorAll('.dev').forEach(g=>{
+    g.style.cursor='move';
+    if(g.dataset.id===selDev) g.classList.add('sel');
+    g.addEventListener('pointerdown', startDrag);
+  });
+}
+function startDrag(e){
+  e.preventDefault();
+  const g=e.currentTarget, id=g.dataset.id;
+  const dev=(DEVICES||[]).find(d=>d.id===id); if(!dev) return;
+  selDev=id;
+  svg_sel(g);
+  const svg=g.ownerSVGElement, pt=svg.createSVGPoint();
+  const toUser=ev=>{ pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
+  const s=toUser(e), ox=dev.x, oy=dev.y;
+  function move(ev){ const u=toUser(ev); dev.x=ox+(u.x-s.x); dev.y=oy+(u.y-s.y);
+    g.setAttribute('transform',`translate(${dev.x},${dev.y})`); }
+  function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up);
+    dev.x=Math.round(dev.x*10)/10; dev.y=Math.round(dev.y*10)/10; refreshPreview(); }
+  window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
+}
+function svg_sel(g){ const svg=g.ownerSVGElement; if(svg) svg.querySelectorAll('.dev.sel').forEach(x=>x.classList.remove('sel')); g.classList.add('sel'); }
+
+function addDevice(type){
+  if(!DEVICES) DEVICES=[];
+  const id='u'+Date.now()+Math.floor(Math.random()*1000);
+  DEVICES.push({id, type, x:420, y:236});
+  selDev=id;
+  refreshPreview();
+}
+function deleteSelected(){
+  if(!DEVICES||!selDev) return;
+  DEVICES=DEVICES.filter(d=>d.id!==selDev); selDev=null; refreshPreview();
+}
+document.querySelectorAll('.palette button').forEach(b=>b.addEventListener('click',()=>addDevice(b.dataset.add)));
+$('#d-del').addEventListener('click', deleteSelected);
+$('#d-reset').addEventListener('click', ()=>{ DEVICES=null; selDev=null; refreshPreview(); });
+document.addEventListener('keydown', e=>{
+  if((e.key==='Delete'||e.key==='Backspace') && !$('#view-drawings').hidden &&
+     !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)){ deleteSelected(); }
+});
+['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate','#eq-op-model']
   .forEach(id=>{ const el=$(id); if(el){ el.addEventListener('input', refreshPreview); el.addEventListener('change', refreshPreview); } });
 
 function openDrawing(fname){
@@ -541,7 +592,7 @@ $('#d-save').addEventListener('click', async ()=>{
   const b=$('#d-save'); b.disabled=true; b.textContent='Saving…';
   try{
     const r=await fetch('/api/drawing/save',{method:'POST',
-      headers:{'Content-Type':'application/json'}, body:JSON.stringify(drawingParams())});
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify(fullParams())});
     const res=await r.json();
     if(res.ok && res.file){
       const dl=$('#d-dl'); dl.innerHTML=`Saved <b>${res.file}</b>`;

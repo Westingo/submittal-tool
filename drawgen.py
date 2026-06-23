@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
 Parametric gate-drawing generator — top-down (plan) view in Metro's house
-format (matches the A.01 EQUIPMENT / A.02 ELECTRICAL LAYOUT sheets).
+format (A.01 EQUIPMENT / A.02 ELECTRICAL LAYOUT sheets).
 
-compute(params) builds the drawing once as primitive ops (lines / rects /
-circles / rounded-rects / text / image) in PDF points, origin top-left,
-y-down — coordinates that render identically as SVG (live preview) and as a
-vector PDF (save), so preview == PDF.
+The drawing = a generated BASE plan (border, SECURE/PUBLIC labels, gate +
+driveway + dimensioned opening, title block) plus a list of DEVICE instances
+that the user places by dragging. The server renders everything (so the live
+preview matches the PDF exactly); each device symbol is emitted inside a
+group tagged with its id and a translate, so the client can drag it.
+
+Coordinates are PDF points, origin top-left, y-down — identical in SVG and
+PDF. compute(params) takes params["devices"] = [{id,type,x,y}, ...]; if
+absent, a default kit is seeded from the gate geometry.
 """
 import base64
 import math
@@ -23,12 +28,10 @@ BLUE = (0.00, 0.12, 0.74)
 GREY = (0.84, 0.84, 0.86)
 WHITE = (1, 1, 1)
 
-# ---- sheet (ANSI A landscape) ---------------------------------------------
 SHEET_W, SHEET_H = 792.0, 612.0
 M = 20.0
 BORDER = (M, M, SHEET_W - M, SHEET_H - M)
 
-# title block (bottom strip)
 TB_TOP = 520.0
 TB_BOT = SHEET_H - M
 TB_LOGO = (M, 122)
@@ -43,7 +46,6 @@ TB_COLS = [
 TB_HDR_Y = 538.0
 ADDR_LINES = ["2617 NE COLUMBIA BLVD", "PORTLAND, OR 97211", "888.813.6772"]
 
-# drawing region
 AREA = (40.0, 40.0, 752.0, 506.0)
 GATE_X = 470.0
 
@@ -51,6 +53,20 @@ SCALES = [
     ('1/4" = 1\'-0"', 0.25), ('3/16" = 1\'-0"', 0.1875), ('1/8" = 1\'-0"', 0.125),
     ('3/32" = 1\'-0"', 0.09375), ('1/16" = 1\'-0"', 0.0625), ('1/32" = 1\'-0"', 0.03125),
 ]
+
+# device types: order drives the legend numbering; label is the legend text
+TYPE_ORDER = ["operator", "presence_loop", "free_exit_loop", "gooseneck",
+              "fire_switch", "keypad", "edge_sensor", "safety_eye"]
+TYPE_LABEL = {
+    "operator": "{model} ON CONCRETE PAD",
+    "presence_loop": "PRESENCE LOOP",
+    "free_exit_loop": "FREE EXIT LOOP",
+    "gooseneck": "GOOSENECK PEDESTAL",
+    "fire_switch": "FIRE SWITCH",
+    "keypad": "ACCESS KEYPAD",
+    "edge_sensor": "GATE EDGE CONTACT SENSORS",
+    "safety_eye": "SAFETY EYES",
+}
 
 _LOGO_PATH = bundled("assets", "metro-logo.png")
 try:
@@ -74,26 +90,39 @@ def _num(params, key, default, lo, hi):
     return max(lo, min(hi, v))
 
 
-def _pick_scale(real_w_in, real_h_in, avail_w, avail_h):
+def _pick_scale(real_h_in, avail_h):
     for label, paper_per_ft in SCALES:
-        ppi = paper_per_ft * 6.0
-        if real_w_in * ppi <= avail_w and real_h_in * ppi <= avail_h:
-            return label, ppi
+        if real_h_in * paper_per_ft * 6.0 <= avail_h:
+            return label, paper_per_ft * 6.0
     label, paper_per_ft = SCALES[-1]
     return label, paper_per_ft * 6.0
 
 
-# default equipment kit (matches the A.01 example); UI overrides via params
-DEFAULT_EQUIP = {
-    "operator_model": "CSL-24UL",
-    "presence_loops": 2,
-    "free_exit_loop": True,
-    "gooseneck": True,
-    "fire_switch": True,
-    "keypad": True,
-    "edge_sensors": 6,
-    "safety_eyes": True,
-}
+def _default_devices(config, y_top, y_bot):
+    """Seed a standard kit at sensible starting positions (user drags them)."""
+    d = []
+    n = 0
+
+    def put(t, x, y):
+        nonlocal n
+        n += 1
+        d.append({"id": f"d{n}", "type": t, "x": round(x, 1), "y": round(y, 1)})
+
+    ox = GATE_X - 28
+    put("operator", ox, y_top)
+    if config == "double":
+        put("operator", ox, y_bot)
+    put("presence_loop", GATE_X + 95, (y_top + y_bot) / 2)
+    put("presence_loop", GATE_X - 120, (y_top + y_bot) / 2)
+    put("free_exit_loop", GATE_X - 232, (y_top + y_bot) / 2)
+    put("gooseneck", GATE_X + 150, y_bot + 58)
+    put("fire_switch", GATE_X + 142, y_bot + 30)
+    put("keypad", GATE_X + 158, y_bot + 30)
+    for i in range(6):
+        put("edge_sensor", GATE_X + 10, y_top + (y_bot - y_top) * (i + 1) / 7)
+    put("safety_eye", GATE_X - 16, y_top)
+    put("safety_eye", GATE_X - 16, y_bot)
+    return d
 
 
 # --------------------------------------------------------------- compute
@@ -106,26 +135,25 @@ def compute(params):
     project = str(params.get("project", "") or "")
     site = str(params.get("site", "") or "")
     date = str(params.get("date", "") or "")
-    eq = dict(DEFAULT_EQUIP)
-    eq.update(params.get("equipment") or {})
+    model = str(params.get("operator_model") or "CSL-24UL").upper()
 
     ops = []
 
     def L(x1, y1, x2, y2, w=0.8, color=INK, dash=None):
-        ops.append({"t": "line", "x1": x1, "y1": y1, "x2": x2, "y2": y2,
-                    "w": w, "color": color, "dash": dash})
+        ops.append({"t": "line", "x1": x1, "y1": y1, "x2": x2, "y2": y2, "w": w,
+                    "color": color, "dash": dash})
 
     def R(x, y, w, h, sw=0.9, color=INK, fill=None):
-        ops.append({"t": "rect", "x": x, "y": y, "w": w, "h": h,
-                    "sw": sw, "color": color, "fill": fill})
+        ops.append({"t": "rect", "x": x, "y": y, "w": w, "h": h, "sw": sw,
+                    "color": color, "fill": fill})
 
     def RR(x, y, w, h, r, sw=0.9, color=INK, dash=None, fill=None):
-        ops.append({"t": "rrect", "x": x, "y": y, "w": w, "h": h, "r": r,
-                    "sw": sw, "color": color, "dash": dash, "fill": fill})
+        ops.append({"t": "rrect", "x": x, "y": y, "w": w, "h": h, "r": r, "sw": sw,
+                    "color": color, "dash": dash, "fill": fill})
 
     def C(cx, cy, r, sw=0.9, color=INK, fill=None):
-        ops.append({"t": "circle", "cx": cx, "cy": cy, "r": r,
-                    "sw": sw, "color": color, "fill": fill})
+        ops.append({"t": "circle", "cx": cx, "cy": cy, "r": r, "sw": sw,
+                    "color": color, "fill": fill})
 
     def T(x, y, s, size=9, anchor="start", bold=False, color=INK, serif=False):
         ops.append({"t": "text", "x": x, "y": y, "s": s, "size": size,
@@ -134,50 +162,36 @@ def compute(params):
     def IMG(x, y, w, h):
         ops.append({"t": "image", "x": x, "y": y, "w": w, "h": h})
 
+    def gstart(dev_id, x, y):
+        ops.append({"t": "gstart", "id": dev_id, "x": x, "y": y})
+
+    def gend():
+        ops.append({"t": "gend"})
+
     def arrow(tx, ty, fx, fy, color=INK):
-        """small arrowhead at (tx,ty) pointing from (fx,fy)."""
         ang = math.atan2(ty - fy, tx - fx)
         for a in (ang + 2.5, ang - 2.5):
             L(tx, ty, tx - 7 * math.cos(a), ty - 7 * math.sin(a), 0.7, color)
 
-    callouts = []   # (number, bubble_x, bubble_y, target_x, target_y)
-    legend = []     # (number, label)
-
-    def add(label, bubbles):
-        """register one legend item numbered next; bubbles = list of (bx,by,tx,ty)."""
-        n = len(legend) + 1
-        legend.append((n, label))
-        for (bx, by, tx, ty) in bubbles:
-            callouts.append((n, bx, by, tx, ty))
-        return n
-
-    # ---- sheet border + side labels ----
+    # ---- border + labels ----
     R(*BORDER[:2], BORDER[2] - BORDER[0], BORDER[3] - BORDER[1], 1.3)
     T(AREA[0] + 6, 58, "(SECURE SIDE)", 15, "start", True, RED, serif=True)
     T(AREA[2] - 6, 58, "(PUBLIC SIDE)", 15, "end", True, RED, serif=True)
 
-    # ---- gate geometry (opening sits high; legend goes bottom-left) ----
-    plan_avail_h = 320.0
-    scale_label, ppi = _pick_scale(0, opening, 9999, plan_avail_h)
+    # ---- gate geometry ----
+    scale_label, ppi = _pick_scale(opening, 320.0)
     op_pts = opening * ppi
     cy = 232.0
     y_top = cy - op_pts / 2.0
     y_bot = cy + op_pts / 2.0
-    track_top = AREA[1] + 14
-    track_bot = 500.0
-
-    # driveway edge lines (dashed)
+    track_top, track_bot = AREA[1] + 14, 500.0
     L(AREA[0] + 10, y_top, AREA[2] - 10, y_top, 0.8, INK, dash=1)
     L(AREA[0] + 10, y_bot, AREA[2] - 10, y_bot, 0.8, INK, dash=1)
-
-    # gate track / leaves
     lw = 5.0
     L(GATE_X - lw / 2, track_top, GATE_X - lw / 2, track_bot, 1.0)
     L(GATE_X + lw / 2, track_top, GATE_X + lw / 2, track_bot, 1.0)
     L(GATE_X - lw / 2, y_top, GATE_X - lw / 2, y_bot, 1.7)
     L(GATE_X + lw / 2, y_top, GATE_X + lw / 2, y_bot, 1.7)
-
-    # clear-opening dimension (right of gate)
     dimx = GATE_X + 24
     L(GATE_X + lw / 2, y_top, dimx + 6, y_top, 0.4)
     L(GATE_X + lw / 2, y_bot, dimx + 6, y_bot, 0.4)
@@ -186,104 +200,82 @@ def compute(params):
         L(dimx - 3, yy + 3, dimx + 3, yy - 3, 0.8)
     T(dimx + 8, cy + 3, f"CLEAR OPENING {ft_in(opening)}", 8, "start")
 
-    # ============================ equipment ============================
-    # ① operators (grey cabinets at the driveway edges, secure side)
-    cab_w, cab_h = 40.0, 30.0
-    def cabinet(yc):
-        R(GATE_X - lw / 2 - cab_w, yc - cab_h / 2, cab_w, cab_h, 1.1, INK, GREY)
-        R(GATE_X - lw / 2 - cab_w + 5, yc - cab_h / 2 + 5, cab_w - 10, cab_h - 10, 0.6, INK, WHITE)
-    op_ys = [y_top, y_bot] if config == "double" else [y_top]
-    for yy in op_ys:
-        cabinet(yy)
-    n_op = len(op_ys)
-    ox = GATE_X - lw / 2 - cab_w
-    add(f"{eq['operator_model']} ON CONCRETE PAD" + (f"  (x{n_op})" if n_op > 1 else ""),
-        [(ox - 26, op_ys[0] - 24, ox + 4, op_ys[0] - cab_h / 2 + 4)])
+    # ---- devices ----
+    devices = params.get("devices")
+    if devices is None:
+        devices = _default_devices(config, y_top, y_bot)
 
-    # loops as red dashed rounded rectangles spanning the driveway
-    loop_h = max(40.0, (y_bot - y_top) - 20)
-    loop_y = (y_top + y_bot) / 2 - loop_h / 2
-    loop_w = 54.0
+    # number each present type (contiguous, in TYPE_ORDER)
+    present = [t for t in TYPE_ORDER if any(d.get("type") == t for d in devices)]
+    num_of = {t: i + 1 for i, t in enumerate(present)}
 
-    def loop(cx):
-        RR(cx - loop_w / 2, loop_y, loop_w, loop_h, 14, 1.0, RED, dash=1)
+    # symbol drawn at LOCAL origin (0,0); bubble offset; returns bubble dxy
+    def draw_symbol(t):
+        if t == "operator":
+            R(-20, -15, 40, 30, 1.1, INK, GREY)
+            R(-15, -10, 30, 20, 0.6, INK, WHITE)
+            return (-30, -26)
+        if t in ("presence_loop", "free_exit_loop"):
+            RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
+            return (40, -54)
+        if t == "gooseneck":
+            R(-5, 0, 10, 38, 1.0, INK, GREY)
+            R(-14, -16, 28, 16, 1.0, INK, WHITE)
+            return (-34, 6)
+        if t == "fire_switch":
+            R(-5, -8, 10, 16, 0.8, INK, WHITE)
+            L(-2, -4, 2, 0, 0.6); L(-2, 0, 2, 4, 0.6)
+            return (-26, -20)
+        if t == "keypad":
+            R(-5, -8, 10, 16, 0.8, INK, WHITE)
+            for gy in (-4, 0, 4):
+                L(-2.5, gy, 2.5, gy, 0.4)
+            return (26, -18)
+        if t == "edge_sensor":
+            R(-3, -3, 6, 6, 0.8, INK, INK)
+            return (22, -16)
+        if t == "safety_eye":
+            R(-4, -4, 8, 8, 0.8, INK, INK)
+            return (-22, -16)
+        return (-26, -22)
 
-    # ② presence loops (public + secure)
-    pl = int(eq.get("presence_loops", 0) or 0)
-    if pl >= 1:
-        bubbles = []
-        xs = []
-        if pl >= 1:
-            xs.append(GATE_X + 95)              # public side
-        if pl >= 2:
-            xs.append(GATE_X - 120)             # secure side
-        for cx in xs:
-            loop(cx)
-            bubbles.append((cx + loop_w / 2 + 26, loop_y - 14, cx + loop_w / 2, loop_y + 12))
-        add(f"PRESENCE LOOP  (x{pl})", bubbles)
+    # draw symbols (in draggable groups)
+    placed = []   # (type, x, y, bubble_dx, bubble_dy)
+    for d in devices:
+        t = d.get("type")
+        if t not in TYPE_LABEL:
+            continue
+        x, y = float(d.get("x", GATE_X)), float(d.get("y", cy))
+        gstart(d.get("id", ""), x, y)
+        bdx, bdy = draw_symbol(t)
+        gend()
+        placed.append((t, x, y, bdx, bdy))
 
-    # ③ free exit loop (secure side, inner)
-    if eq.get("free_exit_loop"):
-        cx = GATE_X - 232
-        loop(cx)
-        add("FREE EXIT LOOP",
-            [(cx - loop_w / 2 - 26, loop_y - 14, cx - loop_w / 2, loop_y + 12)])
-
-    # gooseneck pedestal w/ keypad + fire switch (public side, below drive)
-    ped_x, ped_y = GATE_X + 150, y_bot + 46
-    if eq.get("gooseneck") or eq.get("keypad") or eq.get("fire_switch"):
-        R(ped_x - 5, ped_y, 10, 40, 1.0, INK, GREY)        # post
-        R(ped_x - 14, ped_y - 22, 28, 22, 1.0, INK, WHITE)  # head/enclosure
-        T(ped_x, ped_y + 60, "6' MINIMUM AWAY FROM", 7, "middle", False, RED)
-        T(ped_x, ped_y + 70, "MOVING PARTS OF GATE", 7, "middle", False, RED)
-    if eq.get("gooseneck"):
-        add("GOOSENECK PEDESTAL",
-            [(ped_x - 40, ped_y + 30, ped_x - 5, ped_y + 20)])
-    if eq.get("fire_switch"):
-        R(ped_x - 10, ped_y - 18, 8, 14, 0.7, INK, WHITE)
-        add("FIRE SWITCH", [(ped_x + 36, ped_y - 22, ped_x + 2, ped_y - 12)])
-    if eq.get("keypad"):
-        R(ped_x + 2, ped_y - 18, 8, 14, 0.7, INK, WHITE)
-        add("ACCESS KEYPAD", [(ped_x + 36, ped_y - 6, ped_x + 10, ped_y - 8)])
-
-    # ⑦ gate edge contact sensors (small ticks along the closed gate leaves)
-    ec = int(eq.get("edge_sensors", 0) or 0)
-    if ec >= 1:
-        step = (y_bot - y_top) / (ec + 1)
-        for i in range(1, ec + 1):
-            yy = y_top + step * i
-            L(GATE_X + lw / 2, yy, GATE_X + lw / 2 + 6, yy, 1.2, INK)
-        add(f"GATE EDGE CONTACT SENSORS  (x{ec})",
-            [(GATE_X + 70, y_top + 30, GATE_X + lw / 2 + 6, y_top + step)])
-
-    # ⑧ safety eyes (photo-eye pair across the opening, near the gate posts)
-    if eq.get("safety_eyes"):
-        for yy in (y_top, y_bot):
-            R(GATE_X - lw / 2 - 9, yy - 4, 7, 8, 0.8, INK, INK)
-        add("SAFETY EYES",
-            [(GATE_X - 60, y_top + 18, GATE_X - lw / 2 - 9, y_top)])
-
-    # ---- draw callouts (bubbles + leaders) ----
-    for (n, bx, by, tx, ty) in callouts:
-        L(bx, by, tx, ty, 0.6, INK)
-        arrow(tx, ty, bx, by)
+    # callout bubbles + leaders (absolute coords, refresh after a drag)
+    for (t, x, y, bdx, bdy) in placed:
+        bx, by = x + bdx, y + bdy
+        L(bx, by, x, y, 0.6, INK)
+        arrow(x, y, bx, by)
         C(bx, by, 9, 0.9, INK, WHITE)
-        T(bx, by + 3.2, str(n), 9, "middle", True, INK)
+        T(bx, by + 3.2, str(num_of[t]), 9, "middle", True, INK)
 
-    # ---- legend (bottom-left) ----
-    lx, ly = AREA[0] + 8, 412.0
-    for (n, label) in legend:
+    # legend (bottom-left)
+    counts = {t: sum(1 for d in devices if d.get("type") == t) for t in present}
+    lx, ly = AREA[0] + 8, 414.0
+    for t in present:
+        label = TYPE_LABEL[t].format(model=model)
+        if counts[t] > 1:
+            label += f"  (x{counts[t]})"
         C(lx + 8, ly - 3, 7.5, 0.9, INK, WHITE)
-        T(lx + 8, ly, str(n), 8, "middle", True, INK)
+        T(lx + 8, ly, str(num_of[t]), 8, "middle", True, INK)
         T(lx + 22, ly, label, 8.5, "start", False, BLUE)
         ly += 13
 
-    # ============================ title block ============================
+    # ---- title block ----
     L(BORDER[0], TB_TOP, BORDER[2], TB_TOP, 1.1)
     for x in (TB_LOGO[1], TB_ADDR[1], *[c[1] for c in TB_COLS[:-1]]):
         L(x, TB_TOP, x, TB_BOT, 0.9)
     L(TB_COLS[0][0], TB_HDR_Y, BORDER[2], TB_HDR_Y, 0.7)
-
     if _LOGO_B64 is not None:
         lw2, lh2 = 92.0, 54.0
         IMG(TB_LOGO[0] + (TB_LOGO[1] - TB_LOGO[0] - lw2) / 2,
@@ -293,7 +285,6 @@ def compute(params):
     for line in ADDR_LINES:
         T(addr_cx, ay, line, 9, "middle", True, INK, serif=True)
         ay += 14
-
     tparts = title.split()
     tvalue = [tparts[0], " ".join(tparts[1:])] if len(tparts) > 1 else tparts
     values = {"PROJECT NAME": [project] if project else [],
@@ -309,7 +300,8 @@ def compute(params):
         for i, ln in enumerate(vlines):
             T(cx, TB_HDR_Y + 16 + i * 14, ln, vsize, "middle", True, INK, serif=True)
 
-    return {"ops": ops, "w": SHEET_W, "h": SHEET_H, "scale": scale_label}
+    return {"ops": ops, "w": SHEET_W, "h": SHEET_H, "scale": scale_label,
+            "devices": devices}
 
 
 # --------------------------------------------------------------- renderers
@@ -328,15 +320,19 @@ def to_svg(drawing):
            f'width="100%" style="background:#fff">']
     for o in drawing["ops"]:
         t = o["t"]
-        if t == "line":
+        if t == "gstart":
+            out.append(f'<g class="dev" data-id="{_esc(str(o["id"]))}" '
+                       f'transform="translate({o["x"]:.2f},{o["y"]:.2f})">')
+        elif t == "gend":
+            out.append("</g>")
+        elif t == "line":
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
             out.append(f'<line x1="{o["x1"]:.2f}" y1="{o["y1"]:.2f}" x2="{o["x2"]:.2f}" '
                        f'y2="{o["y2"]:.2f}" stroke="{_hex(o["color"])}" stroke-width="{o["w"]}"{dash}/>')
         elif t == "rect":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
             out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
-                       f'height="{o["h"]:.2f}" fill="{fill}" stroke="{_hex(o["color"])}" '
-                       f'stroke-width="{o["sw"]}"/>')
+                       f'height="{o["h"]:.2f}" fill="{fill}" stroke="{_hex(o["color"])}" stroke-width="{o["sw"]}"/>')
         elif t == "rrect":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
@@ -360,8 +356,8 @@ def to_svg(drawing):
     return "\n".join(out)
 
 
-def _pdf_rrect(page, o):
-    x, y, w, h, r = o["x"], o["y"], o["w"], o["h"], o["r"]
+def _pdf_rrect(page, o, ox, oy):
+    x, y, w, h, r = o["x"] + ox, o["y"] + oy, o["w"], o["h"], o["r"]
     k = r * 0.5523
     sh = page.new_shape()
     sh.draw_line((x + r, y), (x + w - r, y))
@@ -380,31 +376,38 @@ def _pdf_rrect(page, o):
 def to_pdf(drawing, path):
     doc = fitz.open()
     page = doc.new_page(width=drawing["w"], height=drawing["h"])
+    ox = oy = 0.0
     for o in drawing["ops"]:
         t = o["t"]
+        if t == "gstart":
+            ox, oy = o["x"], o["y"]
+            continue
+        if t == "gend":
+            ox = oy = 0.0
+            continue
         if t == "line":
-            page.draw_line((o["x1"], o["y1"]), (o["x2"], o["y2"]),
+            page.draw_line((o["x1"] + ox, o["y1"] + oy), (o["x2"] + ox, o["y2"] + oy),
                            color=o["color"], width=o["w"],
                            dashes="[6 4] 0" if o.get("dash") else None)
         elif t == "rect":
-            page.draw_rect(fitz.Rect(o["x"], o["y"], o["x"] + o["w"], o["y"] + o["h"]),
+            page.draw_rect(fitz.Rect(o["x"] + ox, o["y"] + oy, o["x"] + ox + o["w"], o["y"] + oy + o["h"]),
                            color=o["color"], fill=o.get("fill"), width=o["sw"])
         elif t == "rrect":
-            _pdf_rrect(page, o)
+            _pdf_rrect(page, o, ox, oy)
         elif t == "circle":
-            page.draw_circle((o["cx"], o["cy"]), o["r"], color=o["color"],
+            page.draw_circle((o["cx"] + ox, o["cy"] + oy), o["r"], color=o["color"],
                              fill=o.get("fill"), width=o["sw"])
         elif t == "text":
             font = ("tibo" if o.get("bold") else "tiro") if o.get("serif") else \
                    ("hebo" if o.get("bold") else "helv")
-            x = o["x"]
+            x = o["x"] + ox
             if o["anchor"] in ("middle", "end"):
                 tw = fitz.get_text_length(o["s"], fontname=font, fontsize=o["size"])
                 x -= tw / 2 if o["anchor"] == "middle" else tw
-            page.insert_text((x, o["y"]), o["s"], fontname=font,
+            page.insert_text((x, o["y"] + oy), o["s"], fontname=font,
                              fontsize=o["size"], color=o["color"])
         elif t == "image" and os.path.isfile(_LOGO_PATH):
-            page.insert_image(fitz.Rect(o["x"], o["y"], o["x"] + o["w"], o["y"] + o["h"]),
+            page.insert_image(fitz.Rect(o["x"] + ox, o["y"] + oy, o["x"] + ox + o["w"], o["y"] + oy + o["h"]),
                               filename=_LOGO_PATH)
     doc.save(path, garbage=3, deflate=True)
     doc.close()
