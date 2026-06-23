@@ -9,7 +9,7 @@ Metro Access Control — Submittal Builder (web UI)
 Wraps build.py: the form writes jobs/<slug>/job.yaml, saves uploaded
 drawings, runs the build, and hands back the finished PDF.
 """
-import os, re, glob, json, io, contextlib
+import os, re, glob, json, io, contextlib, shutil
 import yaml
 from fastapi import FastAPI, UploadFile, File, Form, Body
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
@@ -217,6 +217,108 @@ def download_file(path: str):
     if not (_in_workspace(path) and os.path.isfile(path)):
         return JSONResponse({"error": "not found"}, status_code=404)
     return FileResponse(path, media_type="application/pdf", filename=os.path.basename(path))
+
+
+# ---------------------------------------------------------------- file explorer
+_KNOWN_EXTS = (".json", ".pdf", ".yaml", ".yml", ".dwg", ".png", ".jpg",
+               ".jpeg", ".txt", ".docx", ".doc", ".xlsx", ".csv")
+
+
+def _split_known_ext(name):
+    """Split only on a known extension — sheet names like 'A.01 ...' have dots
+    that os.path.splitext would wrongly treat as an extension."""
+    low = name.lower()
+    for e in _KNOWN_EXTS:
+        if low.endswith(e):
+            return name[:-len(e)], name[-len(e):]
+    return name, ""
+
+
+def _drawing_sibling(path):
+    """The matching .json<->.pdf for a drawing, so they move/rename together."""
+    base, ext = _split_known_ext(path)
+    other = {".json": ".pdf", ".pdf": ".json"}.get(ext.lower())
+    sib = base + other if other else None
+    return sib if (sib and os.path.isfile(sib)) else None
+
+
+def _tree(path, depth=0):
+    node = {"name": os.path.basename(path) or path, "path": path, "type": "dir", "children": []}
+    if depth > 8:
+        return node
+    try:
+        names = os.listdir(path)
+    except Exception:
+        return node
+    names.sort(key=lambda n: (not os.path.isdir(os.path.join(path, n)), n.lower()))
+    for n in names:
+        if n.startswith("."):           # hide .trash and other dotfiles
+            continue
+        p = os.path.join(path, n)
+        if os.path.isdir(p):
+            node["children"].append(_tree(p, depth + 1))
+        else:
+            node["children"].append({"name": n, "path": p, "type": "file"})
+    return node
+
+
+@app.get("/api/files/tree")
+def files_tree():
+    return _tree(settings.get_workspace())
+
+
+@app.post("/api/files/mkdir")
+def files_mkdir(body: dict = Body(...)):
+    parent, name = (body or {}).get("parent"), _safe((body or {}).get("name"))
+    if not (parent and _in_workspace(parent) and os.path.isdir(parent)):
+        return JSONResponse({"error": "bad parent"}, status_code=400)
+    os.makedirs(os.path.join(parent, name), exist_ok=True)
+    return {"ok": True}
+
+
+@app.post("/api/files/rename")
+def files_rename(body: dict = Body(...)):
+    path, newname = (body or {}).get("path"), _safe((body or {}).get("name"))
+    if not (path and _in_workspace(path) and os.path.exists(path)):
+        return JSONResponse({"error": "not found"}, status_code=404)
+    parent = os.path.dirname(path)
+    if os.path.isdir(path):
+        os.rename(path, os.path.join(parent, newname))
+        return {"ok": True}
+    # file: keep its known extension; the entered name is treated as the base
+    old_ext = _split_known_ext(os.path.basename(path))[1]
+    new_base, new_ext = _split_known_ext(newname)
+    base = new_base
+    dst = os.path.join(parent, base + (new_ext or old_ext))
+    sib = _drawing_sibling(path)
+    os.rename(path, dst)
+    if sib:                              # rename the .json/.pdf pair together
+        sib_ext = _split_known_ext(os.path.basename(sib))[1]
+        os.rename(sib, os.path.join(parent, base + sib_ext))
+    return {"ok": True, "path": dst}
+
+
+@app.post("/api/files/delete")
+def files_delete(body: dict = Body(...)):
+    path = (body or {}).get("path")
+    if not (path and _in_workspace(path) and os.path.exists(path)):
+        return JSONResponse({"error": "not found"}, status_code=404)
+    trash = os.path.join(settings.get_workspace(), ".trash")
+    os.makedirs(trash, exist_ok=True)
+
+    def _to_trash(src):
+        base = os.path.basename(src.rstrip("/\\"))
+        dst = os.path.join(trash, base)
+        i = 1
+        while os.path.exists(dst):
+            dst = os.path.join(trash, f"{base} ({i})"); i += 1
+        shutil.move(src, dst)
+
+    sib = _drawing_sibling(path)
+    _to_trash(path)
+    if sib:
+        _to_trash(sib)
+    return {"ok": True}
 
 
 if __name__ == "__main__":
