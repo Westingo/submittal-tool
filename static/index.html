@@ -19,6 +19,7 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bench);color:var(--ink);font-family:var(--sans);font-size:14px}
+  [hidden]{display:none!important}   /* beats .grid2 display:grid so view tabs switch cleanly */
 
   /* title-block header strip, like the drawing sheets */
   header{background:var(--sheet);border-bottom:2px solid var(--rule)}
@@ -235,7 +236,6 @@
           <div class="palrow">
             <button id="d-del" type="button">Delete selected</button>
             <button id="d-clear" type="button">Clear all</button>
-            <button id="d-reset" type="button">Reset to standard kit</button>
           </div>
           <p class="hint">Pick the operator model, then "+ Operator". Drag any device on the plan to position it; click a device, then "Delete selected" (or the Del key) to remove it.</p>
 
@@ -538,7 +538,6 @@ function refreshPreview(){
       const r=await fetch('/api/drawing/preview',{method:'POST',
         headers:{'Content-Type':'application/json'}, body:JSON.stringify(fullParams())});
       const res=await r.json();
-      if(DEVICES===null) DEVICES=res.devices||[];   // adopt the seeded kit
       if(res.operator_models && $('#d-op-model').options.length===0){
         $('#d-op-model').innerHTML = res.operator_models
           .map(([slug,name])=>`<option value="${slug}">${name}</option>`).join('');
@@ -618,7 +617,6 @@ function deleteSelected(){
 document.querySelectorAll('.palette button').forEach(b=>b.addEventListener('click',()=>addDevice(b.dataset.add)));
 $('#d-del').addEventListener('click', deleteSelected);
 $('#d-clear').addEventListener('click', ()=>{ DEVICES=[]; selDev=null; refreshPreview(); });
-$('#d-reset').addEventListener('click', ()=>{ DEVICES=null; selDev=null; refreshPreview(); });
 document.addEventListener('keydown', e=>{
   if((e.key==='Delete'||e.key==='Backspace') && !$('#view-drawings').hidden &&
      !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)){ deleteSelected(); }

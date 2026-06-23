@@ -105,33 +105,6 @@ def _pick_scale(real_h_in, avail_h):
     return label, paper_per_ft * 6.0
 
 
-def _default_devices(config, y_top, y_bot):
-    """Seed a standard kit at sensible starting positions (user drags them)."""
-    d = []
-    n = 0
-
-    def put(t, x, y):
-        nonlocal n
-        n += 1
-        d.append({"id": f"d{n}", "type": t, "x": round(x, 1), "y": round(y, 1)})
-
-    ox = GATE_X - 28
-    put("operator", ox, y_top)
-    if config == "double":
-        put("operator", ox, y_bot)
-    put("presence_loop", GATE_X + 95, (y_top + y_bot) / 2)
-    put("presence_loop", GATE_X - 120, (y_top + y_bot) / 2)
-    put("free_exit_loop", GATE_X - 232, (y_top + y_bot) / 2)
-    put("gooseneck", GATE_X + 150, y_bot + 58)
-    put("fire_switch", GATE_X + 142, y_bot + 30)
-    put("keypad", GATE_X + 158, y_bot + 30)
-    for i in range(6):
-        put("edge_sensor", GATE_X + 10, y_top + (y_bot - y_top) * (i + 1) / 7)
-    put("safety_eye", GATE_X - 16, y_top)
-    put("safety_eye", GATE_X - 16, y_bot)
-    return d
-
-
 # --------------------------------------------------------------- compute
 def compute(params):
     opening = _num(params, "opening_in", 288, 24, 1200)
@@ -215,10 +188,8 @@ def compute(params):
         L(dimx - 3, yy + 3, dimx + 3, yy - 3, 0.8)
     T(dimx + 8, cy + 3, f"CLEAR OPENING {ft_in(opening)}", 8, "start")
 
-    # ---- devices ----
-    devices = params.get("devices")
-    if devices is None:
-        devices = _default_devices(config, y_top, y_bot)
+    # ---- devices (placed by the user; empty drawing by default) ----
+    devices = params.get("devices") or []
 
     # legend keys: most devices key by type; operators key by (operator, model)
     # so different operator models get their own number + legend line.
