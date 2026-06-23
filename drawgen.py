@@ -56,7 +56,7 @@ SCALES = [
 
 # device types: order drives the legend numbering; label is the legend text
 TYPE_ORDER = ["operator", "presence_loop", "free_exit_loop", "gooseneck",
-              "fire_switch", "keypad", "edge_sensor", "safety_eye"]
+              "fire_switch", "keypad", "edge_sensor", "edge_sensor_h", "safety_eye"]
 TYPE_LABEL = {
     "operator": "{model} ON CONCRETE PAD",
     "presence_loop": "PRESENCE LOOP",
@@ -64,7 +64,8 @@ TYPE_LABEL = {
     "gooseneck": "GOOSENECK PEDESTAL",
     "fire_switch": "FIRE SWITCH",
     "keypad": "ACCESS KEYPAD",
-    "edge_sensor": "GATE EDGE CONTACT SENSORS",
+    "edge_sensor": "VERTICAL GATE EDGE SENSOR",
+    "edge_sensor_h": "HORIZONTAL GATE EDGE SENSOR",
     "safety_eye": "SAFETY EYES",
 }
 
@@ -241,10 +242,14 @@ def compute(params):
             for gy in (-4, 0, 4):
                 L(-2.5, gy, 2.5, gy, 0.4)
             return (26, -18)
-        if t == "edge_sensor":
+        if t == "edge_sensor":               # vertical safety edge (unchanged)
             HIT(-8, -8, 16, 16)
             R(-3, -3, 6, 6, 0.8, INK, INK)
             return (22, -16)
+        if t == "edge_sensor_h":             # horizontal safety edge (wide bar)
+            HIT(-12, -8, 24, 16)
+            R(-9, -3, 18, 6, 0.8, INK, INK)
+            return (0, -18)
         if t == "safety_eye":
             HIT(-9, -9, 18, 18)
             R(-4, -4, 8, 8, 0.8, INK, INK)
