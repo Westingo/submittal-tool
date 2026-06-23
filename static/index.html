@@ -336,6 +336,9 @@ function groupedItems(){
 
 function fillItems(gate, presetName){
   const preset = Object.fromEntries((CFG.presets[presetName]||[]).map(i=>[i.id, i.qty??1]));
+  // selection order: preset items first (in preset order), then whatever the
+  // user checks, in the order they check it. Drives cover + spec-sheet order.
+  gate._order = (CFG.presets[presetName]||[]).map(i=>i.id).filter(id=>id in CFG.items);
   const box = gate.querySelector('.g-items'); box.innerHTML='';
   const {cats, groups} = groupedItems();
   for(const cat of cats){
@@ -359,6 +362,8 @@ function fillItems(gate, presetName){
           <span class="scopeline">${it.scope.split('\n')[0].replace('{qty}','#')}</span></td>`;
       tr.querySelector('input[type=checkbox]').addEventListener('change', e=>{
         tr.className = e.target.checked?'':'off';
+        if(e.target.checked){ if(!gate._order.includes(id)) gate._order.push(id); }
+        else { gate._order = gate._order.filter(x=>x!==id); }
         updateCounts(gate);
       });
       tbl.appendChild(tr);
@@ -432,8 +437,10 @@ function renderDraws(){
 /* build */
 $('#build').addEventListener('click', async ()=>{
   const gates = [...document.querySelectorAll('.gate')].map(g=>{
-    const items = [...g.querySelectorAll('.g-items tr')]
-      .filter(tr=>tr.querySelector('input[type=checkbox]').checked)
+    // emit items in the order they were selected (g._order), not display order
+    const items = (g._order||[])
+      .map(id=>g.querySelector(`.g-items tr[data-id="${id}"]`))
+      .filter(tr=>tr && tr.querySelector('input[type=checkbox]').checked)
       .map(tr=>({id:tr.dataset.id, qty:+(tr.querySelector('.qty input')?.value||1)}));
     const notes = [...g.querySelectorAll('.noterow')].map(r=>({
       item:r.querySelector('select').value, text:r.querySelector('input').value.trim().toUpperCase()
