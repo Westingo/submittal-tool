@@ -396,8 +396,10 @@ def to_svg(drawing):
             out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
                        f'height="{o["h"]:.2f}" fill="none" stroke="none" pointer-events="all"/>')
         elif t == "handle":
-            out.append(f'<circle class="arm-handle" cx="{o["x"]:.2f}" cy="{o["y"]:.2f}" r="6" '
-                       f'fill="#2433e0" stroke="#fff" stroke-width="1.3" pointer-events="all"/>')
+            # large, translucent, easy-to-grab drag dot (preview only)
+            out.append(f'<circle class="arm-handle" cx="{o["x"]:.2f}" cy="{o["y"]:.2f}" r="12" '
+                       f'fill="#2433e0" fill-opacity="0.30" stroke="#2433e0" stroke-width="1.6" '
+                       f'pointer-events="all"/>')
         elif t == "line":
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
             cls = f' class="{o["cls"]}"' if o.get("cls") else ""

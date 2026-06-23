@@ -568,6 +568,7 @@ function startArmDrag(e){
   const h=e.currentTarget, g=h.closest('.dev'); if(!g) return;
   const dev=(DEVICES||[]).find(d=>d.id===g.dataset.id); if(!dev) return;
   selDev=g.dataset.id; svg_sel(g);
+  try{ h.setPointerCapture(e.pointerId); }catch(_){}
   const svg=g.ownerSVGElement, pt=svg.createSVGPoint();
   const toUser=ev=>{ pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
   const line=g.querySelector('.arm-line'), brk=g.querySelector('.arm-brk');
