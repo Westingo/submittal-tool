@@ -145,9 +145,9 @@ def compute(params):
 
     ops = []
 
-    def L(x1, y1, x2, y2, w=0.8, color=INK, dash=None):
+    def L(x1, y1, x2, y2, w=0.8, color=INK, dash=None, cls=None):
         ops.append({"t": "line", "x1": x1, "y1": y1, "x2": x2, "y2": y2, "w": w,
-                    "color": color, "dash": dash})
+                    "color": color, "dash": dash, "cls": cls})
 
     def R(x, y, w, h, sw=0.9, color=INK, fill=None):
         ops.append({"t": "rect", "x": x, "y": y, "w": w, "h": h, "sw": sw,
@@ -157,9 +157,9 @@ def compute(params):
         ops.append({"t": "rrect", "x": x, "y": y, "w": w, "h": h, "r": r, "sw": sw,
                     "color": color, "dash": dash, "fill": fill})
 
-    def C(cx, cy, r, sw=0.9, color=INK, fill=None):
+    def C(cx, cy, r, sw=0.9, color=INK, fill=None, cls=None):
         ops.append({"t": "circle", "cx": cx, "cy": cy, "r": r, "sw": sw,
-                    "color": color, "fill": fill})
+                    "color": color, "fill": fill, "cls": cls})
 
     def T(x, y, s, size=9, anchor="start", bold=False, color=INK, serif=False):
         ops.append({"t": "text", "x": x, "y": y, "s": s, "size": size,
@@ -178,6 +178,10 @@ def compute(params):
         # invisible full-footprint grab area (SVG only) so the whole device
         # is draggable, not just its stroke
         ops.append({"t": "hit", "x": x, "y": y, "w": w, "h": h})
+
+    def HANDLE(x, y):
+        # visible drag handle (SVG only, omitted from the PDF) for the arm tip
+        ops.append({"t": "handle", "x": x, "y": y})
 
     def arrow(tx, ty, fx, fy, color=INK):
         ang = math.atan2(ty - fy, tx - fx)
@@ -242,14 +246,15 @@ def compute(params):
             entries.append((ty, TYPE_LABEL[ty]))
     num_of = {k: i + 1 for i, (k, _) in enumerate(entries)}
 
-    def draw_operator(mdl):
+    def draw_operator(mdl, adx, ady):
         if mdl == "csw-24ul":            # CSW24UL swing-gate operator (cabinet + arm)
             HIT(-20, -18, 40, 38)
-            R(-18, -16, 34, 30, 1.1, INK, fill=GREY)        # cabinet
-            L(0, 0, 38, -30, 3.5, INK)                      # swing arm to the gate
-            C(38, -30, 3.5, 0.9, INK, fill=WHITE)           # arm bracket
-            C(0, 0, 8, 0.9, INK, fill=WHITE)                # gearbox
-            C(0, 0, 3, 0.7, INK, fill=GREY)                 # output shaft
+            R(-18, -16, 34, 30, 1.1, INK, fill=GREY)               # cabinet
+            L(0, 0, adx, ady, 3.5, INK, cls="arm-line")            # swing arm (movable)
+            C(adx, ady, 3.5, 0.9, INK, fill=WHITE, cls="arm-brk")  # arm bracket / gate pivot
+            C(0, 0, 8, 0.9, INK, fill=WHITE)                       # gearbox
+            C(0, 0, 3, 0.7, INK, fill=GREY)                        # output shaft
+            HANDLE(adx, ady)                                       # drag handle (preview only)
             return (-24, 24)
         # CSL-24UL (default). Add `elif mdl == "<slug>"` branches for new models.
         HIT(-23, -23, 46, 46)
@@ -263,7 +268,7 @@ def compute(params):
     def draw_symbol(d):
         t = d.get("type")
         if t == "operator":
-            return draw_operator(op_model(d))
+            return draw_operator(op_model(d), float(d.get("arm_dx", 38)), float(d.get("arm_dy", -30)))
         if t in ("presence_loop", "free_exit_loop"):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
@@ -390,10 +395,14 @@ def to_svg(drawing):
         elif t == "hit":
             out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
                        f'height="{o["h"]:.2f}" fill="none" stroke="none" pointer-events="all"/>')
+        elif t == "handle":
+            out.append(f'<circle class="arm-handle" cx="{o["x"]:.2f}" cy="{o["y"]:.2f}" r="6" '
+                       f'fill="#2433e0" stroke="#fff" stroke-width="1.3" pointer-events="all"/>')
         elif t == "line":
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
+            cls = f' class="{o["cls"]}"' if o.get("cls") else ""
             out.append(f'<line x1="{o["x1"]:.2f}" y1="{o["y1"]:.2f}" x2="{o["x2"]:.2f}" '
-                       f'y2="{o["y2"]:.2f}" stroke="{_hex(o["color"])}" stroke-width="{o["w"]}"{dash}/>')
+                       f'y2="{o["y2"]:.2f}" stroke="{_hex(o["color"])}" stroke-width="{o["w"]}"{dash}{cls}/>')
         elif t == "rect":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
             out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
@@ -406,8 +415,9 @@ def to_svg(drawing):
                        f'stroke="{_hex(o["color"])}" stroke-width="{o["sw"]}"{dash}/>')
         elif t == "circle":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
+            cls = f' class="{o["cls"]}"' if o.get("cls") else ""
             out.append(f'<circle cx="{o["cx"]:.2f}" cy="{o["cy"]:.2f}" r="{o["r"]}" '
-                       f'fill="{fill}" stroke="{_hex(o["color"])}" stroke-width="{o["sw"]}"/>')
+                       f'fill="{fill}" stroke="{_hex(o["color"])}" stroke-width="{o["sw"]}"{cls}/>')
         elif t == "text":
             fam = "Georgia, 'Times New Roman', serif" if o.get("serif") else "Segoe UI, Arial, sans-serif"
             weight = "bold" if o.get("bold") else "normal"
@@ -450,8 +460,8 @@ def to_pdf(drawing, path):
         if t == "gend":
             ox = oy = 0.0
             continue
-        if t == "hit":
-            continue                      # SVG-only grab area; nothing in the PDF
+        if t in ("hit", "handle"):
+            continue                      # SVG-only UI affordances; not in the PDF
         if t == "line":
             page.draw_line((o["x1"] + ox, o["y1"] + oy), (o["x2"] + ox, o["y2"] + oy),
                            color=o["color"], width=o["w"],

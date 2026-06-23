@@ -558,6 +558,28 @@ function attachDrag(){
     if(g.dataset.id===selDev) g.classList.add('sel');
     g.addEventListener('pointerdown', startDrag);
   });
+  svg.querySelectorAll('.arm-handle').forEach(h=>{
+    h.style.cursor='crosshair';
+    h.addEventListener('pointerdown', startArmDrag);
+  });
+}
+function startArmDrag(e){
+  e.preventDefault(); e.stopPropagation();   // don't also drag the operator body
+  const h=e.currentTarget, g=h.closest('.dev'); if(!g) return;
+  const dev=(DEVICES||[]).find(d=>d.id===g.dataset.id); if(!dev) return;
+  selDev=g.dataset.id; svg_sel(g);
+  const svg=g.ownerSVGElement, pt=svg.createSVGPoint();
+  const toUser=ev=>{ pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
+  const line=g.querySelector('.arm-line'), brk=g.querySelector('.arm-brk');
+  function move(ev){
+    const u=toUser(ev); dev.arm_dx=u.x-dev.x; dev.arm_dy=u.y-dev.y;
+    if(line){ line.setAttribute('x2',dev.arm_dx); line.setAttribute('y2',dev.arm_dy); }
+    if(brk){ brk.setAttribute('cx',dev.arm_dx); brk.setAttribute('cy',dev.arm_dy); }
+    h.setAttribute('cx',dev.arm_dx); h.setAttribute('cy',dev.arm_dy);
+  }
+  function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up);
+    dev.arm_dx=Math.round(dev.arm_dx*10)/10; dev.arm_dy=Math.round(dev.arm_dy*10)/10; refreshPreview(); }
+  window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
 }
 function startDrag(e){
   e.preventDefault();
@@ -580,7 +602,10 @@ function addDevice(type){
   if(!DEVICES) DEVICES=[];
   const id='u'+Date.now()+Math.floor(Math.random()*1000);
   const dev={id, type, x:420, y:236};
-  if(type==='operator') dev.model = $('#d-op-model').value || 'csl-24ul';
+  if(type==='operator'){
+    dev.model = $('#d-op-model').value || 'csl-24ul';
+    if(dev.model==='csw-24ul'){ dev.arm_dx=38; dev.arm_dy=-30; }
+  }
   DEVICES.push(dev);
   selDev=id;
   refreshPreview();
