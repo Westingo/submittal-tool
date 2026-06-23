@@ -1,54 +1,73 @@
 #!/usr/bin/env python3
 """
-Parametric gate-drawing generator.
+Parametric gate-drawing generator — top-down (plan) view in Metro's house
+format (matches the A.01 EQUIPMENT / A.02 ELECTRICAL LAYOUT sheets).
 
-compute(params) builds a to-scale elevation as a list of primitive ops
-(lines / rects / texts) in PDF points, origin top-left, y-down — coordinates
-that render identically as SVG (live preview) and as a vector PDF (save).
-One geometry source, two renderers, so preview == PDF.
+compute(params) builds the drawing once as primitive ops (lines / rects /
+text / images) in PDF points, origin top-left, y-down — coordinates that
+render identically as SVG (live preview) and as a vector PDF (save), so
+preview == PDF.
 
-v1: slide gate, simple schematic (leaf frame, two posts, ground line,
-dimensioned clear opening + gate height, auto-fit architectural scale).
+Stage 1: sheet border, title block (with logo), SECURE/PUBLIC labels, and
+the base slide gate in plan with operators + driveway edges. Loops, numbered
+callouts, legend, and the electrical overlay come next.
 """
+import base64
+import os
+
 import fitz
 
-# ---- sheet (ANSI A landscape, matches the submittal drawing sheets) -------
+from paths import bundled
+
+# ---- palette --------------------------------------------------------------
+INK = (0.07, 0.07, 0.07)
+RED = (0.80, 0.06, 0.06)
+BLUE = (0.00, 0.12, 0.74)
+GREY = (0.84, 0.84, 0.86)
+
+# ---- sheet (ANSI A landscape) ---------------------------------------------
 SHEET_W, SHEET_H = 792.0, 612.0
-BORDER = (20, 20, 772, 592)
-TITLE_TOP = 532                      # title block occupies y 532..592
+M = 20.0
+BORDER = (M, M, SHEET_W - M, SHEET_H - M)
 
-# gate drawing region (leaves room for dims + title block)
-REGION_X0, REGION_X1 = 110.0, 740.0  # 630 pt wide
-REGION_TOP = 110.0                   # geometry is vertically centered in
-REGION_BOTTOM = 460.0                # the band [REGION_TOP, REGION_BOTTOM]
-AVAIL_W = REGION_X1 - REGION_X0
-AVAIL_H = REGION_BOTTOM - REGION_TOP
+# title block (bottom strip)
+TB_TOP = 520.0
+TB_BOT = SHEET_H - M           # 592
+# column x-edges across the title block
+TB_LOGO = (M, 122)
+TB_ADDR = (122, 272)
+TB_COLS = [                    # (x0, x1, header, value-lines)
+    (272, 392, "PROJECT NAME", []),
+    (392, 518, "SITE ADDRESS", []),
+    (518, 586, "DATE", []),
+    (586, 676, "TITLE", ["DOUBLE", "SLIDE GATE"]),
+    (676, SHEET_W - M, "SHEET #", ["A.01", "EQUIPMENT LAYOUT"]),
+]
+TB_HDR_Y = 538.0               # divider between header labels and values
 
-DIM_V_X = 78.0                       # vertical (height) dimension line
+# drawing region (above the title block)
+AREA = (40.0, 40.0, 752.0, 506.0)
+
+ADDR_LINES = ["2617 NE COLUMBIA BLVD", "PORTLAND, OR 97211", "888.813.6772"]
 
 # architectural scales, largest first: (label, paper inches per 1'-0")
 SCALES = [
-    ('1" = 1\'-0"', 1.0), ('3/4" = 1\'-0"', 0.75), ('1/2" = 1\'-0"', 0.5),
-    ('3/8" = 1\'-0"', 0.375), ('1/4" = 1\'-0"', 0.25), ('3/16" = 1\'-0"', 0.1875),
-    ('1/8" = 1\'-0"', 0.125), ('3/32" = 1\'-0"', 0.09375), ('1/16" = 1\'-0"', 0.0625),
+    ('1/4" = 1\'-0"', 0.25), ('3/16" = 1\'-0"', 0.1875), ('1/8" = 1\'-0"', 0.125),
+    ('3/32" = 1\'-0"', 0.09375), ('1/16" = 1\'-0"', 0.0625), ('1/32" = 1\'-0"', 0.03125),
 ]
+
+_LOGO_PATH = bundled("assets", "metro-logo.png")
+try:
+    with open(_LOGO_PATH, "rb") as f:
+        _LOGO_B64 = "data:image/png;base64," + base64.b64encode(f.read()).decode()
+except Exception:
+    _LOGO_B64 = None
 
 
 def ft_in(inches):
-    """246 -> 20'-6\"  ;  240 -> 20'-0\""""
     inches = int(round(inches))
     f, i = divmod(inches, 12)
-    return f"{f}'-{i}\""
-
-
-def _pick_scale(overall_w_in, overall_h_in):
-    """Largest standard scale whose drawing fits the region."""
-    for label, paper_per_ft in SCALES:
-        ppi = paper_per_ft * 6.0     # points per real inch (paper_in/ft / 12 * 72)
-        if overall_w_in * ppi <= AVAIL_W and overall_h_in * ppi <= AVAIL_H:
-            return label, ppi
-    label, paper_per_ft = SCALES[-1]
-    return label, paper_per_ft * 6.0
+    return f"{f}'-{i}\"" if i else f"{f}'"
 
 
 def _num(params, key, default, lo, hi):
@@ -59,96 +78,136 @@ def _num(params, key, default, lo, hi):
     return max(lo, min(hi, v))
 
 
+def _pick_scale(real_w_in, real_h_in, avail_w, avail_h):
+    for label, paper_per_ft in SCALES:
+        ppi = paper_per_ft * 6.0
+        if real_w_in * ppi <= avail_w and real_h_in * ppi <= avail_h:
+            return label, ppi
+    label, paper_per_ft = SCALES[-1]
+    return label, paper_per_ft * 6.0
+
+
+# --------------------------------------------------------------- compute
 def compute(params):
-    opening = _num(params, "opening_in", 240, 12, 1200)     # 1' .. 100'
-    height = _num(params, "height_in", 72, 12, 240)         # 1' .. 20'
-    post_w = _num(params, "post_in", 4, 2, 12)
-    drive = str(params.get("drive", "cantilever")).lower()
+    opening = _num(params, "opening_in", 288, 24, 1200)     # clear opening (drive width)
+    config = str(params.get("config", "double")).lower()
+    title = str(params.get("title") or f"{config} slide gate").upper()
+    sheet_no = str(params.get("sheet_no", "A.01"))
+    sheet_title = str(params.get("sheet_title", "EQUIPMENT LAYOUT")).upper()
+    project = str(params.get("project", "") or "")
+    site = str(params.get("site", "") or "")
     date = str(params.get("date", "") or "")
 
-    clearance = 3.0
-    post_h = height + 6.0
-    overall_w = post_w + opening + post_w
-    overall_h = max(post_h, height + clearance)
-
-    scale_label, ppi = _pick_scale(overall_w, overall_h)
-
-    total_w = overall_w * ppi
-    total_h = overall_h * ppi
-    x0 = REGION_X0 + (AVAIL_W - total_w) / 2.0
-    GROUND_Y = REGION_TOP + (AVAIL_H + total_h) / 2.0   # center the band
-    DIM_H_Y = GROUND_Y + 28.0                           # width dim below ground
-    pw = post_w * ppi
-    op = opening * ppi
-    gh = height * ppi
-    ph = post_h * ppi
-    cl = clearance * ppi
-
     ops = []
-    L = lambda x1, y1, x2, y2, w=0.8: ops.append(
-        {"t": "line", "x1": x1, "y1": y1, "x2": x2, "y2": y2, "w": w})
-    R = lambda x, y, w, h, sw=1.0: ops.append(
-        {"t": "rect", "x": x, "y": y, "w": w, "h": h, "sw": sw})
-    T = lambda x, y, s, size=9, anchor="start", bold=False: ops.append(
-        {"t": "text", "x": x, "y": y, "s": s, "size": size, "anchor": anchor, "bold": bold})
 
-    # sheet border + title block
-    R(BORDER[0], BORDER[1], BORDER[2] - BORDER[0], BORDER[3] - BORDER[1], 1.2)
-    L(BORDER[0], TITLE_TOP, BORDER[2], TITLE_TOP, 1.0)
+    def L(x1, y1, x2, y2, w=0.8, color=INK, dash=None):
+        ops.append({"t": "line", "x1": x1, "y1": y1, "x2": x2, "y2": y2,
+                    "w": w, "color": color, "dash": dash})
 
-    # posts (left + right of the clear opening)
-    rx = x0 + pw + op                       # right post left edge
-    R(x0, GROUND_Y - ph, pw, ph)
-    R(rx, GROUND_Y - ph, pw, ph)
+    def R(x, y, w, h, sw=0.9, color=INK, fill=None):
+        ops.append({"t": "rect", "x": x, "y": y, "w": w, "h": h,
+                    "sw": sw, "color": color, "fill": fill})
 
-    # gate leaf filling the clear opening, lifted by ground clearance
-    gx, gw = x0 + pw, op
-    g_bot = GROUND_Y - cl
-    g_top = g_bot - gh
-    R(gx, g_top, gw, gh, 1.2)
-    L(gx, g_bot, gx + gw, g_top, 0.7)       # single diagonal brace
+    def T(x, y, s, size=9, anchor="start", bold=False, color=INK, serif=False):
+        ops.append({"t": "text", "x": x, "y": y, "s": s, "size": size,
+                    "anchor": anchor, "bold": bold, "color": color, "serif": serif})
 
-    # ground line + a little earth hatch
-    L(REGION_X0 - 15, GROUND_Y, REGION_X1 + 15, GROUND_Y, 1.4)
-    for k in range(int(REGION_X0) - 10, int(REGION_X1) + 16, 22):
-        L(k, GROUND_Y, k - 7, GROUND_Y + 7, 0.5)
+    def IMG(x, y, w, h):
+        ops.append({"t": "image", "x": x, "y": y, "w": w, "h": h})
 
-    # ---- dimensions -------------------------------------------------------
-    def tick(x, y):
-        L(x - 3, y + 3, x + 3, y - 3, 0.8)
+    # ---- sheet border ----
+    R(*BORDER[:2], BORDER[2] - BORDER[0], BORDER[3] - BORDER[1], 1.3)
 
-    # clear opening (horizontal), measured between the post inner faces
-    L(gx, GROUND_Y, gx, DIM_H_Y + 6, 0.4)       # extension lines
-    L(gx + gw, GROUND_Y, gx + gw, DIM_H_Y + 6, 0.4)
-    L(gx, DIM_H_Y, gx + gw, DIM_H_Y, 0.6)
-    tick(gx, DIM_H_Y); tick(gx + gw, DIM_H_Y)
-    T((gx + gx + gw) / 2, DIM_H_Y - 5, f"CLEAR OPENING  {ft_in(opening)}", 9, "middle")
+    # ---- SECURE / PUBLIC labels ----
+    T(AREA[0] + 6, 58, "(SECURE SIDE)", 15, "start", True, RED, serif=True)
+    T(AREA[2] - 6, 58, "(PUBLIC SIDE)", 15, "end", True, RED, serif=True)
 
-    # gate height (vertical) on the left
-    L(gx, g_top, DIM_V_X - 6, g_top, 0.4)
-    L(gx, g_bot, DIM_V_X - 6, g_bot, 0.4)
-    L(DIM_V_X, g_top, DIM_V_X, g_bot, 0.6)
-    tick(DIM_V_X, g_top); tick(DIM_V_X, g_bot)
-    T(DIM_V_X - 4, (g_top + g_bot) / 2 - 2, ft_in(height), 9, "end")
+    # ======================= base plan: slide gate =======================
+    # Driveway runs left<->right; the gate is a vertical barrier in the
+    # center. The track runs nearly full height (leaves retract along it);
+    # operators sit at the driveway edges (the fence line) on the secure side.
+    plan_avail_h = 340.0
+    scale_label, ppi = _pick_scale(0, opening, 9999, plan_avail_h)
 
-    # ---- title block ------------------------------------------------------
-    ty = TITLE_TOP
-    L(250, ty, 250, BORDER[3], 0.8)
-    L(560, ty, 560, BORDER[3], 0.8)
-    T(32, ty + 24, "METRO ACCESS CONTROL", 12, "start", True)
-    T(32, ty + 44, "Gate Submittal Drawing", 9)
-    T(262, ty + 22, "SLIDE GATE ELEVATION", 11, "start", True)
-    T(262, ty + 42, f"{drive.upper()} SLIDE GATE", 9)
-    T(572, ty + 20, f"SCALE:  {scale_label}", 9)
-    T(572, ty + 36, f"OPENING:  {ft_in(opening)}", 9)
-    T(572, ty + 52, f"HEIGHT:  {ft_in(height)}", 9)
-    if date:
-        T(748, ty + 20, date, 9, "end")
+    gate_x = 470.0
+    cy = (AREA[1] + 14 + AREA[3] - 14) / 2.0       # center of plan area
+    op_pts = opening * ppi
+    y_top = cy - op_pts / 2.0                       # driveway edge (top)
+    y_bot = cy + op_pts / 2.0                       # driveway edge (bottom)
+    track_top = AREA[1] + 14
+    track_bot = AREA[3] - 14
+
+    # driveway edge lines (dashed), extending across the drive
+    L(AREA[0] + 10, y_top, AREA[2] - 10, y_top, 0.8, INK, dash="dash")
+    L(AREA[0] + 10, y_bot, AREA[2] - 10, y_bot, 0.8, INK, dash="dash")
+
+    # gate track / leaves: a double line down the center (full-height track,
+    # heavier within the closed opening)
+    leaf_w = 5.0
+    L(gate_x - leaf_w / 2, track_top, gate_x - leaf_w / 2, track_bot, 1.0)
+    L(gate_x + leaf_w / 2, track_top, gate_x + leaf_w / 2, track_bot, 1.0)
+    L(gate_x - leaf_w / 2, y_top, gate_x - leaf_w / 2, y_bot, 1.7)
+    L(gate_x + leaf_w / 2, y_top, gate_x + leaf_w / 2, y_bot, 1.7)
+
+    # operators (grey cabinets) at the driveway edges, on the secure side
+    cab_w, cab_h = 40.0, 30.0
+    def cabinet(yc):
+        R(gate_x - leaf_w / 2 - cab_w, yc - cab_h / 2, cab_w, cab_h, 1.1, INK, GREY)
+        R(gate_x - leaf_w / 2 - cab_w + 5, yc - cab_h / 2 + 5, cab_w - 10, cab_h - 10, 0.6, INK, (1, 1, 1))
+    cabinet(y_top)
+    if config == "double":
+        cabinet(y_bot)
+
+    # clear-opening dimension (vertical), to the right of the gate
+    dimx = gate_x + 26
+    L(gate_x + leaf_w / 2, y_top, dimx + 6, y_top, 0.4)
+    L(gate_x + leaf_w / 2, y_bot, dimx + 6, y_bot, 0.4)
+    L(dimx, y_top, dimx, y_bot, 0.6)
+    for yy in (y_top, y_bot):
+        L(dimx - 3, yy + 3, dimx + 3, yy - 3, 0.8)
+    T(dimx + 8, (y_top + y_bot) / 2 + 3, f"CLEAR OPENING {ft_in(opening)}", 8, "start")
+
+    # ============================ title block ============================
+    L(BORDER[0], TB_TOP, BORDER[2], TB_TOP, 1.1)
+    for x in (TB_LOGO[1], TB_ADDR[1], *[c[1] for c in TB_COLS[:-1]]):
+        L(x, TB_TOP, x, TB_BOT, 0.9)
+    L(TB_COLS[0][0], TB_HDR_Y, BORDER[2], TB_HDR_Y, 0.7)   # header/value divider
+
+    if _LOGO_B64 is not None:
+        lw, lh = 92.0, 54.0
+        IMG(TB_LOGO[0] + (TB_LOGO[1] - TB_LOGO[0] - lw) / 2,
+            (TB_TOP + TB_BOT) / 2 - lh / 2, lw, lh)
+    addr_cx = (TB_ADDR[0] + TB_ADDR[1]) / 2
+    ay = TB_TOP + 22
+    for line in ADDR_LINES:
+        T(addr_cx, ay, line, 9, "middle", True, INK, serif=True)
+        ay += 14
+
+    values = {"PROJECT NAME": [project] if project else [],
+              "SITE ADDRESS": [site] if site else [],
+              "DATE": [date] if date else [],
+              "TITLE": title.split(" ", 1) if title else [],
+              "SHEET #": [sheet_no, sheet_title]}
+    # nicer TITLE wrap: "DOUBLE SLIDE GATE" -> ["DOUBLE","SLIDE GATE"]
+    if title:
+        parts = title.split()
+        values["TITLE"] = [parts[0], " ".join(parts[1:])] if len(parts) > 1 else parts
+    for x0, x1, header, _ in TB_COLS:
+        cx = (x0 + x1) / 2
+        T(cx, TB_TOP + 13, header, 9, "middle", True, INK, serif=True)
+        vlines = values.get(header, [])
+        vsize = 9 if len(vlines) <= 1 else 8
+        for i, ln in enumerate(vlines):
+            T(cx, TB_HDR_Y + 16 + i * 14, ln, vsize, "middle", True, INK, serif=True)
 
     return {"ops": ops, "w": SHEET_W, "h": SHEET_H, "scale": scale_label}
 
 
-# ---------------------------------------------------------------- renderers
+# --------------------------------------------------------------- renderers
+def _hex(c):
+    return "#%02x%02x%02x" % tuple(int(round(v * 255)) for v in c)
+
+
 def _esc(s):
     return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             .replace('"', "&quot;"))
@@ -160,20 +219,24 @@ def to_svg(drawing):
            f'width="100%" style="background:#fff">']
     for o in drawing["ops"]:
         if o["t"] == "line":
-            out.append(f'<line x1="{o["x1"]:.2f}" y1="{o["y1"]:.2f}" '
-                       f'x2="{o["x2"]:.2f}" y2="{o["y2"]:.2f}" '
-                       f'stroke="#111" stroke-width="{o["w"]}"/>')
+            dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
+            out.append(f'<line x1="{o["x1"]:.2f}" y1="{o["y1"]:.2f}" x2="{o["x2"]:.2f}" '
+                       f'y2="{o["y2"]:.2f}" stroke="{_hex(o["color"])}" '
+                       f'stroke-width="{o["w"]}"{dash}/>')
         elif o["t"] == "rect":
-            out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" '
-                       f'width="{o["w"]:.2f}" height="{o["h"]:.2f}" '
-                       f'fill="none" stroke="#111" stroke-width="{o["sw"]}"/>')
+            fill = _hex(o["fill"]) if o.get("fill") else "none"
+            out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
+                       f'height="{o["h"]:.2f}" fill="{fill}" stroke="{_hex(o["color"])}" '
+                       f'stroke-width="{o["sw"]}"/>')
         elif o["t"] == "text":
-            anchor = {"start": "start", "middle": "middle", "end": "end"}[o["anchor"]]
+            fam = "Georgia, 'Times New Roman', serif" if o.get("serif") else "Segoe UI, Arial, sans-serif"
             weight = "bold" if o.get("bold") else "normal"
-            out.append(f'<text x="{o["x"]:.2f}" y="{o["y"]:.2f}" '
-                       f'font-family="Segoe UI, Arial, sans-serif" font-size="{o["size"]}" '
-                       f'font-weight="{weight}" text-anchor="{anchor}" fill="#111">'
-                       f'{_esc(o["s"])}</text>')
+            out.append(f'<text x="{o["x"]:.2f}" y="{o["y"]:.2f}" font-family="{fam}" '
+                       f'font-size="{o["size"]}" font-weight="{weight}" '
+                       f'text-anchor="{o["anchor"]}" fill="{_hex(o["color"])}">{_esc(o["s"])}</text>')
+        elif o["t"] == "image" and _LOGO_B64:
+            out.append(f'<image x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
+                       f'height="{o["h"]:.2f}" href="{_LOGO_B64}"/>')
     out.append("</svg>")
     return "\n".join(out)
 
@@ -184,17 +247,22 @@ def to_pdf(drawing, path):
     for o in drawing["ops"]:
         if o["t"] == "line":
             page.draw_line((o["x1"], o["y1"]), (o["x2"], o["y2"]),
-                           color=(0.07, 0.07, 0.07), width=o["w"])
+                           color=o["color"], width=o["w"],
+                           dashes="[6 4] 0" if o.get("dash") else None)
         elif o["t"] == "rect":
             page.draw_rect(fitz.Rect(o["x"], o["y"], o["x"] + o["w"], o["y"] + o["h"]),
-                           color=(0.07, 0.07, 0.07), width=o["sw"])
+                           color=o["color"], fill=o.get("fill"), width=o["sw"])
         elif o["t"] == "text":
-            font = "hebo" if o.get("bold") else "helv"
+            font = ("tibo" if o.get("bold") else "tiro") if o.get("serif") else \
+                   ("hebo" if o.get("bold") else "helv")
             x = o["x"]
             if o["anchor"] in ("middle", "end"):
                 tw = fitz.get_text_length(o["s"], fontname=font, fontsize=o["size"])
                 x -= tw / 2 if o["anchor"] == "middle" else tw
             page.insert_text((x, o["y"]), o["s"], fontname=font,
-                             fontsize=o["size"], color=(0.07, 0.07, 0.07))
+                             fontsize=o["size"], color=o["color"])
+        elif o["t"] == "image" and os.path.isfile(_LOGO_PATH):
+            page.insert_image(fitz.Rect(o["x"], o["y"], o["x"] + o["w"], o["y"] + o["h"]),
+                              filename=_LOGO_PATH)
     doc.save(path, garbage=3, deflate=True)
     doc.close()

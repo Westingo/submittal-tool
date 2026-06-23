@@ -191,23 +191,22 @@
         <div class="pad">
           <label for="d-type">Gate type</label>
           <select id="d-type"><option value="slide">Slide gate</option></select>
-          <label for="d-drive">Drive</label>
-          <select id="d-drive">
-            <option value="cantilever">Cantilever</option>
-            <option value="rolling">Rolling / V-track</option>
+          <label for="d-config">Configuration</label>
+          <select id="d-config">
+            <option value="double">Double slide (bi-parting)</option>
+            <option value="single">Single slide</option>
           </select>
           <label>Clear opening</label>
           <div class="ftin">
-            <input id="d-op-ft" type="number" min="0" max="100" value="20"><span>ft</span>
+            <input id="d-op-ft" type="number" min="0" max="100" value="24"><span>ft</span>
             <input id="d-op-in" type="number" min="0" max="11" value="0"><span>in</span>
           </div>
-          <label>Gate height</label>
-          <div class="ftin">
-            <input id="d-h-ft" type="number" min="0" max="20" value="6"><span>ft</span>
-            <input id="d-h-in" type="number" min="0" max="11" value="0"><span>in</span>
-          </div>
-          <label for="d-post">Post size (in)</label>
-          <input id="d-post" type="number" min="2" max="12" value="4" style="width:90px">
+          <label for="d-project">Project name</label>
+          <input id="d-project" type="text" placeholder="(optional)">
+          <label for="d-site">Site address</label>
+          <input id="d-site" type="text" placeholder="(optional)">
+          <label for="d-pdate">Date</label>
+          <input id="d-pdate" type="date">
           <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
           <div class="dl" id="d-dl"></div>
         </div>
@@ -475,15 +474,20 @@ tabDraw.onclick=()=>showView(true);
 
 function drawingParams(){
   const v=id=>+($(id).value||0);
+  const dv=$('#d-pdate').value;
+  const date = dv ? (()=>{const [y,m,d]=dv.split('-');return `${m}/${d}/${y}`;})() : '';
   return {
     gate_type: $('#d-type').value,
-    drive: $('#d-drive').value,
+    config: $('#d-config').value,
     opening_in: v('#d-op-ft')*12 + v('#d-op-in'),
-    height_in: v('#d-h-ft')*12 + v('#d-h-in'),
-    post_in: v('#d-post'),
-    date: new Date().toLocaleDateString('en-US')
+    project: $('#d-project').value.trim().toUpperCase(),
+    site: $('#d-site').value.trim().toUpperCase(),
+    date,
+    sheet_no: 'A.01',
+    sheet_title: 'EQUIPMENT LAYOUT'
   };
 }
+$('#d-pdate').value = todayISO;
 let previewTimer=null;
 function refreshPreview(){
   clearTimeout(previewTimer);
@@ -497,7 +501,7 @@ function refreshPreview(){
     }catch(e){ $('#d-preview').textContent='Preview error: '+e; }
   },180);
 }
-['#d-type','#d-drive','#d-op-ft','#d-op-in','#d-h-ft','#d-h-in','#d-post']
+['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate']
   .forEach(id=>{ const el=$(id); if(el) el.addEventListener('input', refreshPreview); });
 
 function openDrawing(fname){
