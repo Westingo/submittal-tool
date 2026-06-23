@@ -15,12 +15,24 @@ import os
 import sys
 import threading
 import time
+import traceback
 import urllib.request
+
+from paths import data
+
+# pythonw.exe (the windowed launcher used by the shortcut) provides NO console,
+# so sys.stdout / sys.stderr are None. print() and uvicorn's logging both write
+# to those streams and would crash the server thread silently. Redirect to a
+# log file next to the app BEFORE importing uvicorn, so logging has a real sink.
+LOGFILE = data("desktop.log")
+if sys.stdout is None or sys.stderr is None:
+    _logf = open(LOGFILE, "a", encoding="utf-8", buffering=1)
+    sys.stdout = _logf
+    sys.stderr = _logf
 
 import uvicorn
 
 from app import app
-from paths import data
 
 HOST, PORT = "127.0.0.1", 8484
 URL = f"http://{HOST}:{PORT}"
@@ -120,4 +132,13 @@ def main(headless=False):
 
 
 if __name__ == "__main__":
-    main(headless="--selftest" in sys.argv)
+    try:
+        main(headless="--selftest" in sys.argv)
+    except Exception:
+        # last-resort breadcrumb so a windowed (pythonw) crash isn't silent
+        try:
+            with open(data("desktop-error.log"), "w", encoding="utf-8") as f:
+                f.write(traceback.format_exc())
+        except Exception:
+            pass
+        raise
