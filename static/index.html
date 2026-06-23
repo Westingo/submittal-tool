@@ -503,7 +503,7 @@ function showView(draw){
 tabSub.onclick=()=>showView(false);
 tabDraw.onclick=()=>showView(true);
 
-let DEVICES = null;        // null until first preview seeds the standard kit
+let DEVICES = [];          // start blank — add devices from the palette
 let selDev = null;         // id of the selected device
 
 function baseParams(){
