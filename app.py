@@ -160,7 +160,8 @@ def _drawing_name(params):
 @app.post("/api/drawing/preview")
 def drawing_preview(params: dict = Body(...)):
     d = drawgen.compute(params)
-    return {"svg": drawgen.to_svg(d), "scale": d["scale"], "devices": d["devices"]}
+    return {"svg": drawgen.to_svg(d), "scale": d["scale"], "devices": d["devices"],
+            "operator_models": drawgen.OPERATOR_MODELS}
 
 
 @app.post("/api/drawing/save")

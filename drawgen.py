@@ -69,6 +69,12 @@ TYPE_LABEL = {
     "safety_eye": "SAFETY EYES",
 }
 
+# operator graphics by model — extend as new operators are added (vector art).
+# (slug, display name); the slug selects the symbol in draw_operator().
+OPERATOR_MODELS = [("csl-24ul", "CSL-24UL")]
+OPERATOR_NAME = dict(OPERATOR_MODELS)
+DEFAULT_OP_MODEL = "csl-24ul"
+
 _LOGO_PATH = bundled("assets", "metro-logo.png")
 try:
     with open(_LOGO_PATH, "rb") as f:
@@ -136,7 +142,6 @@ def compute(params):
     project = str(params.get("project", "") or "")
     site = str(params.get("site", "") or "")
     date = str(params.get("date", "") or "")
-    model = str(params.get("operator_model") or "CSL-24UL").upper()
 
     ops = []
 
@@ -211,19 +216,46 @@ def compute(params):
     if devices is None:
         devices = _default_devices(config, y_top, y_bot)
 
-    # number each present type (contiguous, in TYPE_ORDER)
-    present = [t for t in TYPE_ORDER if any(d.get("type") == t for d in devices)]
-    num_of = {t: i + 1 for i, t in enumerate(present)}
+    # legend keys: most devices key by type; operators key by (operator, model)
+    # so different operator models get their own number + legend line.
+    def op_model(d):
+        return d.get("model") or DEFAULT_OP_MODEL
 
-    # symbol drawn at LOCAL origin (0,0); bubble offset; returns bubble dxy
-    def draw_symbol(t):
-        if t == "operator":              # CSL-24UL slide-gate operator (top view)
-            HIT(-23, -23, 46, 46)
-            RR(-21, -21, 42, 42, 6, 1.2, INK, fill=GREY)        # housing footprint
-            RR(-16, -16, 32, 32, 5, 0.8, INK, fill=WHITE)       # recessed top
-            RR(-12, -12, 24, 24, 4, 0.7, INK, fill=GREY)        # cover / lid
-            R(-5, -24, 10, 4, 0.7, INK, fill=GREY)              # drive housing tab
-            return (-32, -30)
+    def keyfor(d):
+        return ("operator", op_model(d)) if d.get("type") == "operator" else d.get("type")
+
+    entries = []   # ordered (key, base_label), following TYPE_ORDER
+    for ty in TYPE_ORDER:
+        dt = [d for d in devices if d.get("type") == ty]
+        if not dt:
+            continue
+        if ty == "operator":
+            seen = []
+            for d in dt:
+                m = op_model(d)
+                if m not in seen:
+                    seen.append(m)
+            for m in seen:
+                entries.append((("operator", m),
+                                OPERATOR_NAME.get(m, m.upper()) + " ON CONCRETE PAD"))
+        else:
+            entries.append((ty, TYPE_LABEL[ty]))
+    num_of = {k: i + 1 for i, (k, _) in enumerate(entries)}
+
+    def draw_operator(mdl):
+        # CSL-24UL (default). Add `elif mdl == "<slug>"` branches for new models.
+        HIT(-23, -23, 46, 46)
+        RR(-21, -21, 42, 42, 6, 1.2, INK, fill=GREY)        # housing footprint
+        RR(-16, -16, 32, 32, 5, 0.8, INK, fill=WHITE)       # recessed top
+        RR(-12, -12, 24, 24, 4, 0.7, INK, fill=GREY)        # cover / lid
+        R(-5, -24, 10, 4, 0.7, INK, fill=GREY)              # drive housing tab
+        return (-32, -30)
+
+    # symbol drawn at LOCAL origin (0,0); returns the bubble offset (dx,dy)
+    def draw_symbol(d):
+        t = d.get("type")
+        if t == "operator":
+            return draw_operator(op_model(d))
         if t in ("presence_loop", "free_exit_loop"):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
@@ -260,34 +292,36 @@ def compute(params):
         return (-26, -22)
 
     # draw symbols (in draggable groups)
-    placed = []   # (type, x, y, bubble_dx, bubble_dy)
+    placed = []   # (key, x, y, bubble_dx, bubble_dy)
     for d in devices:
-        t = d.get("type")
-        if t not in TYPE_LABEL:
+        if d.get("type") not in TYPE_LABEL:
             continue
         x, y = float(d.get("x", GATE_X)), float(d.get("y", cy))
         gstart(d.get("id", ""), x, y)
-        bdx, bdy = draw_symbol(t)
+        bdx, bdy = draw_symbol(d)
         gend()
-        placed.append((t, x, y, bdx, bdy))
+        placed.append((keyfor(d), x, y, bdx, bdy))
 
     # callout bubbles + leaders (absolute coords, refresh after a drag)
-    for (t, x, y, bdx, bdy) in placed:
+    for (k, x, y, bdx, bdy) in placed:
         bx, by = x + bdx, y + bdy
         L(bx, by, x, y, 0.6, INK)
         arrow(x, y, bx, by)
         C(bx, by, 9, 0.9, INK, WHITE)
-        T(bx, by + 3.2, str(num_of[t]), 9, "middle", True, INK)
+        T(bx, by + 3.2, str(num_of[k]), 9, "middle", True, INK)
 
     # legend (bottom-left)
-    counts = {t: sum(1 for d in devices if d.get("type") == t) for t in present}
+    counts = {}
+    for d in devices:
+        if d.get("type") in TYPE_LABEL:
+            kk = keyfor(d)
+            counts[kk] = counts.get(kk, 0) + 1
     lx, ly = AREA[0] + 8, 414.0
-    for t in present:
-        label = TYPE_LABEL[t].format(model=model)
-        if counts[t] > 1:
-            label += f"  (x{counts[t]})"
+    for (k, label) in entries:
+        if counts.get(k, 0) > 1:
+            label = f"{label}  (x{counts[k]})"
         C(lx + 8, ly - 3, 7.5, 0.9, INK, WHITE)
-        T(lx + 8, ly, str(num_of[t]), 8, "middle", True, INK)
+        T(lx + 8, ly, str(num_of[k]), 8, "middle", True, INK)
         T(lx + 22, ly, label, 8.5, "start", False, BLUE)
         ly += 13
 

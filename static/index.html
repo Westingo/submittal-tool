@@ -217,6 +217,9 @@
           <label for="d-pdate">Date</label>
           <input id="d-pdate" type="date">
 
+          <label for="d-op-model" style="margin-top:14px">Operator model</label>
+          <select id="d-op-model"></select>
+
           <div class="eqhead">Add equipment (drag to place)</div>
           <div class="palette">
             <button type="button" data-add="operator">+ Operator</button>
@@ -234,9 +237,7 @@
             <button id="d-clear" type="button">Clear all</button>
             <button id="d-reset" type="button">Reset to standard kit</button>
           </div>
-          <label for="eq-op-model" style="margin-top:10px">Operator model (legend)</label>
-          <input id="eq-op-model" type="text" value="CSL-24UL">
-          <p class="hint">Drag any device on the plan to position it. Click a device, then "Delete selected" (or the Del key) to remove it.</p>
+          <p class="hint">Pick the operator model, then "+ Operator". Drag any device on the plan to position it; click a device, then "Delete selected" (or the Del key) to remove it.</p>
 
           <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
           <div class="dl" id="d-dl"></div>
@@ -521,7 +522,6 @@ function baseParams(){
     gate_type: $('#d-type').value,
     config: $('#d-config').value,
     opening_in: v('#d-op-ft')*12 + v('#d-op-in'),
-    operator_model: ($('#eq-op-model').value.trim().toUpperCase())||'CSL-24UL',
     project: $('#d-project').value.trim().toUpperCase(),
     site: $('#d-site').value.trim().toUpperCase(),
     date, sheet_no:'A.01', sheet_title:'EQUIPMENT LAYOUT'
@@ -539,6 +539,10 @@ function refreshPreview(){
         headers:{'Content-Type':'application/json'}, body:JSON.stringify(fullParams())});
       const res=await r.json();
       if(DEVICES===null) DEVICES=res.devices||[];   // adopt the seeded kit
+      if(res.operator_models && $('#d-op-model').options.length===0){
+        $('#d-op-model').innerHTML = res.operator_models
+          .map(([slug,name])=>`<option value="${slug}">${name}</option>`).join('');
+      }
       $('#d-preview').innerHTML=res.svg||'';
       $('#d-scale').textContent=res.scale?('scale '+res.scale):'';
       attachDrag();
@@ -575,7 +579,9 @@ function svg_sel(g){ const svg=g.ownerSVGElement; if(svg) svg.querySelectorAll('
 function addDevice(type){
   if(!DEVICES) DEVICES=[];
   const id='u'+Date.now()+Math.floor(Math.random()*1000);
-  DEVICES.push({id, type, x:420, y:236});
+  const dev={id, type, x:420, y:236};
+  if(type==='operator') dev.model = $('#d-op-model').value || 'csl-24ul';
+  DEVICES.push(dev);
   selDev=id;
   refreshPreview();
 }
@@ -591,7 +597,7 @@ document.addEventListener('keydown', e=>{
   if((e.key==='Delete'||e.key==='Backspace') && !$('#view-drawings').hidden &&
      !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)){ deleteSelected(); }
 });
-['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate','#eq-op-model']
+['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate']
   .forEach(id=>{ const el=$(id); if(el){ el.addEventListener('input', refreshPreview); el.addEventListener('change', refreshPreview); } });
 
 function openDrawing(fname){
