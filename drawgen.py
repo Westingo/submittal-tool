@@ -246,10 +246,11 @@ def compute(params):
             HIT(-8, -8, 16, 16)
             R(-3, -3, 6, 6, 0.8, INK, INK)
             return (22, -16)
-        if t == "edge_sensor_h":             # horizontal safety edge (wide bar)
-            HIT(-12, -8, 24, 16)
-            R(-9, -3, 18, 6, 0.8, INK, INK)
-            return (0, -18)
+        if t == "edge_sensor_h":             # horizontal safety edge: runs in the
+            blen = max(40.0, op_pts - 16)    # gate direction, just shorter than the
+            HIT(-6, -blen / 2, 12, blen)     # gate; length tracks the opening
+            R(-3, -blen / 2, 6, blen, 0.9, INK, GREY)
+            return (16, -blen / 2 + 10)
         if t == "safety_eye":
             HIT(-9, -9, 18, 18)
             R(-4, -4, 8, 8, 0.8, INK, INK)
