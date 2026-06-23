@@ -43,6 +43,13 @@
   .ftin span{font-family:var(--mono);font-size:11px;color:var(--faint)}
   #d-preview{border:1px solid #d4d5d8;background:#fff;overflow:auto;min-height:340px;padding:6px}
   #d-preview svg{display:block;width:100%;height:auto}
+  .eqhead{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint);margin:14px 0 4px;border-top:1px solid #e3e4e7;padding-top:10px}
+  .eqrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12.5px;
+    color:var(--ink);margin:5px 0}
+  .eqrow span{flex:1}
+  .eqrow input[type=number],.eqrow input[type=text]{border:1px solid #b9bcc2;padding:5px 6px;font:inherit}
+  .eqrow input[type=number]{width:56px;text-align:center}
 
   .sheet{background:var(--sheet);border:1.5px solid var(--rule);margin-bottom:20px}
   .sheet>h2{margin:0;border-bottom:1px solid var(--rule);padding:9px 14px;
@@ -207,6 +214,17 @@
           <input id="d-site" type="text" placeholder="(optional)">
           <label for="d-pdate">Date</label>
           <input id="d-pdate" type="date">
+
+          <div class="eqhead">Equipment on drawing</div>
+          <div class="eqrow"><span>Operator model</span><input id="eq-op-model" type="text" value="CSL-24UL" style="width:120px"></div>
+          <div class="eqrow"><span>Presence loops</span><input id="eq-presence" type="number" min="0" max="2" value="2"></div>
+          <div class="eqrow"><span>Gate edge sensors</span><input id="eq-edge" type="number" min="0" max="12" value="6"></div>
+          <div class="eqrow"><input id="eq-freeexit" type="checkbox" checked><span>Free exit loop</span></div>
+          <div class="eqrow"><input id="eq-gooseneck" type="checkbox" checked><span>Gooseneck pedestal</span></div>
+          <div class="eqrow"><input id="eq-fire" type="checkbox" checked><span>Fire switch</span></div>
+          <div class="eqrow"><input id="eq-keypad" type="checkbox" checked><span>Access keypad</span></div>
+          <div class="eqrow"><input id="eq-eyes" type="checkbox" checked><span>Safety eyes</span></div>
+
           <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
           <div class="dl" id="d-dl"></div>
         </div>
@@ -484,7 +502,17 @@ function drawingParams(){
     site: $('#d-site').value.trim().toUpperCase(),
     date,
     sheet_no: 'A.01',
-    sheet_title: 'EQUIPMENT LAYOUT'
+    sheet_title: 'EQUIPMENT LAYOUT',
+    equipment: {
+      operator_model: ($('#eq-op-model').value.trim().toUpperCase())||'CSL-24UL',
+      presence_loops: v('#eq-presence'),
+      free_exit_loop: $('#eq-freeexit').checked,
+      gooseneck: $('#eq-gooseneck').checked,
+      fire_switch: $('#eq-fire').checked,
+      keypad: $('#eq-keypad').checked,
+      edge_sensors: v('#eq-edge'),
+      safety_eyes: $('#eq-eyes').checked
+    }
   };
 }
 $('#d-pdate').value = todayISO;
@@ -501,8 +529,9 @@ function refreshPreview(){
     }catch(e){ $('#d-preview').textContent='Preview error: '+e; }
   },180);
 }
-['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate']
-  .forEach(id=>{ const el=$(id); if(el) el.addEventListener('input', refreshPreview); });
+['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate',
+ '#eq-op-model','#eq-presence','#eq-edge','#eq-freeexit','#eq-gooseneck','#eq-fire','#eq-keypad','#eq-eyes']
+  .forEach(id=>{ const el=$(id); if(el){ el.addEventListener('input', refreshPreview); el.addEventListener('change', refreshPreview); } });
 
 function openDrawing(fname){
   if(isDesktop()) window.pywebview.api.open_drawing(fname);
