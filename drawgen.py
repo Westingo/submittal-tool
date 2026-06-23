@@ -71,7 +71,7 @@ TYPE_LABEL = {
 
 # operator graphics by model — extend as new operators are added (vector art).
 # (slug, display name); the slug selects the symbol in draw_operator().
-OPERATOR_MODELS = [("csl-24ul", "CSL-24UL")]
+OPERATOR_MODELS = [("csl-24ul", "CSL-24UL"), ("csw-24ul", "CSW-24UL")]
 OPERATOR_NAME = dict(OPERATOR_MODELS)
 DEFAULT_OP_MODEL = "csl-24ul"
 
@@ -243,6 +243,14 @@ def compute(params):
     num_of = {k: i + 1 for i, (k, _) in enumerate(entries)}
 
     def draw_operator(mdl):
+        if mdl == "csw-24ul":            # CSW24UL swing-gate operator (cabinet + arm)
+            HIT(-20, -18, 40, 38)
+            R(-18, -16, 34, 30, 1.1, INK, fill=GREY)        # cabinet
+            L(0, 0, 38, -30, 3.5, INK)                      # swing arm to the gate
+            C(38, -30, 3.5, 0.9, INK, fill=WHITE)           # arm bracket
+            C(0, 0, 8, 0.9, INK, fill=WHITE)                # gearbox
+            C(0, 0, 3, 0.7, INK, fill=GREY)                 # output shaft
+            return (-24, 24)
         # CSL-24UL (default). Add `elif mdl == "<slug>"` branches for new models.
         HIT(-23, -23, 46, 46)
         RR(-21, -21, 42, 42, 6, 1.2, INK, fill=GREY)        # housing footprint
