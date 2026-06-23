@@ -230,6 +230,7 @@
           </div>
           <div class="palrow">
             <button id="d-del" type="button">Delete selected</button>
+            <button id="d-clear" type="button">Clear all</button>
             <button id="d-reset" type="button">Reset to standard kit</button>
           </div>
           <label for="eq-op-model" style="margin-top:10px">Operator model (legend)</label>
@@ -576,6 +577,7 @@ function deleteSelected(){
 }
 document.querySelectorAll('.palette button').forEach(b=>b.addEventListener('click',()=>addDevice(b.dataset.add)));
 $('#d-del').addEventListener('click', deleteSelected);
+$('#d-clear').addEventListener('click', ()=>{ DEVICES=[]; selDev=null; refreshPreview(); });
 $('#d-reset').addEventListener('click', ()=>{ DEVICES=null; selDev=null; refreshPreview(); });
 document.addEventListener('keydown', e=>{
   if((e.key==='Delete'||e.key==='Backspace') && !$('#view-drawings').hidden &&

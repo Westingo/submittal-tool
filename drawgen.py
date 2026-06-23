@@ -168,6 +168,11 @@ def compute(params):
     def gend():
         ops.append({"t": "gend"})
 
+    def HIT(x, y, w, h):
+        # invisible full-footprint grab area (SVG only) so the whole device
+        # is draggable, not just its stroke
+        ops.append({"t": "hit", "x": x, "y": y, "w": w, "h": h})
+
     def arrow(tx, ty, fx, fy, color=INK):
         ang = math.atan2(ty - fy, tx - fx)
         for a in (ang + 2.5, ang - 2.5):
@@ -212,29 +217,36 @@ def compute(params):
     # symbol drawn at LOCAL origin (0,0); bubble offset; returns bubble dxy
     def draw_symbol(t):
         if t == "operator":
+            HIT(-22, -17, 44, 34)
             R(-20, -15, 40, 30, 1.1, INK, GREY)
             R(-15, -10, 30, 20, 0.6, INK, WHITE)
             return (-30, -26)
         if t in ("presence_loop", "free_exit_loop"):
+            HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
             return (40, -54)
         if t == "gooseneck":
+            HIT(-16, -18, 32, 58)
             R(-5, 0, 10, 38, 1.0, INK, GREY)
             R(-14, -16, 28, 16, 1.0, INK, WHITE)
             return (-34, 6)
         if t == "fire_switch":
+            HIT(-9, -11, 18, 22)
             R(-5, -8, 10, 16, 0.8, INK, WHITE)
             L(-2, -4, 2, 0, 0.6); L(-2, 0, 2, 4, 0.6)
             return (-26, -20)
         if t == "keypad":
+            HIT(-9, -11, 18, 22)
             R(-5, -8, 10, 16, 0.8, INK, WHITE)
             for gy in (-4, 0, 4):
                 L(-2.5, gy, 2.5, gy, 0.4)
             return (26, -18)
         if t == "edge_sensor":
+            HIT(-8, -8, 16, 16)
             R(-3, -3, 6, 6, 0.8, INK, INK)
             return (22, -16)
         if t == "safety_eye":
+            HIT(-9, -9, 18, 18)
             R(-4, -4, 8, 8, 0.8, INK, INK)
             return (-22, -16)
         return (-26, -22)
@@ -325,6 +337,9 @@ def to_svg(drawing):
                        f'transform="translate({o["x"]:.2f},{o["y"]:.2f})">')
         elif t == "gend":
             out.append("</g>")
+        elif t == "hit":
+            out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
+                       f'height="{o["h"]:.2f}" fill="none" stroke="none" pointer-events="all"/>')
         elif t == "line":
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
             out.append(f'<line x1="{o["x1"]:.2f}" y1="{o["y1"]:.2f}" x2="{o["x2"]:.2f}" '
@@ -385,6 +400,8 @@ def to_pdf(drawing, path):
         if t == "gend":
             ox = oy = 0.0
             continue
+        if t == "hit":
+            continue                      # SVG-only grab area; nothing in the PDF
         if t == "line":
             page.draw_line((o["x1"] + ox, o["y1"] + oy), (o["x2"] + ox, o["y2"] + oy),
                            color=o["color"], width=o["w"],
