@@ -105,6 +105,34 @@ def _pick_scale(real_h_in, avail_h):
     return label, paper_per_ft * 6.0
 
 
+def _fit_lines(text, max_w, size, font="tibo", max_lines=3, min_size=5.5):
+    """Word-wrap `text` to fit max_w, shrinking the font until it fits in
+    max_lines. Returns (lines, size). Used for title-block cells."""
+    text = str(text).strip()
+    if not text:
+        return [], size
+    words = text.split()
+    s = size
+    while s >= min_size:
+        lines, cur, too_long = [], "", False
+        for w in words:
+            trial = (cur + " " + w).strip()
+            if fitz.get_text_length(trial, fontname=font, fontsize=s) <= max_w:
+                cur = trial
+            else:
+                if cur:
+                    lines.append(cur)
+                cur = w
+                if fitz.get_text_length(w, fontname=font, fontsize=s) > max_w:
+                    too_long = True
+        if cur:
+            lines.append(cur)
+        if not too_long and len(lines) <= max_lines:
+            return lines, s
+        s -= 0.5
+    return lines, min_size
+
+
 # --------------------------------------------------------------- compute
 def compute(params):
     opening = _num(params, "opening_in", 288, 24, 1200)
@@ -323,20 +351,23 @@ def compute(params):
     for line in ADDR_LINES:
         T(addr_cx, ay, line, 9, "middle", True, INK, serif=True)
         ay += 14
-    tparts = title.split()
-    tvalue = [tparts[0], " ".join(tparts[1:])] if len(tparts) > 1 else tparts
-    values = {"PROJECT NAME": [project] if project else [],
-              "SITE ADDRESS": [site] if site else [],
-              "DATE": [date] if date else [],
-              "TITLE": tvalue,
+    values = {"PROJECT NAME": [project],
+              "SITE ADDRESS": [site],
+              "DATE": [date],
+              "TITLE": [title],
               "SHEET #": [sheet_no, sheet_title]}
     for x0, x1, header in TB_COLS:
         cx = (x0 + x1) / 2
         T(cx, TB_TOP + 13, header, 9, "middle", True, INK, serif=True)
-        vlines = values.get(header, [])
-        vsize = 9 if len(vlines) <= 1 else 8
-        for i, ln in enumerate(vlines):
-            T(cx, TB_HDR_Y + 16 + i * 14, ln, vsize, "middle", True, INK, serif=True)
+        # fit each value segment to the column width (wrap + shrink), stacked
+        drawn = []
+        for seg in values.get(header, []):
+            lines, sz = _fit_lines(seg, (x1 - x0) - 8, 9)
+            drawn.extend((ln, sz) for ln in lines)
+        lead = 11.0
+        y0 = (TB_HDR_Y + TB_BOT) / 2 - len(drawn) * lead / 2 + 8
+        for i, (ln, sz) in enumerate(drawn):
+            T(cx, y0 + i * lead, ln, sz, "middle", True, INK, serif=True)
 
     return {"ops": ops, "w": SHEET_W, "h": SHEET_H, "scale": scale_label,
             "devices": devices}
