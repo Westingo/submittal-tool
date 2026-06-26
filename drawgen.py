@@ -87,26 +87,61 @@ except Exception:
 # + inner SVG (for the live preview); the PDF is re-embedded for vector output.
 SYMBOL_FILES = {"gooseneck": "gooseneck.pdf"}
 SYMBOL_TARGET_H = {"gooseneck": 50.0}     # on-sheet height in points
+SYMBOL_STROKE = {"gooseneck": 1.1}        # on-sheet line weight (NOT scaled down)
 SYMBOLS = {}
+
+
+def _is_blue(c):
+    return bool(c) and len(c) >= 3 and c[2] > 0.5 and c[2] - c[0] > 0.2 and c[2] - c[1] > 0.2
+
+
+def _load_symbol(path, target_h, sw):
+    """Convert a vector PDF into centered primitive ops at a fixed line weight
+    (so strokes stay visible at the small on-sheet size), dropping blue
+    leftovers. Result rotates/renders through the normal pipeline."""
+    doc = fitz.open(path)
+    pg = doc[0]
+    sc = target_h / pg.rect.height
+    W, H = pg.rect.width * sc, target_h
+
+    def X(v):
+        return v * sc - W / 2
+
+    def Y(v):
+        return v * sc - H / 2
+
+    ops = []
+    for dr in pg.get_drawings():
+        if _is_blue(dr.get("color")) or _is_blue(dr.get("fill")):
+            continue
+        stroked = dr["type"] in ("s", "fs")
+        fill = dr.get("fill") if dr["type"] in ("f", "fs") else None
+        col = INK if stroked else None
+        for it in dr["items"]:
+            if it[0] == "re":
+                r = it[1]
+                ops.append({"t": "rect", "x": X(r.x0), "y": Y(r.y0),
+                            "w": r.width * sc, "h": r.height * sc,
+                            "sw": sw, "color": col, "fill": fill})
+            elif it[0] == "l":
+                p1, p2 = it[1], it[2]
+                ops.append({"t": "line", "x1": X(p1.x), "y1": Y(p1.y),
+                            "x2": X(p2.x), "y2": Y(p2.y), "w": sw, "color": INK})
+            elif it[0] == "qu":
+                pts = [it[1].ul, it[1].ur, it[1].lr, it[1].ll, it[1].ul]
+                for a, b in zip(pts, pts[1:]):
+                    ops.append({"t": "line", "x1": X(a.x), "y1": Y(a.y),
+                                "x2": X(b.x), "y2": Y(b.y), "w": sw, "color": INK})
+    doc.close()
+    return {"w": W, "h": H, "ops": ops}
+
+
 for _t, _fn in SYMBOL_FILES.items():
     try:
-        _p = bundled("assets", "symbols", _fn)
-        _doc = fitz.open(_p)
-        _pg = _doc[0]
-        _svg = _pg.get_svg_image(text_as_path=True)
-        _inner = _svg[_svg.index(">", _svg.index("<svg")) + 1:_svg.rindex("</svg>")]
-        SYMBOLS[_t] = {"path": _p, "w": _pg.rect.width, "h": _pg.rect.height, "inner": _inner}
-        _doc.close()
+        SYMBOLS[_t] = _load_symbol(bundled("assets", "symbols", _fn),
+                                   SYMBOL_TARGET_H.get(_t, 48.0), SYMBOL_STROKE.get(_t, 1.0))
     except Exception:
         pass
-
-
-def _symbol_size(sym):
-    s = SYMBOLS.get(sym)
-    if not s:
-        return 24.0, 24.0
-    h = SYMBOL_TARGET_H.get(sym, 48.0)
-    return s["w"] * (h / s["h"]), h
 
 
 def ft_in(inches):
@@ -295,10 +330,12 @@ def compute(params):
         if t == "operator":
             return draw_operator(op_model(d), float(d.get("arm_dx", 38)), float(d.get("arm_dy", -30)))
         if t in SYMBOLS:                      # vector artwork from a PDF file
-            w, h = _symbol_size(t)
-            HIT(-w / 2 - 2, -h / 2 - 2, w + 4, h + 4)
-            ops.append({"t": "symbol", "sym": t, "w": w, "h": h})
-            return (-w / 2 - 14, 4)
+            s = SYMBOLS[t]
+            W, H = s["w"], s["h"]
+            HIT(-W / 2 - 2, -H / 2 - 2, W + 4, H + 4)
+            for so in s["ops"]:
+                ops.append(dict(so))          # inline the symbol's primitives
+            return (-W / 2 - 14, 4)
         if t in ("presence_loop", "free_exit_loop"):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
@@ -445,8 +482,9 @@ def to_svg(drawing):
                        f'y2="{o["y2"]:.2f}" stroke="{_hex(o["color"])}" stroke-width="{o["w"]}"{dash}{cls}/>')
         elif t == "rect":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
+            stroke = _hex(o["color"]) if o.get("color") else "none"
             out.append(f'<rect x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
-                       f'height="{o["h"]:.2f}" fill="{fill}" stroke="{_hex(o["color"])}" stroke-width="{o["sw"]}"/>')
+                       f'height="{o["h"]:.2f}" fill="{fill}" stroke="{stroke}" stroke-width="{o["sw"]}"/>')
         elif t == "rrect":
             fill = _hex(o["fill"]) if o.get("fill") else "none"
             dash = ' stroke-dasharray="6 4"' if o.get("dash") else ""
@@ -467,13 +505,6 @@ def to_svg(drawing):
         elif t == "image" and _LOGO_B64:
             out.append(f'<image x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
                        f'height="{o["h"]:.2f}" href="{_LOGO_B64}"/>')
-        elif t == "symbol":
-            s = SYMBOLS.get(o["sym"])
-            if s:
-                W, H = o["w"], o["h"]
-                out.append(f'<svg x="{-W/2:.2f}" y="{-H/2:.2f}" width="{W:.2f}" height="{H:.2f}" '
-                           f'viewBox="0 0 {s["w"]:.2f} {s["h"]:.2f}" overflow="visible" '
-                           f'pointer-events="none">{s["inner"]}</svg>')
     out.append("</svg>")
     return "\n".join(out)
 
@@ -557,13 +588,5 @@ def to_pdf(drawing, path):
         elif t == "image" and os.path.isfile(_LOGO_PATH):
             page.insert_image(fitz.Rect(o["x"] + ox, o["y"] + oy, o["x"] + ox + o["w"], o["y"] + oy + o["h"]),
                               filename=_LOGO_PATH)
-        elif t == "symbol":
-            s = SYMBOLS.get(o["sym"])
-            if s:
-                W, H = o["w"], o["h"]
-                src = fitz.open(s["path"])
-                page.show_pdf_page(fitz.Rect(ox - W / 2, oy - H / 2, ox + W / 2, oy + H / 2),
-                                   src, 0, rotate=grot)
-                src.close()
     doc.save(path, garbage=3, deflate=True)
     doc.close()
