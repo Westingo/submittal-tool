@@ -82,6 +82,32 @@ try:
 except Exception:
     _LOGO_B64 = None
 
+# Device symbols supplied as vector PDFs (Illustrator) — a file here overrides
+# the built-in drawing for that device type. Loaded once: keep the source size
+# + inner SVG (for the live preview); the PDF is re-embedded for vector output.
+SYMBOL_FILES = {"gooseneck": "gooseneck.pdf"}
+SYMBOL_TARGET_H = {"gooseneck": 50.0}     # on-sheet height in points
+SYMBOLS = {}
+for _t, _fn in SYMBOL_FILES.items():
+    try:
+        _p = bundled("assets", "symbols", _fn)
+        _doc = fitz.open(_p)
+        _pg = _doc[0]
+        _svg = _pg.get_svg_image(text_as_path=True)
+        _inner = _svg[_svg.index(">", _svg.index("<svg")) + 1:_svg.rindex("</svg>")]
+        SYMBOLS[_t] = {"path": _p, "w": _pg.rect.width, "h": _pg.rect.height, "inner": _inner}
+        _doc.close()
+    except Exception:
+        pass
+
+
+def _symbol_size(sym):
+    s = SYMBOLS.get(sym)
+    if not s:
+        return 24.0, 24.0
+    h = SYMBOL_TARGET_H.get(sym, 48.0)
+    return s["w"] * (h / s["h"]), h
+
 
 def ft_in(inches):
     inches = int(round(inches))
@@ -268,6 +294,11 @@ def compute(params):
         t = d.get("type")
         if t == "operator":
             return draw_operator(op_model(d), float(d.get("arm_dx", 38)), float(d.get("arm_dy", -30)))
+        if t in SYMBOLS:                      # vector artwork from a PDF file
+            w, h = _symbol_size(t)
+            HIT(-w / 2 - 2, -h / 2 - 2, w + 4, h + 4)
+            ops.append({"t": "symbol", "sym": t, "w": w, "h": h})
+            return (-w / 2 - 14, 4)
         if t in ("presence_loop", "free_exit_loop"):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
@@ -433,6 +464,13 @@ def to_svg(drawing):
         elif t == "image" and _LOGO_B64:
             out.append(f'<image x="{o["x"]:.2f}" y="{o["y"]:.2f}" width="{o["w"]:.2f}" '
                        f'height="{o["h"]:.2f}" href="{_LOGO_B64}"/>')
+        elif t == "symbol":
+            s = SYMBOLS.get(o["sym"])
+            if s:
+                W, H = o["w"], o["h"]
+                out.append(f'<svg x="{-W/2:.2f}" y="{-H/2:.2f}" width="{W:.2f}" height="{H:.2f}" '
+                           f'viewBox="0 0 {s["w"]:.2f} {s["h"]:.2f}" overflow="visible" '
+                           f'pointer-events="none">{s["inner"]}</svg>')
     out.append("</svg>")
     return "\n".join(out)
 
@@ -492,5 +530,12 @@ def to_pdf(drawing, path):
         elif t == "image" and os.path.isfile(_LOGO_PATH):
             page.insert_image(fitz.Rect(o["x"] + ox, o["y"] + oy, o["x"] + ox + o["w"], o["y"] + oy + o["h"]),
                               filename=_LOGO_PATH)
+        elif t == "symbol":
+            s = SYMBOLS.get(o["sym"])
+            if s:
+                W, H = o["w"], o["h"]
+                src = fitz.open(s["path"])
+                page.show_pdf_page(fitz.Rect(ox - W / 2, oy - H / 2, ox + W / 2, oy + H / 2), src, 0)
+                src.close()
     doc.save(path, garbage=3, deflate=True)
     doc.close()
