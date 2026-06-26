@@ -272,11 +272,13 @@ def compute(params):
             HIT(-27, -60, 54, 120)
             RR(-27, -60, 54, 120, 14, 1.0, RED, dash=1)
             return (40, -54)
-        if t == "gooseneck":
-            HIT(-16, -18, 32, 58)
-            R(-5, 0, 10, 38, 1.0, INK, GREY)
-            R(-14, -16, 28, 16, 1.0, INK, WHITE)
-            return (-34, 6)
+        if t == "gooseneck":             # gooseneck pedestal (top view)
+            HIT(-14, -20, 28, 38)
+            R(-11, -18, 22, 7, 1.0, INK, GREY)      # mounting head bar
+            R(-12, -11, 24, 24, 1.1, INK, WHITE)    # base plate / footing
+            C(0, 1, 8, 0.9, INK, WHITE)             # post
+            C(0, 1, 3, 0.7, INK, GREY)              # pole
+            return (-30, 4)
         if t == "fire_switch":
             HIT(-9, -11, 18, 22)
             R(-5, -8, 10, 16, 0.8, INK, WHITE)
