@@ -195,8 +195,8 @@ def compute(params):
     def IMG(x, y, w, h):
         ops.append({"t": "image", "x": x, "y": y, "w": w, "h": h})
 
-    def gstart(dev_id, x, y):
-        ops.append({"t": "gstart", "id": dev_id, "x": x, "y": y})
+    def gstart(dev_id, x, y, rot=0.0):
+        ops.append({"t": "gstart", "id": dev_id, "x": x, "y": y, "rot": rot})
 
     def gend():
         ops.append({"t": "gend"})
@@ -342,7 +342,7 @@ def compute(params):
         if d.get("type") not in TYPE_LABEL:
             continue
         x, y = float(d.get("x", GATE_X)), float(d.get("y", cy))
-        gstart(d.get("id", ""), x, y)
+        gstart(d.get("id", ""), x, y, float(d.get("rot", 0) or 0))
         bdx, bdy = draw_symbol(d)
         gend()
         placed.append((keyfor(d), x, y, bdx, bdy))
@@ -423,8 +423,11 @@ def to_svg(drawing):
     for o in drawing["ops"]:
         t = o["t"]
         if t == "gstart":
-            out.append(f'<g class="dev" data-id="{_esc(str(o["id"]))}" '
-                       f'transform="translate({o["x"]:.2f},{o["y"]:.2f})">')
+            rot = o.get("rot", 0)
+            tr = f"translate({o['x']:.2f},{o['y']:.2f})"
+            if rot:
+                tr += f" rotate({rot:.2f})"
+            out.append(f'<g class="dev" data-id="{_esc(str(o["id"]))}" transform="{tr}">')
         elif t == "gend":
             out.append("</g>")
         elif t == "hit":
@@ -475,7 +478,7 @@ def to_svg(drawing):
     return "\n".join(out)
 
 
-def _pdf_rrect(page, o, ox, oy):
+def _pdf_rrect(page, o, ox, oy, morph=None):
     x, y, w, h, r = o["x"] + ox, o["y"] + oy, o["w"], o["h"], o["r"]
     k = r * 0.5523
     sh = page.new_shape()
@@ -488,7 +491,27 @@ def _pdf_rrect(page, o, ox, oy):
     sh.draw_line((x, y + h - r), (x, y + r))
     sh.draw_bezier((x, y + r), (x, y + r - k), (x + r - k, y), (x + r, y))
     sh.finish(color=o["color"], width=o["sw"], fill=o.get("fill"),
-              dashes="[6 4] 0" if o.get("dash") else None)
+              dashes="[6 4] 0" if o.get("dash") else None, morph=morph)
+    sh.commit()
+
+
+def _draw_morph(page, o, ox, oy, morph):
+    """Draw one primitive rotated, via Shape.morph around the device anchor."""
+    t = o["t"]
+    if t == "rrect":
+        _pdf_rrect(page, o, ox, oy, morph=morph)
+        return
+    sh = page.new_shape()
+    if t == "line":
+        sh.draw_line((o["x1"] + ox, o["y1"] + oy), (o["x2"] + ox, o["y2"] + oy))
+        sh.finish(color=o["color"], width=o["w"],
+                  dashes="[6 4] 0" if o.get("dash") else None, morph=morph)
+    elif t == "rect":
+        sh.draw_rect(fitz.Rect(o["x"] + ox, o["y"] + oy, o["x"] + ox + o["w"], o["y"] + oy + o["h"]))
+        sh.finish(color=o["color"], fill=o.get("fill"), width=o["sw"], morph=morph)
+    elif t == "circle":
+        sh.draw_circle((o["cx"] + ox, o["cy"] + oy), o["r"])
+        sh.finish(color=o["color"], fill=o.get("fill"), width=o["sw"], morph=morph)
     sh.commit()
 
 
@@ -496,16 +519,20 @@ def to_pdf(drawing, path):
     doc = fitz.open()
     page = doc.new_page(width=drawing["w"], height=drawing["h"])
     ox = oy = 0.0
+    grot = 0.0
     for o in drawing["ops"]:
         t = o["t"]
         if t == "gstart":
-            ox, oy = o["x"], o["y"]
+            ox, oy, grot = o["x"], o["y"], o.get("rot", 0) or 0
             continue
         if t == "gend":
-            ox = oy = 0.0
+            ox = oy = grot = 0.0
             continue
         if t in ("hit", "handle"):
             continue                      # SVG-only UI affordances; not in the PDF
+        if grot and t in ("line", "rect", "circle", "rrect"):
+            _draw_morph(page, o, ox, oy, (fitz.Point(ox, oy), fitz.Matrix(grot)))
+            continue
         if t == "line":
             page.draw_line((o["x1"] + ox, o["y1"] + oy), (o["x2"] + ox, o["y2"] + oy),
                            color=o["color"], width=o["w"],
@@ -535,7 +562,8 @@ def to_pdf(drawing, path):
             if s:
                 W, H = o["w"], o["h"]
                 src = fitz.open(s["path"])
-                page.show_pdf_page(fitz.Rect(ox - W / 2, oy - H / 2, ox + W / 2, oy + H / 2), src, 0)
+                page.show_pdf_page(fitz.Rect(ox - W / 2, oy - H / 2, ox + W / 2, oy + H / 2),
+                                   src, 0, rotate=grot)
                 src.close()
     doc.save(path, garbage=3, deflate=True)
     doc.close()

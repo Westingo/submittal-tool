@@ -267,7 +267,7 @@
             <button id="d-del" type="button">Delete selected</button>
             <button id="d-clear" type="button">Clear all</button>
           </div>
-          <p class="hint">Pick the operator model, then "+ Operator". Drag any device on the plan to position it; click a device, then "Delete selected" (or the Del key) to remove it.</p>
+          <p class="hint">Pick the operator model, then "+ Operator". Drag a device to move it. Click a device to select it — a blue rotate handle appears: drag it to rotate (hold Shift to snap 15°), or use the [ and ] keys. Delete selected (or Del) removes it.</p>
 
           <button class="stamp" id="d-save" type="button" style="margin-top:16px">Save drawing PDF</button>
           <div class="dl" id="d-dl"></div>
@@ -706,6 +706,41 @@ function attachDrag(){
     h.style.cursor='crosshair';
     h.addEventListener('pointerdown', startArmDrag);
   });
+  // rotate handle on the selected device
+  if(selDev){
+    const g=svg.querySelector(`.dev[data-id="${selDev}"]`);
+    const dev=(DEVICES||[]).find(d=>d.id===selDev);
+    if(g && dev){
+      const ns='http://www.w3.org/2000/svg';
+      const ln=document.createElementNS(ns,'line');
+      ln.setAttribute('x1',0); ln.setAttribute('y1',0); ln.setAttribute('x2',0); ln.setAttribute('y2',-36);
+      ln.setAttribute('stroke','#2433e0'); ln.setAttribute('stroke-width','1'); ln.setAttribute('pointer-events','none');
+      const h=document.createElementNS(ns,'circle'); h.setAttribute('class','rot-handle');
+      h.setAttribute('cx',0); h.setAttribute('cy',-36); h.setAttribute('r',7);
+      h.setAttribute('fill','#2433e0'); h.setAttribute('fill-opacity','0.35'); h.setAttribute('stroke','#2433e0');
+      h.setAttribute('pointer-events','all'); h.style.cursor='grab';
+      g.appendChild(ln); g.appendChild(h);
+      h.addEventListener('pointerdown', startRotate);
+    }
+  }
+}
+function startRotate(e){
+  e.preventDefault(); e.stopPropagation();
+  const h=e.currentTarget, g=h.closest('.dev'); if(!g) return;
+  const dev=(DEVICES||[]).find(d=>d.id===g.dataset.id); if(!dev) return;
+  const svg=g.ownerSVGElement, pt=svg.createSVGPoint();
+  try{ h.setPointerCapture(e.pointerId); }catch(_){}
+  const toUser=ev=>{ pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
+  function move(ev){
+    const u=toUser(ev);
+    let ang=Math.atan2(u.y-dev.y, u.x-dev.x)*180/Math.PI + 90;
+    if(ev.shiftKey) ang=Math.round(ang/15)*15;       // hold Shift to snap 15°
+    dev.rot=ang;
+    g.setAttribute('transform',`translate(${dev.x},${dev.y}) rotate(${dev.rot})`);
+  }
+  function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up);
+    dev.rot=Math.round(dev.rot*10)/10; refreshPreview(); }
+  window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
 }
 function startArmDrag(e){
   e.preventDefault(); e.stopPropagation();   // don't also drag the operator body
@@ -763,8 +798,12 @@ document.querySelectorAll('.palette button').forEach(b=>b.addEventListener('clic
 $('#d-del').addEventListener('click', deleteSelected);
 $('#d-clear').addEventListener('click', ()=>{ DEVICES=[]; selDev=null; refreshPreview(); });
 document.addEventListener('keydown', e=>{
-  if((e.key==='Delete'||e.key==='Backspace') && !$('#view-drawings').hidden &&
-     !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)){ deleteSelected(); }
+  if($('#view-drawings').hidden || /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+  if(e.key==='Delete'||e.key==='Backspace'){ deleteSelected(); }
+  else if((e.key==='['||e.key===']') && selDev){
+    const dev=(DEVICES||[]).find(d=>d.id===selDev);
+    if(dev){ dev.rot=Math.round(((dev.rot||0)+(e.key===']'?15:-15))*10)/10; refreshPreview(); }
+  }
 });
 ['#d-type','#d-config','#d-op-ft','#d-op-in','#d-project','#d-site','#d-pdate']
   .forEach(id=>{ const el=$(id); if(el){ el.addEventListener('input', refreshPreview); el.addEventListener('change', refreshPreview); } });
